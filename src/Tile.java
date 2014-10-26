@@ -16,6 +16,7 @@ public class Tile implements Comparable{
         this.col = col;
     }
     
+    // destroyTiles depends on this implementation.
     @Override
     public int compareTo(Object t) {
         Tile that = (Tile) t;
