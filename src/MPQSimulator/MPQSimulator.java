@@ -1,7 +1,21 @@
+package MPQSimulator;
 import java.awt.Color;
+import java.util.Map;
+
+import com.google.common.collect.ImmutableMap;
 public class MPQSimulator {
     public static final double X_SCALING = 1;
     public static final double Y_SCALING = 1;
+    private static final Map<TileColor, Color> tileColorToColorMap = 
+        ImmutableMap.<TileColor, Color>builder()
+            .put(TileColor.BLACK, Color.BLACK)
+            .put(TileColor.BLUE, Color.BLUE)
+            .put(TileColor.RED, Color.RED)
+            .put(TileColor.GREEN, Color.GREEN)
+            .put(TileColor.YELLOW, Color.YELLOW)
+            .put(TileColor.PURPLE, Color.MAGENTA)
+            .put(TileColor.TEAMUP, Color.WHITE)
+            .build();
  
     private static void drawGameBoard(GameBoard board) {
         Tile[][] tiles = board.getBoardState();
@@ -21,40 +35,14 @@ public class MPQSimulator {
     }
     
     private static final Color tileColorToColor(TileColor color) {
-        Color c;
-        switch (color) {
-          case BLACK:
-              c = Color.BLACK;
-              break;
-          case BLUE:
-              c = Color.BLUE;
-              break;
-          case RED:
-              c = Color.RED;
-              break;
-          case GREEN:
-              c = Color.GREEN;
-              break;
-          case YELLOW:
-              c = Color.YELLOW;
-              break;
-          case PURPLE:
-              c = Color.MAGENTA;
-              break;
-          case ENVIRONMENTAL:
-              c = Color.WHITE;
-              break;
-          default:
-              c = Color.PINK;
-        }
-        return c;
+        return tileColorToColorMap.get(color);
     }
     
     
     public static void main(String[] args) {
       StdDraw.setXscale(0, MPQSimulator.X_SCALING);
       StdDraw.setYscale(0, MPQSimulator.Y_SCALING);
-      GameBoard board = new GameBoard();
+      GameBoard board = new GameBoard(8, 8);
       drawGameBoard(board);
       
       while (true) {
