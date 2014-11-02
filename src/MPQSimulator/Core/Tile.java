@@ -1,10 +1,17 @@
-package MPQSimulator;
+package MPQSimulator.Core;
 
 import java.util.Comparator;
 
 import com.google.common.base.Preconditions;
 
 public class Tile implements Comparable<Tile> {
+    public static enum TileColor {
+      // "Normal tiles"
+      BLACK, BLUE, RED, GREEN, YELLOW, PURPLE, TEAMUP,
+    }
+    public static int NORMAL_TILES_COUNT = 7;
+    
+  
     private TileColor tileColor;
     private int row;
     private int col;
@@ -104,8 +111,8 @@ public class Tile implements Comparable<Tile> {
     
     private static TileColor getRandomColor() {
       TileColor[] tileColorValues = TileColor.values();
-      int randomizedIndex = (int)(Math.random() * TileColor.values().length) 
-          % TileColor.values().length;
+      int randomizedIndex = (int)(Math.random() * NORMAL_TILES_COUNT) 
+          % NORMAL_TILES_COUNT;
       return tileColorValues[randomizedIndex];
     }
     @Override

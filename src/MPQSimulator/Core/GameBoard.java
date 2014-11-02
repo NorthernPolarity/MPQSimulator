@@ -1,9 +1,16 @@
-package MPQSimulator;
+package MPQSimulator.Core;
 import java.util.Arrays;
 import java.util.Set;
 
+import MPQSimulator.Core.Tile.TileColor;
+
 import com.google.common.base.Preconditions;
 
+/*
+ * Performs only the bare necessities for a match-3 game: Supports storing the state for an NxM board, 
+ * finding all matches currently on the board, destroying a given set of tiles, and swapping
+ * two tiles on the board.
+ */
 public class GameBoard {
     private final int tilesPerRow;
     private final int tilesPerCol;
@@ -45,7 +52,7 @@ public class GameBoard {
     }
     
     public void resetGameBoard() {
-    //Initialize tiles randomly.
+    // Initialize tiles randomly.
       for(int i = 0; i < tilesPerRow; i++){
           for(int j = 0; j < tilesPerCol; j++){
               gameBoard[i][j] = new Tile(i, j);
@@ -82,6 +89,9 @@ public class GameBoard {
       //For each col
       for (int i = 0; i < tilesPerRow; i++){
         Set<Tile> tileSet = results.getTilesByCol(i);
+        for (Tile t : tileSet) {
+          Preconditions.checkArgument(gameBoard[t.getRow()][t.getCol()] == t);
+        }
         Tile[] tilesToDestroy = tileSet.toArray(new Tile[tileSet.size()]);
 
         Arrays.sort(tilesToDestroy);
@@ -101,7 +111,7 @@ public class GameBoard {
         int tilesToDestroyIndex = 1;
         
         //While there are still existing tiles on the board that we need to make "fall"
-        while(tileToCopyIndex < tilesPerCol){
+        while (tileToCopyIndex < tilesPerCol){
           //If the current tile in the old board has been destroyed by a match, skip it.
           if (tilesToDestroyIndex < tilesToDestroy.length
                && tilesToDestroy[tilesToDestroyIndex].getCol() == tileToCopyIndex){
@@ -130,9 +140,24 @@ public class GameBoard {
      * and each set contains the cols of the tiles in that row to be destroyed.
      */ 
     public void destroyTiles(Set<Tile> tiles) {
-        MoveResults results = new MoveResults(tilesPerRow, tilesPerCol);
-        results.addTile(tiles);
-        this.destroyTiles(results);
+
+      MoveResults results = new MoveResults(tilesPerRow, tilesPerCol);
+      results.addTile(tiles);
+      this.destroyTiles(results);
+    }
+    
+    // Swaps tiles a and b on the board.
+    public void swapTiles(Tile a, Tile b) {
+      Preconditions.checkArgument(gameBoard[a.getRow()][a.getCol()] == a);
+      Preconditions.checkArgument(gameBoard[b.getRow()][b.getCol()] == b);
+      
+      gameBoard[a.getRow()][a.getCol()] = b;
+      gameBoard[b.getRow()][b.getCol()] = a;
+      
+      int aRow = a.getRow();
+      int aCol = a.getCol();
+      a.changeLocation(b.getRow(), b.getCol());
+      b.changeLocation(aRow, aCol);
     }
     
     // Finds and returns all tiles that are part of a vertical match 3.

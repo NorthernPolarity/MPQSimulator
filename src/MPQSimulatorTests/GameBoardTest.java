@@ -20,11 +20,11 @@ import com.google.common.io.CharSource;
 import com.google.common.io.Files;
 import com.google.common.math.IntMath;
 
-import MPQSimulator.GameBoard;
-import MPQSimulator.MoveResults;
-import MPQSimulator.StdIn;
-import MPQSimulator.Tile;
-import MPQSimulator.TileColor;
+import MPQSimulator.Core.GameBoard;
+import MPQSimulator.Core.MoveResults;
+import MPQSimulator.Core.Tile;
+import MPQSimulator.Core.Tile.TileColor;
+import MPQSimulator.ThirdParty.StdIn;
 
 public class GameBoardTest {
   private static Map<String, TileColor> fileCharToTileColor = ImmutableMap.<String, TileColor>builder()

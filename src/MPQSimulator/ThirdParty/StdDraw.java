@@ -22,7 +22,7 @@
  *       it can cause flicker
  *
  *************************************************************************/
-package MPQSimulator;
+package MPQSimulator.ThirdParty;
 
 import java.awt.*;
 import java.awt.event.*;

@@ -1,6 +1,11 @@
-package MPQSimulator;
+package MPQSimulator.Graphics;
 import java.awt.Color;
 import java.util.Map;
+
+import MPQSimulator.Core.GameBoard;
+import MPQSimulator.Core.Tile;
+import MPQSimulator.Core.Tile.TileColor;
+import MPQSimulator.ThirdParty.StdDraw;
 
 import com.google.common.collect.ImmutableMap;
 public class MPQSimulator {

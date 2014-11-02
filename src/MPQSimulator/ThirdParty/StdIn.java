@@ -5,7 +5,7 @@
  *  Reads in data of various types from standard input.
  *
  *************************************************************************/
-package MPQSimulator;
+package MPQSimulator.ThirdParty;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;

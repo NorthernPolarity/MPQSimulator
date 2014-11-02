@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,10 +13,10 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import MPQSimulator.MoveResults;
-import MPQSimulator.MoveResults.MatchedTileBlob;
-import MPQSimulator.Tile;
-import MPQSimulator.TileColor;
+import MPQSimulator.Core.MoveResults;
+import MPQSimulator.Core.Tile;
+import MPQSimulator.Core.MoveResults.MatchedTileBlob;
+import MPQSimulator.Core.Tile.TileColor;
 
 
 public class MoveResultsTest {
