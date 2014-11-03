@@ -8,7 +8,7 @@ import MPQSimulator.Core.Tile.TileColor;
 import MPQSimulator.ThirdParty.StdDraw;
 
 import com.google.common.collect.ImmutableMap;
-public class MPQSimulator {
+public class MPQSimulatorGraphics {
     public static final double X_SCALING = 1;
     public static final double Y_SCALING = 1;
     private static final Map<TileColor, Color> tileColorToColorMap = 
@@ -21,6 +21,11 @@ public class MPQSimulator {
             .put(TileColor.PURPLE, Color.MAGENTA)
             .put(TileColor.TEAMUP, Color.WHITE)
             .build();
+    
+    public MPQSimulatorGraphics() {
+      StdDraw.setXscale(0, MPQSimulatorGraphics.X_SCALING);
+      StdDraw.setYscale(0, MPQSimulatorGraphics.Y_SCALING);
+    }
  
     private static void drawGameBoard(GameBoard board) {
         Tile[][] tiles = board.getBoardState();
@@ -28,7 +33,7 @@ public class MPQSimulator {
           Tile[] col = tiles[x]; 
           for (int y = 0; y < col.length; y++) {
             Tile curTile = col[y];
-            StdDraw.setPenColor(MPQSimulator.tileColorToColor(curTile.getColor()));
+            StdDraw.setPenColor(MPQSimulatorGraphics.tileColorToColor(curTile.getColor()));
             
             double xHalfLength = (0.5 / tiles.length) * X_SCALING;
             double yHalfLength = (0.5 / tiles.length) * X_SCALING;
@@ -45,8 +50,6 @@ public class MPQSimulator {
     
     
     public static void main(String[] args) {
-      StdDraw.setXscale(0, MPQSimulator.X_SCALING);
-      StdDraw.setYscale(0, MPQSimulator.Y_SCALING);
       GameBoard board = new GameBoard(8, 8);
       drawGameBoard(board);
       

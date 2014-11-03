@@ -21,7 +21,7 @@ import com.google.common.io.Files;
 import com.google.common.math.IntMath;
 
 import MPQSimulator.Core.GameBoard;
-import MPQSimulator.Core.MoveResults;
+import MPQSimulator.Core.GameBoardMoveResults;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.TileColor;
 import MPQSimulator.ThirdParty.StdIn;
@@ -40,7 +40,7 @@ public class GameBoardTest {
   @Test
   public void testSingleHorizontalMatch() throws IOException {
     GameBoard board = createBoardFromFile("src/MPQSimulatorTests/res/OneHorizontalMatch3Board3x3.txt");
-    MoveResults results = board.findMatchesOnBoard();
+    GameBoardMoveResults results = board.findMatchesOnBoard();
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(0, 0, TileColor.RED));
     expectedDestroyedTileSet.add(new Tile(0, 1, TileColor.RED));

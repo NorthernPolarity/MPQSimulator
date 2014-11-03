@@ -13,9 +13,9 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import MPQSimulator.Core.MoveResults;
+import MPQSimulator.Core.GameBoardMoveResults;
 import MPQSimulator.Core.Tile;
-import MPQSimulator.Core.MoveResults.MatchedTileBlob;
+import MPQSimulator.Core.GameBoardMoveResults.MatchedTileBlob;
 import MPQSimulator.Core.Tile.TileColor;
 
 
@@ -23,7 +23,7 @@ public class MoveResultsTest {
   
   @Test
   public void testSingleHorizontalMatch4Blob() throws IOException {
-    MoveResults results = new MoveResults(7, 7);
+    GameBoardMoveResults results = new GameBoardMoveResults(7, 7);
     results.addTile(new Tile(0, 0, TileColor.RED));
     results.addTile(new Tile(1, 0, TileColor.RED));
     results.addTile(new Tile(2, 0, TileColor.RED));
@@ -47,7 +47,7 @@ public class MoveResultsTest {
   
   @Test
   public void testHorizontalMatch4BlobNotImmediate() throws IOException {
-    MoveResults results = new MoveResults(7, 7);
+    GameBoardMoveResults results = new GameBoardMoveResults(7, 7);
     results.addTile(new Tile(0, 0, TileColor.RED));
     results.addTile(new Tile(1, 0, TileColor.RED));
     results.addTile(new Tile(2, 0, TileColor.RED));
@@ -71,7 +71,7 @@ public class MoveResultsTest {
   
   @Test
   public void testSingleVerticalMatch4Blob() throws IOException {
-    MoveResults results = new MoveResults(7, 7);
+    GameBoardMoveResults results = new GameBoardMoveResults(7, 7);
     results.addTile(new Tile(0, 0, TileColor.RED));
     results.addTile(new Tile(0, 1, TileColor.RED));
     results.addTile(new Tile(0, 2, TileColor.RED));
@@ -95,7 +95,7 @@ public class MoveResultsTest {
   
   @Test
   public void testSingleHorizontalMatch5Blob() throws IOException {
-    MoveResults results = new MoveResults(7, 7);
+    GameBoardMoveResults results = new GameBoardMoveResults(7, 7);
     results.addTile(new Tile(0, 0, TileColor.RED));
     results.addTile(new Tile(1, 0, TileColor.RED));
     results.addTile(new Tile(2, 0, TileColor.RED));
@@ -122,7 +122,7 @@ public class MoveResultsTest {
   
   @Test
   public void testSingleVerticalMatch5Blob() throws IOException {
-    MoveResults results = new MoveResults(7, 7);
+    GameBoardMoveResults results = new GameBoardMoveResults(7, 7);
     results.addTile(new Tile(0, 0, TileColor.RED));
     results.addTile(new Tile(0, 1, TileColor.RED));
     results.addTile(new Tile(0, 2, TileColor.RED));
@@ -149,7 +149,7 @@ public class MoveResultsTest {
   
   @Test
   public void testSingleHorizontalMatch6Blob() throws IOException {
-    MoveResults results = new MoveResults(7, 7);
+    GameBoardMoveResults results = new GameBoardMoveResults(7, 7);
     results.addTile(new Tile(0, 0, TileColor.RED));
     results.addTile(new Tile(1, 0, TileColor.RED));
     results.addTile(new Tile(2, 0, TileColor.RED));
@@ -177,7 +177,7 @@ public class MoveResultsTest {
   
   @Test
   public void testSingleVerticalMatch6Blob() throws IOException {
-    MoveResults results = new MoveResults(7, 7);
+    GameBoardMoveResults results = new GameBoardMoveResults(7, 7);
     results.addTile(new Tile(0, 0, TileColor.RED));
     results.addTile(new Tile(0, 1, TileColor.RED));
     results.addTile(new Tile(0, 2, TileColor.RED));
@@ -205,7 +205,7 @@ public class MoveResultsTest {
   
   @Test
   public void test3x3LBlob() throws IOException {
-    MoveResults results = new MoveResults(7, 7);
+    GameBoardMoveResults results = new GameBoardMoveResults(7, 7);
     results.addTile(new Tile(0, 0, TileColor.RED));
     results.addTile(new Tile(0, 1, TileColor.RED));
     results.addTile(new Tile(0, 2, TileColor.RED));
@@ -229,7 +229,7 @@ public class MoveResultsTest {
   
   @Test
   public void test4x4LBlob() throws IOException {
-    MoveResults results = new MoveResults(7, 7);
+    GameBoardMoveResults results = new GameBoardMoveResults(7, 7);
     results.addTile(new Tile(0, 0, TileColor.RED));
     results.addTile(new Tile(0, 1, TileColor.RED));
     results.addTile(new Tile(0, 2, TileColor.RED));
@@ -258,7 +258,7 @@ public class MoveResultsTest {
   
   @Test
   public void test3x2RectangleShapedBlob() throws IOException {
-    MoveResults results = new MoveResults(7, 7);
+    GameBoardMoveResults results = new GameBoardMoveResults(7, 7);
     results.addTile(new Tile(0, 0, TileColor.RED));
     results.addTile(new Tile(0, 1, TileColor.RED));
     results.addTile(new Tile(0, 2, TileColor.RED));
@@ -283,7 +283,7 @@ public class MoveResultsTest {
   
   @Test
   public void test4x4LargeHollowSquareShapedBlob() throws IOException {
-    MoveResults results = new MoveResults(7, 7);
+    GameBoardMoveResults results = new GameBoardMoveResults(7, 7);
     results.addTile(new Tile(0, 0, TileColor.RED));
     results.addTile(new Tile(0, 1, TileColor.RED));
     results.addTile(new Tile(0, 2, TileColor.RED));
@@ -318,7 +318,7 @@ public class MoveResultsTest {
   
   @Test
   public void testBlobWith4TilesInRowsAndColsWithoutAnyActualMatch4() throws IOException {
-    MoveResults results = new MoveResults(7, 7);
+    GameBoardMoveResults results = new GameBoardMoveResults(7, 7);
     results.addTile(new Tile(0, 0, TileColor.RED));
     results.addTile(new Tile(0, 1, TileColor.RED));
     results.addTile(new Tile(0, 2, TileColor.RED));

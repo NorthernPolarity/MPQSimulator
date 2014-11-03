@@ -10,7 +10,7 @@ import java.util.TreeSet;
 
 import com.google.common.base.Preconditions;
 
-public class MoveResults {
+public class GameBoardMoveResults {
     private final int tilesPerRow;
     private final int tilesPerCol;
     //Where the destroyed tiles were located on the board. Each set corresponds to a row,
@@ -22,7 +22,7 @@ public class MoveResults {
     // Used for finding blobs.
     private Tile[][] destroyedTiles;
     
-    public MoveResults(int tilesPerRow, int tilesPerCol){
+    public GameBoardMoveResults(int tilesPerRow, int tilesPerCol){
         
       this.tilesPerRow = tilesPerRow;
       this.tilesPerCol = tilesPerCol;
@@ -47,7 +47,7 @@ public class MoveResults {
       }
     }
     
-    public void add(MoveResults results){
+    public void add(GameBoardMoveResults results){
       Set<Tile> tilesDestroyedLocations = results.getDestroyedTileSet();
         
       for(int i = 0; i < tilesPerRow; i++){
@@ -140,8 +140,6 @@ public class MoveResults {
       }
       // Otherwise stop searching and do nothing.
     }
-    
-
     
     // A blob is a set of adjacent tiles.
     public static class MatchedTileBlob {
