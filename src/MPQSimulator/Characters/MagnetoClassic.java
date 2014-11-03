@@ -1,4 +1,4 @@
-package Characters;
+package MPQSimulator.Characters;
 
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;

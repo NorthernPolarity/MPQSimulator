@@ -1,5 +1,5 @@
-import Characters.Character;
-import Characters.MagnetoClassic;
+import MPQSimulator.Characters.Character;
+import MPQSimulator.Characters.MagnetoClassic;
 import MPQSimulator.Core.Simulation;
 
 
