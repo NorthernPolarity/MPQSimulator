@@ -23,7 +23,8 @@ public class GameBoard {
       String s = "";
       for (int i = 0; i < tilesPerRow; i++) {
         for (int j = 0; j < tilesPerCol; j++) {
-          s += gameBoard[i][j].getColor() + " ";
+          char tileLetter = gameBoard[i][j].getColor() != TileColor.BLUE ? gameBoard[i][j].getColor().toString().charAt(0) : 'U';
+          s +=  tileLetter + " ";
         }
         s += "\n";
       }
