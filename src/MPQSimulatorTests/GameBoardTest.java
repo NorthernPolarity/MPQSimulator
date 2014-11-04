@@ -51,7 +51,32 @@ public class GameBoardTest {
     
   }
   
+  @Test 
+  public void testTestFile() throws IOException {
+    GameBoard board = createBoardFromFile("src/MPQSimulatorTests/res/test.txt");
+    GameBoardMoveResults results = board.findMatchesOnBoard();
+    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
+    printDestroyedTiles(destroyedTileSet);
+  }
   
+  private static void printDestroyedTiles(Set<Tile> destroyedTiles) {
+    boolean[][] destroyedTileMap = new boolean[8][8];
+    for (Tile t : destroyedTiles) {
+      destroyedTileMap[t.getRow()][t.getCol()] = true;
+    }
+    
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        if (destroyedTileMap[i][j]) {
+          System.out.print("X ");
+        } else {
+          System.out.print("O ");
+        }
+        
+      }
+      System.out.println();
+    }
+  }
   // Assumes that the game board is N by N.
   private static GameBoard createBoardFromFile(String filePath) throws IOException {
     CharSource fileSource = Files.asCharSource(new File(filePath), Charset.defaultCharset());

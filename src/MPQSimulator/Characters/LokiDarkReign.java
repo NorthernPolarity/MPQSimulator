@@ -1,29 +1,40 @@
 package MPQSimulator.Characters;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
+import MPQSimulator.Abilities.AbilityComponent.TileColor;
 
 public class LokiDarkReign extends Character{
 
   @Override
-  protected Ability getAbility1() {
+  protected List<Ability> initAbility1() {
     
     return null;
   }
 
   // Illusions
   @Override
-  protected Ability getAbility2() {
-    Ability ability = new Ability();
-    AbilityComponent swapTiles = new SwapTileAbilityComponent(36);
-    ability.addComponent(swapTiles);
+  protected List<Ability> initAbility2() {
+    List<Ability> abilityList = new ArrayList<>();
+    int[] tilesSwappedByLevel = {14, 18, 22, 26, 32};
+    // Just swap tiles around.
+    for (int i : tilesSwappedByLevel) {
+      AbilityComponent swapTiles = new SwapTileAbilityComponent(i);
+      
+      Ability ability = new Ability();
+      ability.addComponent(swapTiles);
+      abilityList.add(ability);
+    }
     
-    return ability;
+    return abilityList;
   }
 
   @Override
-  protected Ability getAbility3() {
+  protected List<Ability> initAbility3() {
     return null;
   }  
   

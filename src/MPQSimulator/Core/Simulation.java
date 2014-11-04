@@ -7,7 +7,7 @@ import MPQSimulator.Core.Tile.TileColor;
 
 public class Simulation {
 
-  private static final int NUM_ITERATIONS = 1;
+  private static final int NUM_ITERATIONS = 100000;
   private final GameEngineMoveResults overallResults;
 
   public Simulation (Ability ability) {
@@ -28,8 +28,8 @@ public class Simulation {
       totalTilesDestroyed += tilesDestroyedMap.get(color);
     }
     
-    //System.out.println("Total tiles destroyed: " + totalTilesDestroyed);
-   // System.out.println("Average tiles destroyed: " + (double) totalTilesDestroyed / NUM_ITERATIONS);
+    System.out.println("Total tiles destroyed: " + totalTilesDestroyed);
+    System.out.println("Average tiles destroyed: " + (double) totalTilesDestroyed / NUM_ITERATIONS);
   }
   
 }

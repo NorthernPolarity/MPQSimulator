@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.TreeSet;
 
+import MPQSimulator.Core.Tile.TileColor;
+
 import com.google.common.base.Preconditions;
 
 public class GameBoardMoveResults {
@@ -109,7 +111,7 @@ public class GameBoardMoveResults {
       for (int i = 0; i < tilesPerRow; i++) {
         for (int j = 0; j < tilesPerCol; j++) {
           if (destroyedTilesCopy[i][j] != null) {
-            MatchedTileBlob blob = new MatchedTileBlob();
+            MatchedTileBlob blob = new MatchedTileBlob(destroyedTilesCopy[i][j].getColor());
             findTileBlobsHelper(destroyedTilesCopy, i, j, blob);
             blobs.add(blob);
           }
@@ -130,7 +132,8 @@ public class GameBoardMoveResults {
       }
       // If this is a destroyed tile that hasn't been marked, mark it, add it to the blob,
       // and keep on searching all directions.
-      if (destroyedTiles[row][col] != null) {
+      if (destroyedTiles[row][col] != null 
+          && destroyedTiles[row][col].getColor() == blob.getColor()) {
         blob.addTile(destroyedTiles[row][col]);
         destroyedTiles[row][col] = null;
         findTileBlobsHelper(destroyedTiles, row - 1, col, blob);
@@ -145,17 +148,24 @@ public class GameBoardMoveResults {
     public static class MatchedTileBlob {
       private List<TreeSet<Tile>> tilesByCol;
       private List<TreeSet<Tile>> tilesByRow;
+      private TileColor color;
       
-      public MatchedTileBlob() {
+      public MatchedTileBlob(TileColor color) {
         tilesByCol = new ArrayList<>();
         tilesByRow = new ArrayList<>();
+        this.color = color;
       }
       
       // Adds a tile to the blob. Throws an exception if the tile is not adjacent 
       // to an existing tile in the blob.
       public void addTile(Tile t) throws IllegalArgumentException {
+        Preconditions.checkArgument(t.getColor() == color);
         addToRowsList(t);
         addToColsList(t);
+      }
+      
+      public TileColor getColor() {
+        return color;
       }
       
       private void addToRowsList(Tile t) throws IllegalArgumentException {
