@@ -12,7 +12,7 @@ public class GameEngineMoveResults {
 
   private Map<TileColor, Integer> mTilesDestroyedCount; //Number of tiles destroyed per color.
   
-  GameEngineMoveResults() {
+  public GameEngineMoveResults() {
     this.mTilesDestroyedCount = new HashMap<TileColor,Integer>();
     for (TileColor color : TileColor.values()) {
       mTilesDestroyedCount.put(color, 0);
@@ -22,7 +22,7 @@ public class GameEngineMoveResults {
   public void add(GameEngineMoveResults results) {
     for (TileColor color : results.mTilesDestroyedCount.keySet()) {
       Integer count = mTilesDestroyedCount.get(color);
-      count += results.mTilesDestroyedCount.get(color);
+      mTilesDestroyedCount.put(color, count + results.mTilesDestroyedCount.get(color));
     }
   }
   
@@ -41,11 +41,11 @@ public class GameEngineMoveResults {
     for (Tile t: tiles) {
       Integer count = mTilesDestroyedCount.get(t.getColor());
       Preconditions.checkNotNull(count);
-      count++;
+      mTilesDestroyedCount.put(t.getColor(), count + 1);
     }
   }
   
   public Map<TileColor,Integer> getTilesDestroyedCount() {
-    return new HashMap<TileColor,Integer>(mTilesDestroyedCount); //Defensive copy
+    return mTilesDestroyedCount; 
   }  
 }

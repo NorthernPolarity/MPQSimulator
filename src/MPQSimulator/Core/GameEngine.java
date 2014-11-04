@@ -53,6 +53,15 @@ public class GameEngine {
     
     GameEngineMoveResults currentMoveResults = resolveCurrentBoard();
     while (!currentMoveResults.empty()) {
+      int totalTilesDestroyed = 0;
+      for (TileColor color : currentMoveResults.getTilesDestroyedCount().keySet()) {
+        totalTilesDestroyed += currentMoveResults.getTilesDestroyedCount().get(color);
+      }
+      
+      if (totalTilesDestroyed > 20) {
+        System.out.println("wat");
+      }
+      System.out.println("Total tiles destroyed: " + totalTilesDestroyed);
       overallResults.add(currentMoveResults);
       currentMoveResults = resolveCurrentBoard();
     }
@@ -77,6 +86,10 @@ public class GameEngine {
       for (Integer col : colsToDestroy) {
         tilesToDestroy.addAll(board.getTilesInCol(col));
       }
+    }
+    
+    if (tilesToDestroy.size() > 20) {
+      System.out.println("wat");
     }
     
     engineResults.addDestroyedTiles(tilesToDestroy);

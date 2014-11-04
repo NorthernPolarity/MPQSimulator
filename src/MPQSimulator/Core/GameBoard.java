@@ -18,6 +18,18 @@ public class GameBoard {
 
     private Tile[][] gameBoard; //Represents the current state of the board
  
+    @Override
+    public String toString() {
+      String s = "";
+      for (int i = 0; i < tilesPerRow; i++) {
+        for (int j = 0; j < tilesPerCol; j++) {
+          s += gameBoard[i][j].getColor() + " ";
+        }
+        s += "\n";
+      }
+      return s;
+    }
+    
     public GameBoard(int tilesPerRow, int tilesPerCol) {
       this.tilesPerRow = tilesPerRow;
       this.tilesPerCol = tilesPerCol;
@@ -76,7 +88,6 @@ public class GameBoard {
         //Remove any matches from the board, update the board accordingly.
         GameBoardMoveResults currentMoveResults = colMoveResults;
         colMoveResults.add(rowMoveResults);
-        this.destroyTiles(currentMoveResults);
         
         return currentMoveResults;
     }
@@ -132,10 +143,7 @@ public class GameBoard {
       for (int i = 0; i < tilesPerRow; i++){
         Set<Tile> tileSet = results.getTilesByCol(i);
         for (Tile t : tileSet) {
-          if (!(gameBoard[t.getRow()][t.getCol()] == t)) {
-            System.out.println("wat");
-          }
-          //Preconditions.checkArgument(gameBoard[t.getRow()][t.getCol()] == t);
+          Preconditions.checkArgument(gameBoard[t.getRow()][t.getCol()].equals(t));
         }
         Tile[] tilesToDestroy = tileSet.toArray(new Tile[tileSet.size()]);
 

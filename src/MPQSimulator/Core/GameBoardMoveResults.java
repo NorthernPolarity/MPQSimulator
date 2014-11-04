@@ -16,7 +16,7 @@ public class GameBoardMoveResults {
     //Where the destroyed tiles were located on the board. Each set corresponds to a row,
     //the Integers in the set correspond to the columns that were destroyed.
     private Set<Tile> destroyedTileSet; 
-    // The destroyed tiles grouped by columns.
+    // The destroyed tiles grouped by the column that they're in: (0,1) (0,2) in the same set.
     private List<Set<Tile>> destroyedTileSetByCol;
     // Each element corresponds to whether or not the tile in that position was destroyed
     // Used for finding blobs.

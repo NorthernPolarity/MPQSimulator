@@ -42,11 +42,13 @@ public class GameBoardTest {
     GameBoard board = createBoardFromFile("src/MPQSimulatorTests/res/OneHorizontalMatch3Board3x3.txt");
     GameBoardMoveResults results = board.findMatchesOnBoard();
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
-    expectedDestroyedTileSet.add(new Tile(0, 0, TileColor.RED));
-    expectedDestroyedTileSet.add(new Tile(0, 1, TileColor.RED));
-    expectedDestroyedTileSet.add(new Tile(0, 2, TileColor.RED));
+    expectedDestroyedTileSet.add(new Tile(2, 0, TileColor.RED));
+    expectedDestroyedTileSet.add(new Tile(2, 1, TileColor.RED));
+    expectedDestroyedTileSet.add(new Tile(2, 2, TileColor.RED));
     Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
-    assert(expectedDestroyedTileSet.equals(destroyedTileSet));
+    assertTrue(expectedDestroyedTileSet.equals(destroyedTileSet));
+    board.destroyTiles(destroyedTileSet);
+    
   }
   
   

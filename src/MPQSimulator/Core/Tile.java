@@ -46,6 +46,11 @@ public class Tile implements Comparable<Tile> {
         }
     }
     
+    @Override
+    public int hashCode() {
+      return Integer.valueOf(row).hashCode() ^ Integer.valueOf(col).hashCode() ^ tileColor.hashCode();
+    }
+    
     
     @Override
     public boolean equals(Object obj) {

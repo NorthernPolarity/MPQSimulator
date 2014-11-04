@@ -3,9 +3,8 @@ package MPQSimulator.Characters;
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
-import MPQSimulator.Abilities.AbilityComponent.TileColor;
 
-public class MagnetoClassic extends Character {
+public class LokiDarkReign extends Character{
 
   @Override
   protected Ability getAbility1() {
@@ -13,20 +12,19 @@ public class MagnetoClassic extends Character {
     return null;
   }
 
+  // Illusions
   @Override
   protected Ability getAbility2() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  // Magnetized Projectiles
-  @Override
-  protected Ability getAbility3() {
     Ability ability = new Ability();
-    AbilityComponent swapTiles = new SwapTileAbilityComponent(6, TileColor.RED, TileColor.BLUE);
+    AbilityComponent swapTiles = new SwapTileAbilityComponent(36);
     ability.addComponent(swapTiles);
     
     return ability;
   }
 
+  @Override
+  protected Ability getAbility3() {
+    return null;
+  }  
+  
 }
