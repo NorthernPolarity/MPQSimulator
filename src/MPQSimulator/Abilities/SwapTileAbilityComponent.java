@@ -23,7 +23,7 @@ public class SwapTileAbilityComponent implements AbilityComponent {
   
   // Swaps n random tiles.
   public SwapTileAbilityComponent(int tilesToSwap) {
-    this(tilesToSwap, ALL_COLORS_LIST, ALL_COLORS_LIST);
+    this(tilesToSwap, ALL_COLORS_NO_TEAMUPS_LIST, ALL_COLORS_NO_TEAMUPS_LIST);
   }
   
   // Swaps n A tiles of color A with B tiles of color B.

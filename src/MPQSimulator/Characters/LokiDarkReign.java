@@ -23,7 +23,7 @@ public class LokiDarkReign extends Character{
     // Just swap tiles around.
     for (int i : tilesSwappedByLevel) {
       AbilityComponent swapTiles = new SwapTileAbilityComponent(
-          i, AbilityComponent.ALL_COLORS_LIST, AbilityComponent.ALL_COLORS_LIST);
+          i, AbilityComponent.ALL_COLORS_NO_TEAMUPS_LIST, AbilityComponent.ALL_COLORS_NO_TEAMUPS_LIST);
       
       Ability ability = new Ability();
       ability.addComponent(swapTiles);

@@ -14,6 +14,7 @@ import com.google.common.collect.ImmutableMap;
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.AbilityComponent.TileLocation;
+import MPQSimulator.Abilities.DestroyTileAbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
 import MPQSimulator.Core.GameBoardMoveResults.MatchedTileBlob;
 import MPQSimulator.Core.Tile.TileColor;
@@ -24,6 +25,7 @@ public class GameEngine {
   
   private static final int NUM_BOARD_ROWS = 8;
   private static final int NUM_BOARD_COLS = 8;
+  public static final int NUM_TILES_ON_BOARD = NUM_BOARD_COLS * NUM_BOARD_ROWS;
   // This is pretty messy, maybe think of another way to deal with TileColors.
   
   public GameEngine() {
@@ -90,8 +92,21 @@ public class GameEngine {
       AbilityComponent component = it.next();
       if (component instanceof SwapTileAbilityComponent) {
         processSwapTileAbility((SwapTileAbilityComponent) component);
+      } else if (component instanceof DestroyTileAbilityComponent) {
+        processDestroyTileAbilityComponent((DestroyTileAbilityComponent) component);
       }
     }
+  }
+  
+  private void processDestroyTileAbilityComponent(DestroyTileAbilityComponent component) {
+    Set<Tile> tileSet = board.getTiles(component.tileColorsToDestroy);
+    List<Tile> randomizedTileList = new ArrayList<Tile>(tileSet);
+    Collections.shuffle(randomizedTileList);
+    List<Tile> tilesToDestroy = randomizedTileList.subList(
+        0, Math.min(randomizedTileList.size(), component.maxTilesToDestroy));
+    
+    Set<Tile> tileSetToDestroy = new HashSet<>(tilesToDestroy);
+    board.destroyTiles(tileSetToDestroy);
   }
   
   // Logic for processing abilities involving swapping tiles.

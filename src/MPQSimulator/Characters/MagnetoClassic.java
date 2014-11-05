@@ -5,7 +5,9 @@ import java.util.List;
 
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
+import MPQSimulator.Abilities.DestroyTileAbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
+import MPQSimulator.Core.GameEngine;
 import MPQSimulator.Core.Tile.TileColor;
 
 public class MagnetoClassic extends Character {
@@ -16,10 +18,18 @@ public class MagnetoClassic extends Character {
     return null;
   }
 
+  // Polarizing Force
   @Override
   protected List<Ability> initAbility2() {
-    // TODO Auto-generated method stub
-    return null;
+    List<Ability> abilityList = new ArrayList<>();
+    AbilityComponent destroyTiles = new DestroyTileAbilityComponent
+        (GameEngine.NUM_TILES_ON_BOARD, TileColor.TEAMUP);
+    Ability ability = new Ability();
+    ability.addComponent(destroyTiles);
+    for (int i = 0; i < 5; i++) {
+      abilityList.add(ability);
+    }
+    return abilityList;
   }
 
   // Magnetized Projectiles

@@ -9,7 +9,7 @@ import MPQSimulator.Core.Tile.TileColor;
 
 public class Simulation {
 
-  private static final int NUM_ITERATIONS = 60;
+  private static final int NUM_ITERATIONS = 60000;
   private final List<GameEngineMoveResults> overallResults;
 
   public Simulation (Ability ability) {
@@ -47,7 +47,7 @@ public class Simulation {
       if (i == 0) {
         whiffs++;
       }
-      System.out.print(i + ", ");
+      //System.out.print(i + ", ");
     }
     System.out.println();
     
