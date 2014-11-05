@@ -55,7 +55,8 @@ public class MPQSimulatorGraphics {
       
       while (true) {
           if (StdDraw.mousePressed()) {
-              board.findMatchesOnBoard();
+              board.swapTiles(board.getBoardState()[1][2], board.getBoardState()[7][0]);
+              //board.findMatchesOnBoard();
               drawGameBoard(board);
           }
       }

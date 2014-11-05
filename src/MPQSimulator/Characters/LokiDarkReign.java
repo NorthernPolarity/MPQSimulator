@@ -6,7 +6,6 @@ import java.util.List;
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
-import MPQSimulator.Abilities.AbilityComponent.TileColor;
 
 public class LokiDarkReign extends Character{
 
@@ -23,7 +22,8 @@ public class LokiDarkReign extends Character{
     int[] tilesSwappedByLevel = {14, 18, 22, 26, 32};
     // Just swap tiles around.
     for (int i : tilesSwappedByLevel) {
-      AbilityComponent swapTiles = new SwapTileAbilityComponent(i);
+      AbilityComponent swapTiles = new SwapTileAbilityComponent(
+          i, AbilityComponent.ALL_COLORS_LIST, AbilityComponent.ALL_COLORS_LIST);
       
       Ability ability = new Ability();
       ability.addComponent(swapTiles);

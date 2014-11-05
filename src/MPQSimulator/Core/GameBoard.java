@@ -1,6 +1,7 @@
 package MPQSimulator.Core;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import MPQSimulator.Core.Tile.TileColor;
@@ -100,6 +101,21 @@ public class GameBoard {
         for (Tile t : col) {
           if (t.getColor() == color) {
             tiles.add(t);
+          }
+        }
+      }
+      return tiles;
+    }
+    
+    // Returns all of the tiles of the given color currently on the board.
+    public Set<Tile> getTiles(List<TileColor> colors) {
+      Set<Tile> tiles = new HashSet<>();
+      for (Tile[] col : gameBoard) {
+        for (Tile t : col) {
+          for (TileColor color : colors) {
+            if (t.getColor() == color) {
+              tiles.add(t);
+            }
           }
         }
       }

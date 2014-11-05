@@ -1,36 +1,45 @@
 package MPQSimulator.Abilities;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.google.common.base.Preconditions;
 
-import MPQSimulator.Abilities.AbilityComponent.TileColor;
 import MPQSimulator.Abilities.AbilityComponent.TileLocation;
+import MPQSimulator.Core.Tile.TileColor;
 
 public class SwapTileAbilityComponent implements AbilityComponent {
 
   public final int tilePairsToSwap;
-  public final TileColor tileAColor;
+  public final List<TileColor> tileAColors;
   public final TileLocation tileALocation;
   public final int tileARow;
   public final int tileACol;
   public final int tileBRow;
   public final int tileBCol;
-  public final TileColor tileBColor;
+  public final List<TileColor> tileBColors;
   public final TileLocation tileBLocation;  
   
   // Swaps n random tiles.
   public SwapTileAbilityComponent(int tilesToSwap) {
-    this(tilesToSwap, TileColor.ANY, TileLocation.RANDOM, -1, -1, TileColor.ANY,
-        TileLocation.RANDOM, -1, -1);
+    this(tilesToSwap, ALL_COLORS_LIST, ALL_COLORS_LIST);
   }
   
   // Swaps n A tiles of color A with B tiles of color B.
   public SwapTileAbilityComponent(int tilesToSwap, TileColor tileAColor, TileColor tileBColor) {
-    this(tilesToSwap, tileAColor, TileLocation.RANDOM, -1, -1, tileBColor,
-        TileLocation.RANDOM, -1, -1);
+    this(tilesToSwap, Arrays.asList(tileAColor), Arrays.asList(tileBColor));
   }
   
-  public SwapTileAbilityComponent(int tilesToSwap, TileColor tileAColor, TileLocation tileALocation,
-      int tileARow, int tileACol, TileColor tileBColor, TileLocation tileBLocation, int tileBRow, 
+  // Swaps n A tiles of color A with B tiles of color B.
+  public SwapTileAbilityComponent(int tilesToSwap, 
+      List<TileColor> tileAColors, List<TileColor> tileBColors) {
+    this(tilesToSwap, tileAColors, TileLocation.RANDOM, -1, -1, 
+        tileBColors, TileLocation.RANDOM, -1, -1);
+  }
+  
+  public SwapTileAbilityComponent(int tilesToSwap, List<TileColor> tileAColors, TileLocation tileALocation,
+      int tileARow, int tileACol, List<TileColor> tileBColors, TileLocation tileBLocation, int tileBRow, 
       int tileBCol) {
     
     if (tileALocation == TileLocation.RANDOM) {
@@ -42,11 +51,11 @@ public class SwapTileAbilityComponent implements AbilityComponent {
     }    
     
     this.tilePairsToSwap = tilesToSwap;
-    this.tileAColor = tileAColor;
+    this.tileAColors = tileAColors;
     this.tileALocation = tileALocation;    
     this.tileARow = tileARow;
     this.tileACol = tileACol;
-    this.tileBColor = tileBColor;
+    this.tileBColors = tileBColors;
     this.tileBRow = tileBRow;
     this.tileBCol = tileBCol;
     this.tileBLocation = tileBLocation;  

@@ -9,7 +9,9 @@ public class Tile implements Comparable<Tile> {
       // "Normal tiles"
       BLACK, BLUE, RED, GREEN, YELLOW, PURPLE, TEAMUP,
     }
-    public static int NORMAL_TILES_COUNT = 7;
+    // Array index of the last colored tile.
+    public static int NUM_COLORED_TILES = 6;
+    public static int NUM_NORMAL_TILES = 7;
     
   
     private TileColor tileColor;
@@ -116,8 +118,7 @@ public class Tile implements Comparable<Tile> {
     
     private static TileColor getRandomColor() {
       TileColor[] tileColorValues = TileColor.values();
-      int randomizedIndex = (int)(Math.random() * NORMAL_TILES_COUNT) 
-          % NORMAL_TILES_COUNT;
+      int randomizedIndex = (int)(Math.random() * NUM_NORMAL_TILES) % NUM_NORMAL_TILES;
       return tileColorValues[randomizedIndex];
     }
     @Override

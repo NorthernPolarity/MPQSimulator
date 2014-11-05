@@ -1,6 +1,8 @@
 package MPQSimulator.Core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,42 +12,62 @@ import MPQSimulator.Core.Tile.TileColor;
 
 public class GameEngineMoveResults {
 
-  private Map<TileColor, Integer> mTilesDestroyedCount; //Number of tiles destroyed per color.
+  private List<Map<TileColor, Integer>> tilesDestroyedCountList;
   
   public GameEngineMoveResults() {
-    this.mTilesDestroyedCount = new HashMap<TileColor,Integer>();
-    for (TileColor color : TileColor.values()) {
-      mTilesDestroyedCount.put(color, 0);
-    }
+    this.tilesDestroyedCountList = new ArrayList<>();
+
   }
   
   public void add(GameEngineMoveResults results) {
-    for (TileColor color : results.mTilesDestroyedCount.keySet()) {
-      Integer count = mTilesDestroyedCount.get(color);
-      mTilesDestroyedCount.put(color, count + results.mTilesDestroyedCount.get(color));
-    }
+    tilesDestroyedCountList.addAll(results.tilesDestroyedCountList);
   }
   
   public boolean empty() {
-    Set<TileColor> colorSet = mTilesDestroyedCount.keySet();
-    for (TileColor color : colorSet) {
-      if (mTilesDestroyedCount.get(color) != 0) {
-        return false;
-      }
+    return tilesDestroyedCountList.isEmpty();
+  }
+  
+  private Map<TileColor,Integer> getNewTilesDestroyedMap() {
+    Map<TileColor, Integer> map = new HashMap<>();
+    for (TileColor color : TileColor.values()) {
+      map.put(color, 0);
     }
-    
-    return true;
+    return map;
   }
   
   public void addDestroyedTiles(Set<Tile> tiles) {
-    for (Tile t: tiles) {
-      Integer count = mTilesDestroyedCount.get(t.getColor());
-      Preconditions.checkNotNull(count);
-      mTilesDestroyedCount.put(t.getColor(), count + 1);
+    if (tiles.isEmpty()) {
+      return;
     }
+    Map<TileColor, Integer> tilesDestroyedCount = getNewTilesDestroyedMap();
+    for (Tile t: tiles) {
+      Integer count = tilesDestroyedCount.get(t.getColor());
+      Preconditions.checkNotNull(count);
+      tilesDestroyedCount.put(t.getColor(), count + 1);
+    }
+    tilesDestroyedCountList.add(tilesDestroyedCount);
   }
   
   public Map<TileColor,Integer> getTilesDestroyedCount() {
-    return mTilesDestroyedCount; 
+    Map<TileColor, Integer> totalTilesDestroyedCount = getNewTilesDestroyedMap();
+    
+    for (Map<TileColor,Integer> map : tilesDestroyedCountList) {
+      for (TileColor color : TileColor.values()) {
+        Integer count = map.get(color);
+        totalTilesDestroyedCount.put(color, totalTilesDestroyedCount.get(color) + count);
+      }
+    }
+    return totalTilesDestroyedCount; 
   }  
+  
+  public int getNumTilesDestroyed() {
+    Map<TileColor, Integer> totalTilesDestroyedCount = getTilesDestroyedCount();
+    int tilesDestroyed = 0;
+    for (TileColor color : TileColor.values()) {
+      Integer count = totalTilesDestroyedCount.get(color);
+      tilesDestroyed += totalTilesDestroyedCount.get(color);
+    }
+    
+      return tilesDestroyed;
+  }
 }

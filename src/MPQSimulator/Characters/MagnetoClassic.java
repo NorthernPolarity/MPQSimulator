@@ -6,7 +6,7 @@ import java.util.List;
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
-import MPQSimulator.Abilities.AbilityComponent.TileColor;
+import MPQSimulator.Core.Tile.TileColor;
 
 public class MagnetoClassic extends Character {
 

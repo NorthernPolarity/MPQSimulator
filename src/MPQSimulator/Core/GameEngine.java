@@ -25,16 +25,6 @@ public class GameEngine {
   private static final int NUM_BOARD_ROWS = 8;
   private static final int NUM_BOARD_COLS = 8;
   // This is pretty messy, maybe think of another way to deal with TileColors.
-  private static final Map<AbilityComponent.TileColor, TileColor> tileColorTotileColorMap = 
-      ImmutableMap.<AbilityComponent.TileColor, TileColor>builder()
-          .put(AbilityComponent.TileColor.BLACK, TileColor.BLACK)
-          .put(AbilityComponent.TileColor.BLUE, TileColor.BLUE)
-          .put(AbilityComponent.TileColor.RED, TileColor.RED)
-          .put(AbilityComponent.TileColor.GREEN, TileColor.GREEN)
-          .put(AbilityComponent.TileColor.YELLOW, TileColor.YELLOW)
-          .put(AbilityComponent.TileColor.PURPLE, TileColor.PURPLE)
-          .put(AbilityComponent.TileColor.TEAMUP, TileColor.TEAMUP)
-          .build();
   
   public GameEngine() {
       this.board = new GameBoard(NUM_BOARD_ROWS, NUM_BOARD_COLS);
@@ -53,7 +43,7 @@ public class GameEngine {
     
     GameEngineMoveResults currentMoveResults = resolveCurrentBoard();
     while (!currentMoveResults.empty()) {
-      int totalTilesDestroyed = 0;
+      /*int totalTilesDestroyed = 0;
       for (TileColor color : currentMoveResults.getTilesDestroyedCount().keySet()) {
         totalTilesDestroyed += currentMoveResults.getTilesDestroyedCount().get(color);
       }
@@ -61,7 +51,7 @@ public class GameEngine {
       if (totalTilesDestroyed > 20) {
         System.out.println("wat");
       }
-      System.out.println("Total tiles destroyed: " + totalTilesDestroyed);
+      System.out.println("Total tiles destroyed: " + totalTilesDestroyed);*/
       overallResults.add(currentMoveResults);
       currentMoveResults = resolveCurrentBoard();
     }
@@ -112,10 +102,8 @@ public class GameEngine {
       throw new IllegalArgumentException();
     }
     
-    Set<Tile> tileSetA = component.tileAColor == AbilityComponent.TileColor.ANY
-        ? board.getAllTiles() : board.getTiles(tileColorTotileColorMap.get(component.tileAColor));
-    Set<Tile> tileSetB = component.tileBColor == AbilityComponent.TileColor.ANY
-        ? board.getAllTiles() : board.getTiles(tileColorTotileColorMap.get(component.tileBColor));
+    Set<Tile> tileSetA = board.getTiles(component.tileAColors);
+    Set<Tile> tileSetB = board.getTiles(component.tileBColors);
     
     List<Tile> randomizedTileListA = new ArrayList<Tile>(tileSetA);
     Collections.shuffle(randomizedTileListA);
