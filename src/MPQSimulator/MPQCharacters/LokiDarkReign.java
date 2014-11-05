@@ -1,4 +1,4 @@
-package MPQSimulator.Characters;
+package MPQSimulator.MPQCharacters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
 
-public class LokiDarkReign extends Character{
+public class LokiDarkReign extends MPQCharacter{
 
   @Override
   protected List<Ability> initAbility1() {

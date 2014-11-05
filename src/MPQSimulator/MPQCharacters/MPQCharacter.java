@@ -1,4 +1,4 @@
-package MPQSimulator.Characters;
+package MPQSimulator.MPQCharacters;
 
 import java.awt.Color;
 import java.util.List;
@@ -10,7 +10,7 @@ import com.google.common.collect.ImmutableMap;
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Core.Tile.TileColor;
 
-public abstract class Character {
+public abstract class MPQCharacter {
   private final List<Ability> ability1;
   private final List<Ability> ability2;
   private final List<Ability> ability3;
@@ -25,7 +25,7 @@ public abstract class Character {
           .put(AbilityLevel.FIVE, 4)
           .build();
   
-  Character() {
+  MPQCharacter() {
     this.ability1 = initAbility1();
     this.ability2 = initAbility2();
     this.ability3 = initAbility3();

@@ -1,4 +1,4 @@
-package MPQSimulator.Characters;
+package MPQSimulator.MPQCharacters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import MPQSimulator.Abilities.SwapTileAbilityComponent;
 import MPQSimulator.Core.GameEngine;
 import MPQSimulator.Core.Tile.TileColor;
 
-public class MagnetoClassic extends Character {
+public class MagnetoClassic extends MPQCharacter {
 
   @Override
   protected List<Ability> initAbility1() {

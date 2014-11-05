@@ -9,7 +9,7 @@ import MPQSimulator.Core.Tile.TileColor;
 
 public class Simulation {
 
-  private static final int NUM_ITERATIONS = 60000;
+  private static final int NUM_ITERATIONS = 200000;
   private final List<GameEngineMoveResults> overallResults;
 
   public Simulation (Ability ability) {
@@ -47,14 +47,14 @@ public class Simulation {
       if (i == 0) {
         whiffs++;
       }
-      //System.out.print(i + ", ");
+      System.out.print(i + ", ");
     }
     System.out.println();
     
     int totalTilesDestroyed = getTotalTilesDestroyed(overallResults);
 
-    System.out.println("Percentage of whiffs: " + (double) whiffs / NUM_ITERATIONS);
-    System.out.println("Total tiles destroyed: " + totalTilesDestroyed);
+    System.out.println("Probability of a cascade occurring: " + (1 - ((double) whiffs / NUM_ITERATIONS)));
+    //System.out.println("Total tiles destroyed: " + totalTilesDestroyed);
     System.out.println("Average tiles destroyed: " + (double) totalTilesDestroyed / NUM_ITERATIONS);
   }
   
