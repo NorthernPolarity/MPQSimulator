@@ -14,6 +14,7 @@ import com.google.common.collect.ImmutableMap;
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.AbilityComponent.TileLocation;
+import MPQSimulator.Abilities.ChangeTileColorAbilityComponent;
 import MPQSimulator.Abilities.DestroyTileAbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
 import MPQSimulator.Core.GameBoardMoveResults.MatchedTileBlob;
@@ -94,10 +95,22 @@ public class GameEngine {
         processSwapTileAbility((SwapTileAbilityComponent) component);
       } else if (component instanceof DestroyTileAbilityComponent) {
         processDestroyTileAbilityComponent((DestroyTileAbilityComponent) component);
+      } else if (component instanceof ChangeTileColorAbilityComponent) {
+        processChangeTileColorAbilityComponent((ChangeTileColorAbilityComponent) component);
       }
     }
   }
   
+  private void processChangeTileColorAbilityComponent(ChangeTileColorAbilityComponent component) {
+    Set<Tile> tileSet = board.getTiles(component.oldTileColors);
+    List<Tile> randomizedTileList = new ArrayList<Tile>(tileSet);
+    Collections.shuffle(randomizedTileList);
+    
+    List<Tile> tilesToChangeColor = randomizedTileList.subList(0, Math.min(randomizedTileList.size(), component.maxTilesToChange));
+    board.changeTileColor(new HashSet<Tile>(tilesToChangeColor), component.newTileColors);
+  }
+  
+  // Processes abilities involving destroying tiles.
   private void processDestroyTileAbilityComponent(DestroyTileAbilityComponent component) {
     Set<Tile> tileSet = board.getTiles(component.tileColorsToDestroy);
     List<Tile> randomizedTileList = new ArrayList<Tile>(tileSet);

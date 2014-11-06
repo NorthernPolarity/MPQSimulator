@@ -80,18 +80,20 @@ public class Tile implements Comparable<Tile> {
     }
     
     public void setColor(TileColor color){
+        Preconditions.checkArgument(color != tileColor);
         this.tileColor = color;
     }
     
-    public void setRow(int row){
+    private void setRow(int row){
         this.row = row;
     }
     
-    public void setCol(int col){
+    private void setCol(int col){
         this.col = col;
     }
     
     public void changeLocation(int row, int col){
+        Preconditions.checkArgument(!(row == this.row && col == this.col));
         this.setRow(row);
         this.setCol(col);
     }

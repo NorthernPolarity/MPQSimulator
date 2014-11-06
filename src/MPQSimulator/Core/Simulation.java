@@ -38,8 +38,16 @@ public class Simulation {
     return i;
   }
   
+  private Map<TileColor, Integer> getTotalTilesDestroyedByColor(List<GameEngineMoveResults> resultsList) {
+    GameEngineMoveResults overallResults = new GameEngineMoveResults();
+    for (GameEngineMoveResults results : resultsList) {
+      overallResults.add(results);
+    }
+    return overallResults.getTilesDestroyedCount();
+  }
+  
   public void printResults() {
-    System.out.println("Tiles Destroyed by run:");
+    //System.out.println("Tiles Destroyed by run:");
 
     int whiffs = 0;
     List<Integer> destroyedTilesList = getTilesDestroyedByRun(overallResults);
@@ -47,15 +55,20 @@ public class Simulation {
       if (i == 0) {
         whiffs++;
       }
-      System.out.print(i + ", ");
+      //System.out.print(i + ", ");
     }
-    System.out.println();
+    //System.out.println();
     
     int totalTilesDestroyed = getTotalTilesDestroyed(overallResults);
 
     System.out.println("Probability of a cascade occurring: " + (1 - ((double) whiffs / NUM_ITERATIONS)));
     //System.out.println("Total tiles destroyed: " + totalTilesDestroyed);
     System.out.println("Average tiles destroyed: " + (double) totalTilesDestroyed / NUM_ITERATIONS);
+    Map<TileColor, Integer> colorMap = getTotalTilesDestroyedByColor(overallResults);
+    System.out.println("Average Tiles destroyed by color:");
+    for (TileColor c : colorMap.keySet()) {
+      System.out.println(c + ": " + ((double)colorMap.get(c) / NUM_ITERATIONS) + " tiles destroyed");
+    }
   }
   
 }

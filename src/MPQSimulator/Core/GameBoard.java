@@ -214,6 +214,14 @@ public class GameBoard {
       this.destroyTiles(results);
     }
     
+    // Changes the new tiles to a new color chosen uniformly at random.
+    public void changeTileColor(Set<Tile> tiles, List<TileColor> newColors) {
+      for (Tile t : tiles) {
+        int rand = (int)(Math.random() * newColors.size());
+        t.setColor(newColors.get(rand));
+      }
+    }
+    
     // Swaps tiles a and b on the board.
     public void swapTiles(Tile a, Tile b) {
       Preconditions.checkArgument(gameBoard[a.getRow()][a.getCol()] == a);
