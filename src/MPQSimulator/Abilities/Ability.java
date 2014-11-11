@@ -11,6 +11,11 @@ public class Ability {
     components = new ArrayList<AbilityComponent>();
   }
   
+  public Ability(Ability ability) {
+    // Defensive copy
+    components = new ArrayList<>(ability.components);
+  }
+  
   public void addComponent(AbilityComponent component) {
     components.add(component);
   }

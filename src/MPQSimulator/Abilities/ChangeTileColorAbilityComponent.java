@@ -27,5 +27,11 @@ public class ChangeTileColorAbilityComponent implements AbilityComponent{
         Arrays.asList(newTileColor));
   }
   
+  // Changes n random tiles of the old color to the new tile color.
+  public ChangeTileColorAbilityComponent(int maxTilesToChange, TileColor oldTileColor, TileColor newTileColor) {
+    // Remove the new tile color from the list of old tile colors.
+    this(maxTilesToChange, Arrays.asList(oldTileColor), Arrays.asList(newTileColor));
+  }
+  
   
 }

@@ -38,6 +38,13 @@ public class SwapTileAbilityComponent implements AbilityComponent {
         tileBColors, TileLocation.RANDOM, -1, -1);
   }
   
+  // Swaps the tile in location (row, col) with a random tile of tile B's color.
+  public SwapTileAbilityComponent(int tileARow, int tileACol, TileColor tileBColor) {
+    this(1, null, TileLocation.FIXED, tileARow, tileACol, Arrays.asList(tileBColor), TileLocation.RANDOM,
+        -1, -1);
+    
+  }
+  
   public SwapTileAbilityComponent(int tilesToSwap, List<TileColor> tileAColors, TileLocation tileALocation,
       int tileARow, int tileACol, List<TileColor> tileBColors, TileLocation tileBLocation, int tileBRow, 
       int tileBCol) {

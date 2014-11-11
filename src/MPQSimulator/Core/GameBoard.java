@@ -150,6 +150,10 @@ public class GameBoard {
       return tiles;
     }
     
+    public Tile getTile(int row, int col) {
+      return gameBoard[row][col];
+    }
+    
     
     private void destroyTiles(GameBoardMoveResults results) {
       if (results.getTilesPerRow() != tilesPerRow){

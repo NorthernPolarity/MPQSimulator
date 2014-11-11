@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Sets;
 
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
@@ -24,8 +25,8 @@ import MPQSimulator.Core.Tile.TileColor;
 public class GameEngine {
   private GameBoard board;
   
-  private static final int NUM_BOARD_ROWS = 8;
-  private static final int NUM_BOARD_COLS = 8;
+  public static final int NUM_BOARD_ROWS = 8;
+  public static final int NUM_BOARD_COLS = 8;
   public static final int NUM_TILES_ON_BOARD = NUM_BOARD_COLS * NUM_BOARD_ROWS;
   // This is pretty messy, maybe think of another way to deal with TileColors.
   
@@ -125,12 +126,13 @@ public class GameEngine {
   // Logic for processing abilities involving swapping tiles.
   private void processSwapTileAbility(SwapTileAbilityComponent component) {
     
-    if (component.tileALocation != TileLocation.RANDOM 
-        || component.tileBLocation != TileLocation.RANDOM) {
+    if (component.tileBLocation != TileLocation.RANDOM) {
       throw new IllegalArgumentException();
     }
     
-    Set<Tile> tileSetA = board.getTiles(component.tileAColors);
+    Set<Tile> tileSetA = component.tileALocation == TileLocation.RANDOM 
+        ? board.getTiles(component.tileAColors) 
+            : Sets.newHashSet(board.getTile(component.tileARow, component.tileACol));
     Set<Tile> tileSetB = board.getTiles(component.tileBColors);
     
     List<Tile> randomizedTileListA = new ArrayList<Tile>(tileSetA);
@@ -160,6 +162,12 @@ public class GameEngine {
         if (!alreadyShuffledTiles.contains(next)) {
           tileB = next;
         }
+      }
+      
+      // If it's the same tile, and tileA is fixed, keep on looking through tileB.
+      if (tileA == tileB && component.tileALocation == TileLocation.FIXED
+          && component.tileBLocation == TileLocation.RANDOM) {
+        tileB = null;
       }
       
       if (tileA != null && tileB != null) {
