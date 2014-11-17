@@ -37,6 +37,10 @@ public class GameBoardMoveResults {
       this.destroyedTiles = new Tile[tilesPerRow][tilesPerCol];
     }
     
+    public int size() {
+    	return destroyedTileSet.size();
+    }
+    
     public void addTile(Tile tile){
       this.destroyedTileSet.add(tile);
       this.destroyedTileSetByCol.get(tile.getRow()).add(tile);

@@ -7,6 +7,7 @@ import java.util.Set;
 import MPQSimulator.Core.Tile.TileColor;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 
 /*
  * Performs only the bare necessities for a match-3 game: Supports storing the state for an NxM board, 
@@ -134,16 +135,17 @@ public class GameBoard {
     }
     
     // Returns all the tiles in the given row.
-    public Set<Tile> getTilesInRow(int row) {
-      Set<Tile> tiles = new HashSet<>();
-      for (int col = 0; col < tilesPerRow; col++) {
-        tiles.add(gameBoard[row][col]);
-      }
+    public List<Tile> getTilesInRow(int row) {
+      List<Tile> tiles = Lists.newArrayList(gameBoard[row]);
       return tiles;
+//      for (int col = 0; col < tilesPerRow; col++) {
+//        tiles.add(gameBoard[row][col]);
+//      }
+//      return tiles;
     }
     
-    public Set<Tile> getTilesInCol(int col) {
-      Set<Tile> tiles = new HashSet<>();
+    public List<Tile> getTilesInCol(int col) {
+      List<Tile> tiles = Lists.newArrayList();
       for (int row = 0; row < tilesPerCol; row++) {
         tiles.add(gameBoard[row][col]);
       }
@@ -154,6 +156,9 @@ public class GameBoard {
       return gameBoard[row][col];
     }
     
+    public TileColor getTileColor(int row, int col) {
+    	return getTile(row, col).getColor();
+    }
     
     private void destroyTiles(GameBoardMoveResults results) {
       if (results.getTilesPerRow() != tilesPerRow){
@@ -240,79 +245,61 @@ public class GameBoard {
       b.changeLocation(aRow, aCol);
     }
     
-    // Finds and returns all tiles that are part of a vertical match 3.
+    
+    // Finds and returns all tiles that are part of a horizontal match 3.
     public GameBoardMoveResults findHorizontalMatches() {
         GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
-        //For each column...
+        //For each row...
         for (int i = 0; i < tilesPerCol; i++) {
-            // Go down each column looking for vertical match 3's
-          int j = 0;
-          while (j < tilesPerRow - 2){
-            TileColor currentColor = gameBoard[i][j].getColor();
-            
-            //If there is at least a match 3
-            if (currentColor.equals(gameBoard[i][j+1].getColor())
-                && currentColor.equals(gameBoard[i][j+2].getColor())){
-              
-              results.addTile(gameBoard[i][j]);
-              results.addTile(gameBoard[i][j+1]);
-              results.addTile(gameBoard[i][j+2]);
-              
-              //Check for match 4's+ starting at the tile after the match 3
-              int k = j + 3;
-              while (k < tilesPerRow) {
-                  //Stop searching once we see a different colored tile
-                  if (!currentColor.equals(gameBoard[i][k].getColor())) {
-                      break;
-                  }
-                  results.addTile(this.gameBoard[i][k]);
-                  k++;
-              }
-              
-              j = k;
-            } else {
-              j++;
-            }
-          }
+            results.add(findHorizontalMatchForRow(i));
         }
         return results;
     }
+
+	private GameBoardMoveResults findHorizontalMatchForRow(int row) {
+		List<Tile> thisRow = getTilesInRow(row);		
+		return findMatchInList(thisRow);
+	}
+
+	private GameBoardMoveResults findMatchInList(List<Tile> source) {
+		GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
+		assert(source.size() > 2);
+		// Go down each column looking for vertical match 3's
+        int j = 0;
+        while( j < source.size() - 2 ) {
+        	TileColor currentColor = source.get(j).getColor();
+        	GameBoardMoveResults thisResults = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
+        	for(Tile thisTile : source.subList(j, source.size())) {
+        		if( thisTile.getColor() == currentColor ) {
+        			thisResults.addTile(thisTile);
+        		} else {
+        			break;
+        		}
+        	}
+        	if( thisResults.size() >= 3 ) {
+        		results.add(thisResults);
+        		j += thisResults.size();
+        	} else {
+        		j += 1;
+        	}
+        }
+        return results;
+	}
     
     // Finds and returns all tiles that are part of a horizontal match 3.
     public GameBoardMoveResults findVerticalMatches() {
       GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
-      // For each row...
+      // For each column...
       for (int j = 0; j < tilesPerRow; j++) {
-        // Go across each row looking for horizontal match-3s.
-        int i = 0;
-        while (i < tilesPerCol - 2) {
-          TileColor currentColor = gameBoard[i][j].getColor();
-          
-          //If there is at least a match 3
-          if (currentColor.equals(gameBoard[i + 1][j].getColor())
-              && currentColor.equals(gameBoard[i + 2][j].getColor())) {
-            results.addTile(gameBoard[i][j]);
-            results.addTile(gameBoard[i + 1][j]);
-            results.addTile(gameBoard[i + 2][j]);
-            
-            //Check for match 4's+ starting at the tile after the match 3
-            int k = i + 3;
-            while (k < tilesPerCol) {
-                if (!currentColor.equals(gameBoard[k][j].getColor())) {
-                    break;
-                } 
-                results.addTile(gameBoard[k][j]);
-                k++;
-            }
-            
-            i = k;
-          } else {
-              i++;
-          }
-        }
+        results.add(findVerticalMatchesForColumn(j));
       }
       return results;
     }
+
+	private GameBoardMoveResults findVerticalMatchesForColumn(int col) {
+		List<Tile> thisRow = getTilesInCol(col);
+		return findMatchInList(thisRow);
+	}
 
 	public int[] getDimensions() {
 		int[] d = new int[2];

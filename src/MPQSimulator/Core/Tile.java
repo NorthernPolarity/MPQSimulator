@@ -118,9 +118,25 @@ public class Tile implements Comparable<Tile> {
       return (this.row == t.row) && (Math.abs(t.col - this.col) == 1);
     }
     
-    private static TileColor getRandomColor() {
+    public interface RandomCaller {
+    	double random();
+    }
+    
+    static class RandomCallerImpl implements RandomCaller {
+    	public double random() {
+    		return Math.random();
+    	}
+    }
+    
+    public static RandomCaller defaultRandomCaller = new Tile.RandomCallerImpl();
+    
+    public static TileColor getRandomColor() {
+    	return getRandomColor(defaultRandomCaller);
+    }
+    
+    public static TileColor getRandomColor(RandomCaller mathSource) {
       TileColor[] tileColorValues = TileColor.values();
-      int randomizedIndex = (int)(Math.random() * NUM_NORMAL_TILES) % NUM_NORMAL_TILES;
+      int randomizedIndex = (int)(mathSource.random() * NUM_NORMAL_TILES) % NUM_NORMAL_TILES;
       return tileColorValues[randomizedIndex];
     }
     @Override
