@@ -241,7 +241,7 @@ public class GameBoard {
     }
     
     // Finds and returns all tiles that are part of a vertical match 3.
-    private GameBoardMoveResults findVerticalMatches() {
+    public GameBoardMoveResults findHorizontalMatches() {
         GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
         //For each column...
         for (int i = 0; i < tilesPerCol; i++) {
@@ -279,7 +279,7 @@ public class GameBoard {
     }
     
     // Finds and returns all tiles that are part of a horizontal match 3.
-    private GameBoardMoveResults findHorizontalMatches() {
+    public GameBoardMoveResults findVerticalMatches() {
       GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
       // For each row...
       for (int j = 0; j < tilesPerRow; j++) {
@@ -313,5 +313,12 @@ public class GameBoard {
       }
       return results;
     }
+
+	public int[] getDimensions() {
+		int[] d = new int[2];
+		d[0] = this.tilesPerRow;
+		d[1] = this.tilesPerCol;
+		return d;
+	}
     
 }

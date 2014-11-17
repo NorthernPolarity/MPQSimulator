@@ -1,9 +1,9 @@
 import MPQSimulator.Core.Simulation;
 import MPQSimulator.MPQCharacters.LokiDarkReign;
 import MPQSimulator.MPQCharacters.MPQCharacter;
+import MPQSimulator.MPQCharacters.MPQCharacter.AbilityLevel;
 import MPQSimulator.MPQCharacters.MagnetoClassic;
 import MPQSimulator.MPQCharacters.StormMohawk;
-import MPQSimulator.MPQCharacters.MPQCharacter.AbilityLevel;
 
 
 public class MPQSimulator {
