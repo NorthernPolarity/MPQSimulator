@@ -131,7 +131,34 @@ public class Tile implements Comparable<Tile> {
     	}
     }
     
-    public static RandomCaller defaultRandomCaller = new Tile.RandomCallerImpl();
+    // for testing purposes only
+	public static class FixedSequenceRandomImpl implements Tile.RandomCaller {
+		private int counter = 0;
+		private TileColor[] sequence;
+		
+		public FixedSequenceRandomImpl(TileColor ... s) {
+			sequence = s;
+		}
+		
+		@Override
+		public double random() {
+			if(counter >= sequence.length) {
+				counter = 0;
+			}
+			for(int i = 0; i < TileColor.values().length; i++) {
+				if( sequence[counter] == TileColor.values()[i]) {
+					double result = (double)i /  TileColor.values().length;
+					counter += 1;
+					return result;
+				}
+			}
+			assert(false);
+			return 0;
+		}
+		
+	}
+
+	public static RandomCaller defaultRandomCaller = new Tile.RandomCallerImpl();
     
     public static TileColor getRandomColor() {
     	return getRandomColor(defaultRandomCaller);
@@ -142,6 +169,7 @@ public class Tile implements Comparable<Tile> {
       int randomizedIndex = (int)(mathSource.random() * NUM_NORMAL_TILES) % NUM_NORMAL_TILES;
       return tileColorValues[randomizedIndex];
     }
+    
     @Override
     public String toString() {
         return "Tile (" + row + ", " + col + ") has color:" + tileColor;

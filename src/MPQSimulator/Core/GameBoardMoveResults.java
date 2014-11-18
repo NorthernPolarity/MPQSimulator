@@ -47,12 +47,12 @@ public class GameBoardMoveResults {
       destroyedTiles[tile.getRow()][tile.getCol()] = tile;
     }
     
-    public void addTile(Set<Tile> tiles){
+    public void addTiles(Iterable<Tile> tiles){
       for (Tile t: tiles) {
           this.addTile(t);
       }
     }
-    
+
     public void add(GameBoardMoveResults results){
       Set<Tile> tilesDestroyedLocations = results.getDestroyedTileSet();
         

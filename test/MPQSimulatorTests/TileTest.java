@@ -73,7 +73,12 @@ public class TileTest {
 	public void testRandomImplSetSequence2() {
 		class SeqRandomImpl implements Tile.RandomCaller {
 			private int counter = 0;
-			private TileColor[] sequence = {TileColor.BLACK, TileColor.BLUE};
+			private TileColor[] sequence;
+			
+			public SeqRandomImpl(TileColor ... s) {
+				sequence = s;
+			}
+			
 			@Override
 			public double random() {
 				if(counter >= sequence.length) {
@@ -92,7 +97,7 @@ public class TileTest {
 			
 		}
 		
-		Tile.defaultRandomCaller = new SeqRandomImpl();
+		Tile.defaultRandomCaller = new SeqRandomImpl(TileColor.BLACK, TileColor.BLUE);
 		assertEquals(TileColor.BLACK, Tile.getRandomColor());
 		assertEquals(TileColor.BLUE, Tile.getRandomColor());
 		assertEquals(TileColor.BLACK, Tile.getRandomColor());

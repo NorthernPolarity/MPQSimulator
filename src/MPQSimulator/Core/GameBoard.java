@@ -202,7 +202,7 @@ public class GameBoard {
     private void destroyTiles(GameBoardMoveResults results) {
       if (results.getTilesPerRow() != tilesPerRow){
           System.out.println("Error in destroy Tiles!");
-      }
+      }      
       
       //For each col
       for (int currentCol = 0; currentCol < tilesPerRow; currentCol++){
@@ -218,53 +218,7 @@ public class GameBoard {
         	replaceTile(t);
         }
         
-        
-//        Tile[] tilesToDestroySorted = destroyedTilesByCol.toArray(new Tile[destroyedTilesByCol.size()]);
-//        Arrays.sort(tilesToDestroySorted);
-//        
-//        int numTilesToDestroy = tilesToDestroySorted.length;
-//        if (numTilesToDestroy == 0){
-//          continue;
-//        }
-//        
-//        for( Tile t : tilesToDestroySorted ) {
-//	    	for( int i = t.getRow(); i >= 0; i-- ) {
-//	    		if( i == 0) {
-//	            	gameBoard[currentCol][i] = new Tile(currentCol, i);
-//	    		} else {	
-//	    			gameBoard[currentCol][i] = gameBoard[currentCol][i-1];
-//	    		}
-//	    	}
-//        }
-//        
-      }
-//        //The row of the tile that we are considering moving to the empty row.
-//        int tileToCopyIndex = emptyRowIndex + 1;
-//        
-//        int tilesToDestroyIndex = 1;
-//        
-//        //While there are still existing tiles on the board that we need to make "fall"
-//        while (tileToCopyIndex < tilesPerCol){
-//          //If the current tile in the old board has been destroyed by a match, skip it.
-//          if (tilesToDestroyIndex < tilesToDestroySorted.length
-//               && tilesToDestroySorted[tilesToDestroyIndex].getCol() == tileToCopyIndex){
-//            tileToCopyIndex++;
-//            tilesToDestroyIndex++;
-//              
-//          } else { //Otherwise move the bottom-most not destroyed tile to the current free location.
-//            gameBoard[currentCol][emptyRowIndex] = new Tile(gameBoard[currentCol][tileToCopyIndex]);
-//            gameBoard[currentCol][emptyRowIndex].changeLocation(currentCol, emptyRowIndex);
-//            emptyRowIndex++;
-//            tileToCopyIndex++;
-//          }
-//        }
-//        
-//        //Fill the remaining empty rows with "new" blocks.
-//        for (int j = emptyRowIndex; j < tilesPerCol; j++){
-//            gameBoard[currentCol][j] = new Tile(currentCol, j);
-//        }
-//      }
-      
+      }     
     }
     
     /*
@@ -273,9 +227,8 @@ public class GameBoard {
      * and each set contains the cols of the tiles in that row to be destroyed.
      */ 
     public void destroyTiles(Set<Tile> tiles) {
-
       GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
-      results.addTile(tiles);
+      results.addTiles(tiles);
       this.destroyTiles(results);
     }
     
@@ -335,6 +288,11 @@ public class GameBoard {
         	if( thisResults.size() >= 3 ) {
         		results.add(thisResults);
         		j += thisResults.size();
+        		if(thisResults.size() >= 4) {
+        			// four in a row, destroy the whole row
+        			results.addTiles(source);
+        			break;
+        		}
         	} else {
         		j += 1;
         	}
