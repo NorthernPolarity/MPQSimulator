@@ -310,6 +310,7 @@ public class GameBoard {
 		return findMatchInList(thisRow);
 	}
 
+	// returns width, height
 	public int[] getDimensions() {
 		int[] d = new int[2];
 		d[0] = this.tilesPerRow;

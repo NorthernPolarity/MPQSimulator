@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 
@@ -16,6 +17,7 @@ import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.AbilityComponent.TileLocation;
 import MPQSimulator.Abilities.ChangeTileColorAbilityComponent;
+import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
 import MPQSimulator.Abilities.DestroyTileAbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
 import MPQSimulator.Core.GameBoardMoveResults.MatchedTileBlob;
@@ -31,8 +33,12 @@ public class GameEngine {
   // This is pretty messy, maybe think of another way to deal with TileColors.
   
   public GameEngine() {
-      this.board = new GameBoard(NUM_BOARD_ROWS, NUM_BOARD_COLS);
-      stabilizeBoard();
+      this(new GameBoard(NUM_BOARD_ROWS, NUM_BOARD_COLS));
+  }
+  
+  public GameEngine(GameBoard b) {
+	  this.board = b;
+	  stabilizeBoard();
   }
   
   public GameEngineMoveResults useAbilityAndStabilizeBoard(Ability ability) {
@@ -98,6 +104,10 @@ public class GameEngine {
         processDestroyTileAbilityComponent((DestroyTileAbilityComponent) component);
       } else if (component instanceof ChangeTileColorAbilityComponent) {
         processChangeTileColorAbilityComponent((ChangeTileColorAbilityComponent) component);
+      } else if (component instanceof DestroySpecificTilesAbilityComponent) {
+          processDestroySpecificTilesAbilityComponent((DestroySpecificTilesAbilityComponent) component);
+      } else {
+          throw new IllegalArgumentException("Never heard of ability type: " +component.toString());
       }
     }
   }
@@ -109,6 +119,37 @@ public class GameEngine {
     
     List<Tile> tilesToChangeColor = randomizedTileList.subList(0, Math.min(randomizedTileList.size(), component.maxTilesToChange));
     board.changeTileColor(new HashSet<Tile>(tilesToChangeColor), component.newTileColors);
+  }
+  
+
+  // Processes abilities involving destroying specific patterns of tiles.
+  private void processDestroySpecificTilesAbilityComponent(DestroySpecificTilesAbilityComponent component) {    
+    boolean[][] pattern = component.killPattern;
+    int height = pattern.length;
+    int width = pattern[0].length;
+    for(boolean[] row : pattern) {
+    	Preconditions.checkArgument(row.length == width);
+    }
+    int boardWidth = board.getDimensions()[0];
+	Preconditions.checkArgument(boardWidth >= width);
+    int boardHeight = board.getDimensions()[1];
+	Preconditions.checkArgument(boardHeight >= height);
+    
+    int startingRow = (int)Math.random() * (height - boardHeight);
+    int startingCol = (int)Math.random() * (width - boardWidth);
+    
+    Set<Tile> tilesToDestroy = new HashSet<>();
+    
+    for( int i = 0; i < height; i++) {
+    	boolean[] row = pattern[i];
+    	for( int j = 0; j < width; j++ ) {
+    		if( row[j] ) {
+    			tilesToDestroy.add(board.getTile(startingRow + i, startingCol + j));
+    		}
+    	}
+    }
+
+    board.destroyTiles(tilesToDestroy);
   }
   
   // Processes abilities involving destroying tiles.

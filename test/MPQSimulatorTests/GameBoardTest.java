@@ -512,7 +512,7 @@ public class GameBoardTest {
 
   
 
-private GameBoard createBoardFromString(String inputString) {
+public static GameBoard createBoardFromString(String inputString) {
 	ImmutableList<String> rows = ImmutableList.copyOf(inputString.split("\n"));	  
     GameBoard board = createBoardFromStringRows(rows);
 	return board;
