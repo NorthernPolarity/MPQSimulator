@@ -36,6 +36,9 @@ public class Tile implements Comparable<Tile> {
     // destroyTiles depends on this implementation.
     @Override
     public int compareTo(Tile that) {
+    	if( that == null) {
+    		return 0;
+    	}
         if (this.col > that.col) { return 1; }
         else if (this.col < that.col) { return -1; }
         else {
@@ -93,7 +96,7 @@ public class Tile implements Comparable<Tile> {
     }
     
     public void changeLocation(int row, int col){
-        Preconditions.checkArgument(!(row == this.row && col == this.col));
+        //Preconditions.checkArgument(!(row == this.row && col == this.col));
         this.setRow(row);
         this.setCol(col);
     }

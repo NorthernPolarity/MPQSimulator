@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,6 +20,7 @@ import MPQSimulator.Core.Tile.TileColor;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.io.CharSource;
 import com.google.common.io.Files;
 
@@ -341,19 +343,19 @@ public class GameBoardTest {
 			  + "R R R";
 	GameBoard board = createBoardFromString(test);
 	
-    Set<Tile> expectedRow1 = new HashSet<Tile>();
+    List<Tile> expectedRow1 = Lists.newArrayList();
     expectedRow1.add(new Tile(0, 0, TileColor.YELLOW));
     expectedRow1.add(new Tile(0, 1, TileColor.GREEN));
     expectedRow1.add(new Tile(0, 2, TileColor.BLACK));
     assertEquals(expectedRow1, board.getTilesInRow(0));
 
-    Set<Tile> expectedRow2 = new HashSet<Tile>();
+    List<Tile> expectedRow2 = Lists.newArrayList();
     expectedRow2.add(new Tile(1, 0, TileColor.TEAMUP));
     expectedRow2.add(new Tile(1, 1, TileColor.RED));
     expectedRow2.add(new Tile(1, 2, TileColor.GREEN));
     assertEquals(expectedRow2, board.getTilesInRow(1));
 
-    Set<Tile> expectedRow3 = new HashSet<Tile>();
+    List<Tile> expectedRow3 = Lists.newArrayList();
     expectedRow3.add(new Tile(2, 0, TileColor.RED));
     expectedRow3.add(new Tile(2, 1, TileColor.RED));
     expectedRow3.add(new Tile(2, 2, TileColor.RED));
@@ -363,7 +365,7 @@ public class GameBoardTest {
     Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
     board.destroyTiles(destroyedTileSet);
     
-    Set<Tile> expectedRow2After = new HashSet<Tile>();
+    List<Tile> expectedRow2After = Lists.newArrayList();
     expectedRow2After.add(new Tile(2, 0, TileColor.TEAMUP));
     expectedRow2After.add(new Tile(2, 1, TileColor.RED));
     expectedRow2After.add(new Tile(2, 2, TileColor.GREEN));
@@ -380,19 +382,19 @@ public class GameBoardTest {
 			  + "T R G";
 	GameBoard board = createBoardFromString(test);
 	
-    Set<Tile> expectedRow1 = new HashSet<Tile>();
+    List<Tile> expectedRow1 = Lists.newArrayList();
     expectedRow1.add(new Tile(0, 0, TileColor.YELLOW));
     expectedRow1.add(new Tile(0, 1, TileColor.GREEN));
     expectedRow1.add(new Tile(0, 2, TileColor.BLACK));
     assertEquals(expectedRow1, board.getTilesInRow(0));
 
-    Set<Tile> expectedRow2 = new HashSet<Tile>();
+    List<Tile> expectedRow2 = Lists.newArrayList();
     expectedRow2.add(new Tile(1, 0, TileColor.RED));
     expectedRow2.add(new Tile(1, 1, TileColor.RED));
     expectedRow2.add(new Tile(1, 2, TileColor.RED));
     assertEquals(expectedRow2, board.getTilesInRow(1));
 
-    Set<Tile> expectedRow3 = new HashSet<Tile>();
+    List<Tile> expectedRow3 = Lists.newArrayList();
     expectedRow3.add(new Tile(2, 0, TileColor.TEAMUP));
     expectedRow3.add(new Tile(2, 1, TileColor.RED));
     expectedRow3.add(new Tile(2, 2, TileColor.GREEN));
@@ -402,7 +404,7 @@ public class GameBoardTest {
     Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
     board.destroyTiles(destroyedTileSet);
     
-    Set<Tile> expectedRow2After = new HashSet<Tile>();
+    List<Tile> expectedRow2After = Lists.newArrayList();
     expectedRow2After.add(new Tile(1, 0, TileColor.YELLOW));
     expectedRow2After.add(new Tile(1, 1, TileColor.GREEN));
     expectedRow2After.add(new Tile(1, 2, TileColor.BLACK));

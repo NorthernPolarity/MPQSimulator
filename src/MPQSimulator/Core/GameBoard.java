@@ -1,5 +1,7 @@
 package MPQSimulator.Core;
 import java.util.Arrays;
+import java.util.Comparator;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -159,6 +161,43 @@ public class GameBoard {
     public TileColor getTileColor(int row, int col) {
     	return getTile(row, col).getColor();
     }
+
+    private Set<Tile> resolveColumn(int colIndex, List<Tile> existingCol, Set<Tile> destroyedTiles) {
+    	Set<Tile> result = new HashSet<Tile>();
+    	Tile[] colAsArray = existingCol.toArray(new Tile[existingCol.size()]);
+    	for(Tile t : destroyedTiles) {
+    		assert(t.getCol() == colIndex);
+    		colAsArray[t.getRow()] = null;
+    	}
+    	Arrays.sort(colAsArray, new Comparator<Tile>() {
+            @Override
+            public int compare(Tile o1, Tile o2) {
+                if (o1 == null && o2 == null) {
+                    return 0;
+                }
+                if (o1 == null) {
+                    return -1;
+                }
+                if (o2 == null) {
+                    return 1;
+                }
+                return o1.compareTo(o2);
+            }});
+    	
+    	for( int i = 0; i < colAsArray.length; i++ ) {
+    		if( colAsArray[i] == null ) {
+    			colAsArray[i] = new Tile(i, colIndex);
+    		} else {
+    			colAsArray[i].changeLocation(i, colIndex);
+    		}
+    		result.add(colAsArray[i]);
+    	}
+    	return result;
+    }
+    
+    private void replaceTile(Tile t) {
+    	gameBoard[t.getRow()][t.getCol()] = t;
+    }
     
     private void destroyTiles(GameBoardMoveResults results) {
       if (results.getTilesPerRow() != tilesPerRow){
@@ -166,48 +205,65 @@ public class GameBoard {
       }
       
       //For each col
-      for (int i = 0; i < tilesPerRow; i++){
-        Set<Tile> tileSet = results.getTilesByCol(i);
-        for (Tile t : tileSet) {
+      for (int currentCol = 0; currentCol < tilesPerRow; currentCol++){
+        Set<Tile> destroyedTilesByCol = results.getTilesByCol(currentCol);
+        for (Tile t : destroyedTilesByCol) {
           Preconditions.checkArgument(gameBoard[t.getRow()][t.getCol()].equals(t));
         }
-        Tile[] tilesToDestroy = tileSet.toArray(new Tile[tileSet.size()]);
-
-        Arrays.sort(tilesToDestroy);
         
-        int numTilesToDestroy = tilesToDestroy.length;
-        if (numTilesToDestroy == 0){
-          continue;
+        List<Tile> currentColTiles = getTilesInCol(currentCol);
+        Set<Tile> newCol = resolveColumn(currentCol, currentColTiles, destroyedTilesByCol);
+        
+        for( Tile t : newCol ) {
+        	replaceTile(t);
         }
         
-        //The current row that is empty and needs a new tile.
-        int emptyRowIndex = tilesToDestroy[0].getCol();
-        //The row of the tile that we are considering moving to the empty row.
-        int tileToCopyIndex = emptyRowIndex + 1;
         
-        int tilesToDestroyIndex = 1;
-        
-        //While there are still existing tiles on the board that we need to make "fall"
-        while (tileToCopyIndex < tilesPerCol){
-          //If the current tile in the old board has been destroyed by a match, skip it.
-          if (tilesToDestroyIndex < tilesToDestroy.length
-               && tilesToDestroy[tilesToDestroyIndex].getCol() == tileToCopyIndex){
-            tileToCopyIndex++;
-            tilesToDestroyIndex++;
-              
-          } else { //Otherwise move the bottom-most not destroyed tile to the current free location.
-            gameBoard[i][emptyRowIndex] = new Tile(gameBoard[i][tileToCopyIndex]);
-            gameBoard[i][emptyRowIndex].changeLocation(i, emptyRowIndex);
-            emptyRowIndex++;
-            tileToCopyIndex++;
-          }
-        }
-        
-        //Fill the remaining empty rows with "new" blocks.
-        for (int j = emptyRowIndex; j < tilesPerCol; j++){
-            gameBoard[i][j] = new Tile(i, j);
-        }
+//        Tile[] tilesToDestroySorted = destroyedTilesByCol.toArray(new Tile[destroyedTilesByCol.size()]);
+//        Arrays.sort(tilesToDestroySorted);
+//        
+//        int numTilesToDestroy = tilesToDestroySorted.length;
+//        if (numTilesToDestroy == 0){
+//          continue;
+//        }
+//        
+//        for( Tile t : tilesToDestroySorted ) {
+//	    	for( int i = t.getRow(); i >= 0; i-- ) {
+//	    		if( i == 0) {
+//	            	gameBoard[currentCol][i] = new Tile(currentCol, i);
+//	    		} else {	
+//	    			gameBoard[currentCol][i] = gameBoard[currentCol][i-1];
+//	    		}
+//	    	}
+//        }
+//        
       }
+//        //The row of the tile that we are considering moving to the empty row.
+//        int tileToCopyIndex = emptyRowIndex + 1;
+//        
+//        int tilesToDestroyIndex = 1;
+//        
+//        //While there are still existing tiles on the board that we need to make "fall"
+//        while (tileToCopyIndex < tilesPerCol){
+//          //If the current tile in the old board has been destroyed by a match, skip it.
+//          if (tilesToDestroyIndex < tilesToDestroySorted.length
+//               && tilesToDestroySorted[tilesToDestroyIndex].getCol() == tileToCopyIndex){
+//            tileToCopyIndex++;
+//            tilesToDestroyIndex++;
+//              
+//          } else { //Otherwise move the bottom-most not destroyed tile to the current free location.
+//            gameBoard[currentCol][emptyRowIndex] = new Tile(gameBoard[currentCol][tileToCopyIndex]);
+//            gameBoard[currentCol][emptyRowIndex].changeLocation(currentCol, emptyRowIndex);
+//            emptyRowIndex++;
+//            tileToCopyIndex++;
+//          }
+//        }
+//        
+//        //Fill the remaining empty rows with "new" blocks.
+//        for (int j = emptyRowIndex; j < tilesPerCol; j++){
+//            gameBoard[currentCol][j] = new Tile(currentCol, j);
+//        }
+//      }
       
     }
     

@@ -43,7 +43,7 @@ public class GameBoardMoveResults {
     
     public void addTile(Tile tile){
       this.destroyedTileSet.add(tile);
-      this.destroyedTileSetByCol.get(tile.getRow()).add(tile);
+      this.destroyedTileSetByCol.get(tile.getCol()).add(tile);
       destroyedTiles[tile.getRow()][tile.getCol()] = tile;
     }
     
