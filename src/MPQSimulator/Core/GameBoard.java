@@ -288,11 +288,6 @@ public class GameBoard {
         	if( thisResults.size() >= 3 ) {
         		results.add(thisResults);
         		j += thisResults.size();
-        		if(thisResults.size() >= 4) {
-        			// four in a row, destroy the whole row
-        			results.addTiles(source);
-        			break;
-        		}
         	} else {
         		j += 1;
         	}

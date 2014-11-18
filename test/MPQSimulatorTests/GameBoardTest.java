@@ -62,7 +62,6 @@ public class GameBoardTest {
     expectedDestroyedTileSet.add(new Tile(2, 1, TileColor.RED));
     expectedDestroyedTileSet.add(new Tile(2, 2, TileColor.RED));
     expectedDestroyedTileSet.add(new Tile(2, 3, TileColor.RED));
-    expectedDestroyedTileSet.add(new Tile(2, 4, TileColor.GREEN));
     Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
     assertEquals(expectedDestroyedTileSet, destroyedTileSet);
     board.destroyTiles(destroyedTileSet);
@@ -165,7 +164,6 @@ public class GameBoardTest {
     expectedDestroyedTileSet.add(new Tile(0, 1, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(0, 2, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(0, 3, TileColor.TEAMUP));
-    expectedDestroyedTileSet.add(new Tile(0, 4, TileColor.GREEN));
     Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
     assertEquals(expectedDestroyedTileSet, destroyedTileSet);
     board.destroyTiles(destroyedTileSet);
@@ -189,7 +187,6 @@ public class GameBoardTest {
     expectedDestroyedTileSet.add(new Tile(1, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(2, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(3, 0, TileColor.TEAMUP));
-    expectedDestroyedTileSet.add(new Tile(4, 0, TileColor.GREEN));
     Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
     assertEquals(expectedDestroyedTileSet, destroyedTileSet);
     board.destroyTiles(destroyedTileSet);
