@@ -135,8 +135,8 @@ public class GameEngine {
     int boardHeight = board.getDimensions()[1];
 	Preconditions.checkArgument(boardHeight >= height);
     
-    int startingRow = (int)Math.random() * (height - boardHeight);
-    int startingCol = (int)Math.random() * (width - boardWidth);
+    int startingRow = (int)Math.round(Math.random() * (boardHeight - height));
+    int startingCol = (int)Math.round(Math.random() * (boardWidth - width));
     
     Set<Tile> tilesToDestroy = new HashSet<>();
     

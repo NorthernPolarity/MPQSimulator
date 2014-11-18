@@ -156,6 +156,40 @@ public class GameEngineTest {
 
 
 	}
-	
+
+	@Test
+	public void testBlockPattern2x3() {
+		Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.PURPLE, TileColor.TEAMUP, TileColor.RED);
+
+		String bstr = "B Y Y \n" +
+		              "U B U \n" +
+				      "B Y Y \n";
+		GameBoard board = GameBoardTest.createBoardFromString(bstr);
+		
+		GameEngine engine = new GameEngine(board);
+		DestroySpecificTilesAbilityComponent xf = new DestroySpecificTilesAbilityComponent( 2,3 );
+		assertEquals(6, xf.numTilesToDestroy);
+		
+		Ability level1 = new Ability();
+		level1.addComponent(xf);
+		
+		assertEquals(TileColor.BLACK, board.getTile(0, 0).getColor()); 
+		assertEquals(TileColor.YELLOW, board.getTile(0, 1).getColor()); 
+		assertEquals(TileColor.YELLOW, board.getTile(0, 2).getColor()); 
+		assertEquals(TileColor.BLACK, board.getTile(2, 0).getColor()); 
+		assertEquals(TileColor.YELLOW, board.getTile(2, 1).getColor()); 
+		assertEquals(TileColor.YELLOW, board.getTile(2, 2).getColor()); 
+
+		engine.useAbilityAndStabilizeBoard(level1);
+		System.out.println(board);
+				
+		// bottom row is BYY no matter how the random numbers work out
+		assertEquals(TileColor.BLACK, board.getTile(2, 0).getColor()); 
+		assertEquals(TileColor.YELLOW, board.getTile(2, 1).getColor()); 
+		assertEquals(TileColor.YELLOW, board.getTile(2, 2).getColor()); 
+
+
+	}
+
 	
 }
