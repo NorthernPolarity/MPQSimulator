@@ -38,12 +38,16 @@ public class DestroyTileAbilityComponent implements AbilityComponent {
     Set<Tile> tileSet = board.getTiles(tileColorsToDestroy);
     List<Tile> randomizedTileList = new ArrayList<Tile>(tileSet);
     Collections.shuffle(randomizedTileList);
-    int ttd = maxTilesToDestroy;
-    if( ttd == DestroyTileAbilityComponent.DESTROY_ALL_TILES ) {
+    int ttd;
+    if( maxTilesToDestroy == DestroyTileAbilityComponent.DESTROY_ALL_TILES ) {
     	ttd = randomizedTileList.size();
+    } else {
+    	ttd = Math.min(randomizedTileList.size(), maxTilesToDestroy);
     }
+    assert(ttd >= 0);
+    assert(ttd <= randomizedTileList.size());
     List<Tile> tilesToDestroy = randomizedTileList.subList(
-        0, Math.min(randomizedTileList.size(), ttd));
+        0, ttd);
     
     Set<Tile> tileSetToDestroy = new HashSet<>(tilesToDestroy);
     return tileSetToDestroy;

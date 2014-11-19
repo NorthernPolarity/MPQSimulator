@@ -12,17 +12,9 @@ public class TorchClassic extends MPQCharacter {
 
   @Override
   protected List<Ability> initAbility1() {
-    int[] tilesDestroyedByLevel = {2, 2, 2, 2, 2};
-    List<Ability> abilityList = new ArrayList<>();
-    
-    for (int i = 0; i < 5; i++) {
       AbilityComponent destroyTiles = new DestroyTileAbilityComponent
-          (tilesDestroyedByLevel[i], TileColor.RED);
-      Ability ability = new Ability();
-      ability.addComponent(destroyTiles);
-      abilityList.add(ability);
-    }
-    return abilityList;
+              (2, TileColor.RED);
+	  return this.buildRepeatAbilityList(destroyTiles);
   }
 
   @Override

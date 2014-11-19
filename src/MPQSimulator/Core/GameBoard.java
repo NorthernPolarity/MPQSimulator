@@ -138,8 +138,9 @@ public class GameBoard {
       return tiles;
     }
     
+    
     // Returns all of the tiles of the given color currently on the board.
-    public Set<Tile> getTiles(List<TileColor> colors) {
+    public Set<Tile> getTiles(Iterable<TileColor> colors) {
       Set<Tile> tiles = new HashSet<>();
       for (Tile[] col : gameBoard) {
         for (Tile t : col) {
@@ -152,7 +153,11 @@ public class GameBoard {
       }
       return tiles;
     }
-    
+
+    public Set<Tile> getTilesOfColors(TileColor ... colors) {
+    	return getTiles(Arrays.asList(colors));
+    }
+
     // Returns all of the tiles of the given color currently on the board.
     public Set<Tile> getAllTiles() {
       Set<Tile> tiles = new HashSet<>();
@@ -235,6 +240,9 @@ public class GameBoard {
       //For each col
       for (int currentCol = 0; currentCol < tilesPerRow; currentCol++){
         Set<Tile> destroyedTilesByCol = results.getTilesByCol(currentCol);
+        if( destroyedTilesByCol.size() == 0 ) {
+        	continue;
+        }
         for (Tile t : destroyedTilesByCol) {
           Preconditions.checkArgument(gameBoard[t.getRow()][t.getCol()].equals(t));
         }

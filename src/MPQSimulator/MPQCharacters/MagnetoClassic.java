@@ -23,7 +23,7 @@ public class MagnetoClassic extends MPQCharacter {
   protected List<Ability> initAbility2() {
     List<Ability> abilityList = new ArrayList<>();
     AbilityComponent destroyTiles = new DestroyTileAbilityComponent
-        (GameEngine.NUM_TILES_ON_BOARD, TileColor.TEAMUP);
+        (DestroyTileAbilityComponent.DESTROY_ALL_TILES, TileColor.TEAMUP);
     Ability ability = new Ability();
     ability.addComponent(destroyTiles);
     for (int i = 0; i < 5; i++) {

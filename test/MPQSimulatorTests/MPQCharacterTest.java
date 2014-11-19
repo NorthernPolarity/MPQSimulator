@@ -16,10 +16,15 @@ import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.FixedSequenceRandomImpl;
 import MPQSimulator.Core.Tile.TileColor;
 import MPQSimulator.MPQCharacters.DakenClassic;
+import MPQSimulator.MPQCharacters.DevilDino;
 import MPQSimulator.MPQCharacters.JuggernautClassic;
 import MPQSimulator.MPQCharacters.LokiDarkReign;
 import MPQSimulator.MPQCharacters.MPQCharacter.AbilityLevel;
+import MPQSimulator.MPQCharacters.MagnetoClassic;
+import MPQSimulator.MPQCharacters.Mystique;
+import MPQSimulator.MPQCharacters.StormMohawk;
 import MPQSimulator.MPQCharacters.ThorModern;
+import MPQSimulator.MPQCharacters.TorchClassic;
 import MPQSimulator.MPQCharacters.WolverineXforce;
 
 
@@ -165,5 +170,171 @@ public class MPQCharacterTest {
 	}
 
 
+	@Test
+	public void testDino() {
+		for( AbilityLevel al : AbilityLevel.values() ) {
+			String bstr = "Y P B \n" +
+				          "U T U \n" +
+				          "P R G \n";
+			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+			
+			GameEngine engine = new GameEngine(board);
+			assertEquals(board.toString(), bstr); // board is unchanged
+			
+			DevilDino dino = new DevilDino();
+			Ability swap = dino.getAbility3(al);
+
+			assertEquals(board.getTile(0,0).getColor(), TileColor.YELLOW);
+			engine.useAbilityAndStabilizeBoard(swap);
+			assertEquals(board.getTile(0,0).getColor(), TileColor.BLACK);
+
+			if(al.ordinal() > AbilityLevel.ONE.ordinal()) {
+				assertEquals(TileColor.RED, board.getTile(1,1).getColor());
+			}
+
+			if(al.ordinal() > AbilityLevel.TWO.ordinal()) {
+				assertEquals( TileColor.GREEN, board.getTile(2,1).getColor());
+			}
+
+			if(al.ordinal() > AbilityLevel.THREE.ordinal()) {
+				assertEquals( TileColor.YELLOW, board.getTile(0,2).getColor());
+			}
+
+			if(al.ordinal() > AbilityLevel.FOUR.ordinal()) {
+				assertEquals( TileColor.PURPLE, board.getTile(1,2).getColor());
+				assertEquals( TileColor.BLUE, board.getTile(2,2).getColor());
+			}
+
+
+
+		}
+		
+	}
+	
+
+	@Test
+	public void testMagnetoClassic() {
+		for( AbilityLevel al : AbilityLevel.values() ) {
+			Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.YELLOW);
+			String bstr = "Y P B Y T \n" +
+					      "U G U U Y \n" +
+					      "P R R P R \n" +
+					      "R P B U P \n" +
+					      "U R Y Y T \n";
+			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+			assertEquals( TileColor.BLUE, board.getTile(1,0).getColor());
+
+			GameEngine engine = new GameEngine(board);
+			assertEquals(board.toString(), bstr); // board is unchanged
+			
+			MagnetoClassic mags = new MagnetoClassic();
+			Ability polar = mags.getAbility2(al);
+			Ability projectiles = mags.getAbility3(al);
+
+			assertEquals(2, board.getTiles(TileColor.TEAMUP).size());
+			engine.useAbilityAndStabilizeBoard(polar);			
+			assertEquals(0, board.getTiles(TileColor.TEAMUP).size());
+
+			assertEquals(5, board.getTiles(TileColor.BLUE).size());
+			assertEquals(5, board.getTiles(TileColor.RED).size());
+
+			engine.useAbilityAndStabilizeBoard(projectiles);
+
+			// TODO: not sure what else to assert here
+			assertEquals( TileColor.RED, board.getTile(1,0).getColor());
+			assertEquals(5, board.getTiles(TileColor.BLUE).size());
+			assertEquals(5, board.getTiles(TileColor.RED).size());
+
+			assertEquals( TileColor.YELLOW, board.getTile(0,0).getColor());
+
+
+		}
+		
+	}
+	
+	@Test
+	public void testMystique() {
+		for( AbilityLevel al : AbilityLevel.values() ) {
+			Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLUE, TileColor.YELLOW);
+			String bstr = "Y R G Y T \n" +
+					      "U G U U Y \n" +
+					      "G R R G R \n" +
+					      "G T G U R \n" +
+					      "U G Y Y T \n";
+			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+
+			GameEngine engine = new GameEngine(board);
+			assertEquals(board.toString(), bstr); // board is unchanged
+			
+			Mystique mystique = new Mystique();
+			Ability changeColors = mystique.getAbility2(al);
+
+			assertEquals(0, board.getTiles(TileColor.BLACK).size());
+			assertEquals(0, board.getTiles(TileColor.PURPLE).size());
+			engine.useAbilityAndStabilizeBoard(changeColors);			
+			assertNotEquals(0, board.getTilesOfColors(TileColor.BLACK, TileColor.PURPLE).size());
+			assertEquals(3, board.getTiles(TileColor.TEAMUP).size());
+
+			// TODO: assert something more interesting here
+
+		}
+		
+	}
+	
+
+
+	@Test
+	public void testStormMohawk() {
+		for( AbilityLevel al : AbilityLevel.values() ) {
+			Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.YELLOW, TileColor.RED, TileColor.GREEN);
+			String bstr = "Y P B Y T \n" +
+					      "U G U U Y \n" +
+					      "P R T P R \n" +
+					      "R G T U P \n" +
+					      "T R Y Y T \n";
+			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+			GameEngine engine = new GameEngine(board);
+			assertEquals(board.toString(), bstr); // board is unchanged
+			
+			StormMohawk mohawk = new StormMohawk();
+			Ability lightning = mohawk.getAbility1(al);
+			Ability mistress = mohawk.getAbility2(al);
+
+			assertEquals(5, board.getTiles(TileColor.TEAMUP).size());
+			engine.useAbilityAndStabilizeBoard(mistress);			
+			assertEquals(0, board.getTiles(TileColor.TEAMUP).size());
+
+			engine.useAbilityAndStabilizeBoard(lightning);
+
+			// TODO: not sure what else to assert here
+
+		}
+		
+	}
+	
+
+	@Test
+	public void testTorchClassic() {
+		for( AbilityLevel al : AbilityLevel.values() ) {
+			Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.YELLOW, TileColor.GREEN);
+			String bstr = "Y P B Y T \n" +
+					      "U G U U Y \n" +
+					      "P R T P R \n" +
+					      "R G T U P \n" +
+					      "T R Y Y T \n";
+			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+			GameEngine engine = new GameEngine(board);
+			assertEquals(board.toString(), bstr); // board is unchanged
+			
+			TorchClassic torch = new TorchClassic();
+			Ability fireball = torch.getAbility1(al);
+
+			assertEquals(4, board.getTiles(TileColor.RED).size());
+			engine.useAbilityAndStabilizeBoard(fireball);
+			assertEquals(2, board.getTiles(TileColor.RED).size());
+
+		}
+		
+	}
 }
 
