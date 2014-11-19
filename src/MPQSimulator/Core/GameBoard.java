@@ -1,11 +1,11 @@
 package MPQSimulator.Core;
 import java.util.Arrays;
 import java.util.Comparator;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import MPQSimulator.Core.GameBoardMatches.SingleMatch;
 import MPQSimulator.Core.Tile.TileColor;
 
 import com.google.common.base.Preconditions;
@@ -85,17 +85,45 @@ public class GameBoard {
     /*
      * Checks the current state of the board, and returns the set of matches involved in a match 3.
      */
+    // DEPRECATED: use GameBoardMatches directly, just leaving this here for convenience
     public GameBoardMoveResults findMatchesOnBoard() {
-        
-        GameBoardMoveResults colMoveResults = this.findVerticalMatches();
-        GameBoardMoveResults rowMoveResults = this.findHorizontalMatches();
+    	GameBoardMatches policy = new GameBoardMatches(this);
+    	
+    	Set<SingleMatch> moveResults = policy.findVerticalMatches();
+    	moveResults.addAll(policy.findHorizontalMatches());
         
         //Remove any matches from the board, update the board accordingly.
-        GameBoardMoveResults currentMoveResults = colMoveResults;
-        colMoveResults.add(rowMoveResults);
-        
+        GameBoardMoveResults currentMoveResults = new GameBoardMoveResults(tilesPerCol, tilesPerCol);
+        for( SingleMatch r : moveResults ) {
+        	currentMoveResults.addTiles(r.matchTiles);
+        }
         return currentMoveResults;
     }
+    
+    
+    // Finds and returns all tiles that are part of a horizontal match 3.
+    // DEPRECATED
+    public GameBoardMoveResults findHorizontalMatches() {
+    	GameBoardMatches policy = new GameBoardMatches(this);
+        GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
+        for (SingleMatch m : policy.findHorizontalMatches()) {
+            results.addTiles(m);
+        }
+        return results;
+    }
+
+
+    // Finds and returns all tiles that are part of a horizontal match 3.
+    // DEPRECATED in favor of GameBoardMatches
+    public GameBoardMoveResults findVerticalMatches() {
+    	GameBoardMatches policy = new GameBoardMatches(this);
+        GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
+        for (SingleMatch m : policy.findVerticalMatches()) {
+            results.addTiles(m);
+        }
+        return results;
+    }
+
     
     // Returns all of the tiles of the given color currently on the board.
     public Set<Tile> getTiles(TileColor color) {
@@ -254,67 +282,18 @@ public class GameBoard {
       b.changeLocation(aRow, aCol);
     }
     
-    
-    // Finds and returns all tiles that are part of a horizontal match 3.
-    public GameBoardMoveResults findHorizontalMatches() {
-        GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
-        //For each row...
-        for (int i = 0; i < tilesPerCol; i++) {
-            results.add(findHorizontalMatchForRow(i));
-        }
-        return results;
-    }
-
-	private GameBoardMoveResults findHorizontalMatchForRow(int row) {
-		List<Tile> thisRow = getTilesInRow(row);		
-		return findMatchInList(thisRow);
-	}
-
-	private GameBoardMoveResults findMatchInList(List<Tile> source) {
-		GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
-		assert(source.size() > 2);
-		// Go down each column looking for vertical match 3's
-        int j = 0;
-        while( j < source.size() - 2 ) {
-        	TileColor currentColor = source.get(j).getColor();
-        	GameBoardMoveResults thisResults = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
-        	for(Tile thisTile : source.subList(j, source.size())) {
-        		if( thisTile.getColor() == currentColor ) {
-        			thisResults.addTile(thisTile);
-        		} else {
-        			break;
-        		}
-        	}
-        	if( thisResults.size() >= 3 ) {
-        		results.add(thisResults);
-        		j += thisResults.size();
-        	} else {
-        		j += 1;
-        	}
-        }
-        return results;
-	}
-    
-    // Finds and returns all tiles that are part of a horizontal match 3.
-    public GameBoardMoveResults findVerticalMatches() {
-      GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
-      // For each column...
-      for (int j = 0; j < tilesPerRow; j++) {
-        results.add(findVerticalMatchesForColumn(j));
-      }
-      return results;
-    }
-
-	private GameBoardMoveResults findVerticalMatchesForColumn(int col) {
-		List<Tile> thisRow = getTilesInCol(col);
-		return findMatchInList(thisRow);
-	}
 
 	public int[] getDimensions() {
 		int[] d = new int[2];
-		d[0] = this.tilesPerRow;
-		d[1] = this.tilesPerCol;
+		d[0] = this.getNumCols();
+		d[1] = this.getNumRows();
 		return d;
 	}
     
+	public int getNumRows() {
+		return this.tilesPerCol;
+	}
+	public int getNumCols() {
+		return this.tilesPerRow;
+	}
 }
