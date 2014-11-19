@@ -156,7 +156,7 @@ public class MPQCharacterTest {
 			
 			engine.useAbilityAndStabilizeBoard(rage);
 			
-			// not sure what to assert here to make sure it worked properly
+			// TODO: not sure what to assert here to make sure it worked properly
 			assertEquals(board.getTiles(TileColor.GREEN).size(), 0);
 
 
