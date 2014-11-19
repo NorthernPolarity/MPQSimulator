@@ -19,16 +19,8 @@ public class JuggernautClassic extends MPQCharacter {
   // Unstoppable Crash.
   @Override
   protected List<Ability> initAbility2() {
-    List<Ability> abilityList = new ArrayList<>();
-    
-    for (int i = 0; i < 5; i++) {
-      AbilityComponent destroyTiles = new DestroyTileAbilityComponent
-          (16, AbilityComponent.ALL_COLORS_LIST);
-      Ability ability = new Ability();
-      ability.addComponent(destroyTiles);
-      abilityList.add(ability);
-    }
-    return abilityList;
+	  AbilityComponent destroyTiles = new DestroyTileAbilityComponent(16, AbilityComponent.ALL_COLORS_LIST);
+      return this.buildRepeatAbilityList(destroyTiles);
   }
 
   @Override

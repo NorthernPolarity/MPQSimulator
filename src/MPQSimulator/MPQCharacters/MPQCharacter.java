@@ -1,6 +1,8 @@
 package MPQSimulator.MPQCharacters;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +10,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 
 import MPQSimulator.Abilities.Ability;
+import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Core.Tile.TileColor;
 
 public abstract class MPQCharacter {
@@ -53,4 +56,34 @@ public abstract class MPQCharacter {
   private Ability getAbility(List<Ability> abilityList, AbilityLevel level) {
     return abilityList.get(abilityLevelToListIndexMap.get(level));
   }
+  
+  
+	protected Ability buildAbility(AbilityComponent ... components) {
+		Ability ability = new Ability();
+		for( AbilityComponent c : components) {
+			ability.addComponent(c);
+		}
+		return ability;
+	}
+	
+
+	protected List<Ability> buildRepeatAbilityList(AbilityComponent c) {
+		List<Ability> abilityList = new ArrayList<>();
+	    Ability ability = new Ability();
+	    ability.addComponent(c);
+	    
+	    for (int i = 0; i < 5; i++) {
+	      abilityList.add(ability);
+	    }
+	    return abilityList;
+	}
+
+	protected List<Ability> buildAbilityList(Ability ... abilities) {
+	    List<Ability> abilityList =  new ArrayList<>();
+	    for( Ability a : abilities ) {
+	    	abilityList.add(a);
+	    }
+	    return abilityList;
+	}
+	
 }

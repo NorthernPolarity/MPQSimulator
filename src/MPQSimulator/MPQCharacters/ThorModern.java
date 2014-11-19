@@ -1,6 +1,8 @@
 package MPQSimulator.MPQCharacters;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import MPQSimulator.Abilities.Ability;
@@ -11,19 +13,12 @@ import MPQSimulator.Core.Tile.TileColor;
 
 public class ThorModern extends MPQCharacter {
 
+
   // Mjolnirs might
   @Override
   protected List<Ability> initAbility1() {
-
-    List<Ability> abilityList = new ArrayList<>();
-    AbilityComponent changeTiles = new ChangeTileColorAbilityComponent(3, TileColor.YELLOW);
-    Ability ability = new Ability();
-    ability.addComponent(changeTiles);
-    
-    for (int i = 0; i < 5; i++) {
-      abilityList.add(ability);
-    }
-    return abilityList;
+	AbilityComponent changeTiles = new ChangeTileColorAbilityComponent(3, TileColor.YELLOW);
+    return buildRepeatAbilityList(changeTiles);
   }
 
   // Thunder strike

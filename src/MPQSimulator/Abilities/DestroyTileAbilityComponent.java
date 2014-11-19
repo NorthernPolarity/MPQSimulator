@@ -9,6 +9,7 @@ public class DestroyTileAbilityComponent implements AbilityComponent {
 
   public final int maxTilesToDestroy;
   public final List<TileColor> tileColorsToDestroy;
+  public final static int DESTROY_ALL_TILES = -1;
   
   // Destroys N random tiles of any color.
   public DestroyTileAbilityComponent(int maxTilesToDestroy) {

@@ -157,8 +157,12 @@ public class GameEngine {
     Set<Tile> tileSet = board.getTiles(component.tileColorsToDestroy);
     List<Tile> randomizedTileList = new ArrayList<Tile>(tileSet);
     Collections.shuffle(randomizedTileList);
+    int ttd = component.maxTilesToDestroy;
+    if( ttd == DestroyTileAbilityComponent.DESTROY_ALL_TILES ) {
+    	ttd = randomizedTileList.size();
+    }
     List<Tile> tilesToDestroy = randomizedTileList.subList(
-        0, Math.min(randomizedTileList.size(), component.maxTilesToDestroy));
+        0, Math.min(randomizedTileList.size(), ttd));
     
     Set<Tile> tileSetToDestroy = new HashSet<>(tilesToDestroy);
     board.destroyTiles(tileSetToDestroy);
