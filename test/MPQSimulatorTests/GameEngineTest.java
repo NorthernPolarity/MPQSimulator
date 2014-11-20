@@ -55,7 +55,8 @@ public class GameEngineTest {
 
 		engine.resolveCurrentBoard();
 		assertEquals(board.toString(), bstr2); // board is unchanged
-
+		
+		assertEquals(3, board.stats.getCountTilesDestroyed());
 	}
 
 	@Test
@@ -79,6 +80,8 @@ public class GameEngineTest {
 
 		engine.resolveCurrentBoard();
 		assertEquals(board.toString(), bstr2); // board is unchanged
+		
+		assertEquals(6, board.stats.getCountTilesDestroyed());
 
 	}
 	
@@ -99,6 +102,7 @@ public class GameEngineTest {
 		
 		assertEquals(board.toString(), bstr); // board is unchanged, upper-left is already black
 
+		
 	}
 
 	@Test
@@ -120,6 +124,10 @@ public class GameEngineTest {
 		engine.useAbilityAndStabilizeBoard(level1);
 		
 		assertEquals(TileColor.BLACK, board.getTile(0, 0).getColor()); 
+
+		assertEquals(0, board.stats.getCountTilesDestroyed(), 0);
+		assertEquals(2, board.stats.getCountTileSwaps());
+
 
 	}
 	

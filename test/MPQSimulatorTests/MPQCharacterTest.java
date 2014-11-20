@@ -11,7 +11,9 @@ import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
 import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
 import MPQSimulator.Core.GameBoard;
+import MPQSimulator.Core.GameBoardMoveResults;
 import MPQSimulator.Core.GameEngine;
+import MPQSimulator.Core.GameEngineMoveResults;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.FixedSequenceRandomImpl;
 import MPQSimulator.Core.Tile.TileColor;
@@ -22,6 +24,7 @@ import MPQSimulator.MPQCharacters.LokiDarkReign;
 import MPQSimulator.MPQCharacters.MPQCharacter.AbilityLevel;
 import MPQSimulator.MPQCharacters.MagnetoClassic;
 import MPQSimulator.MPQCharacters.Mystique;
+import MPQSimulator.MPQCharacters.Punisher;
 import MPQSimulator.MPQCharacters.StormMohawk;
 import MPQSimulator.MPQCharacters.ThorModern;
 import MPQSimulator.MPQCharacters.TorchClassic;
@@ -330,9 +333,40 @@ public class MPQCharacterTest {
 			Ability fireball = torch.getAbility1(al);
 
 			assertEquals(4, board.getTiles(TileColor.RED).size());
-			engine.useAbilityAndStabilizeBoard(fireball);
+			GameEngineMoveResults cascades = engine.useAbilityAndStabilizeBoard(fireball);
 			assertEquals(2, board.getTiles(TileColor.RED).size());
+			assertEquals(0, cascades.getNumTilesDestroyed());
 
+			assertEquals(2, board.stats.getCountTilesDestroyed());
+
+		}
+		
+	}
+	
+
+	@Test
+	public void testPunisher() {
+		for( AbilityLevel al : AbilityLevel.values() ) {
+			Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE, TileColor.GREEN, TileColor.TEAMUP);
+
+			String bstr = "R P B \n" +
+					      "Y T P \n" +
+					      "P R R \n";
+
+			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+			GameEngine engine = new GameEngine(board);
+			assertEquals(board.toString(), bstr); // board is unchanged
+			
+			Punisher punisher = new Punisher();
+			Ability judgement = punisher.getAbility2(al);
+			// destroys whole board
+			engine.useAbilityAndStabilizeBoard(judgement);
+			String bstrAfter = "B T G \n" +
+				               "U B T \n" +
+				               "G U B \n";
+
+			assertEquals(bstrAfter, board.toString()); 
+			assertEquals(9, board.stats.getCountTilesDestroyed());
 		}
 		
 	}

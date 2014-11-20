@@ -22,6 +22,49 @@ public class GameBoard {
 
     private Tile[][] gameBoard; //Represents the current state of the board
  
+    
+    // tracks stats of things done to the game board, like swaps and destroy
+    // does not include tile matches or other game logic - see GameBoardMatches instead
+    public class GameBoardStats {
+    	public GameBoardStats(int countTileSwaps, int countTilesDestroyed) {
+			super();
+			this.countSwaps = countTileSwaps;
+			this.countDestroyed = countTilesDestroyed;
+		}
+    	
+    	public GameBoardStats() {
+    		this(0,0);
+    	}
+    	
+		public int countSwaps;
+    	public int countDestroyed;
+    	public int countColorChange;
+    	
+		public int getCountColorChange() {
+			return countColorChange;
+		}
+
+		public void incCountColorChange(int countColorChange) {
+			this.countColorChange += countColorChange;
+		}
+
+		public int getCountTileSwaps() {
+			return countSwaps;
+		}
+		public void incCountTileSwaps(int countTileSwaps) {
+			this.countSwaps += countTileSwaps;
+		}
+		public int getCountTilesDestroyed() {
+			return countDestroyed;
+		}
+		public void incCountTilesDestroyed(int countTilesDestroyed) {
+			this.countDestroyed += countTilesDestroyed;
+		}
+
+    };
+    
+    public GameBoardStats stats = new GameBoardStats();
+    
     @Override
     public String toString() {
       String s = "";
@@ -237,6 +280,8 @@ public class GameBoard {
           System.out.println("Error in destroy Tiles!");
       }      
       
+      stats.incCountTilesDestroyed(results.size());
+      
       //For each col
       for (int currentCol = 0; currentCol < tilesPerRow; currentCol++){
         Set<Tile> destroyedTilesByCol = results.getTilesByCol(currentCol);
@@ -274,6 +319,7 @@ public class GameBoard {
         int rand = (int)(Math.random() * newColors.size());
         t.setColor(newColors.get(rand));
       }
+      stats.incCountColorChange(tiles.size());
     }
     
     // Swaps tiles a and b on the board.
@@ -288,6 +334,8 @@ public class GameBoard {
       int aCol = a.getCol();
       a.changeLocation(b.getRow(), b.getCol());
       b.changeLocation(aRow, aCol);
+      
+      stats.incCountTileSwaps(2);
     }
     
 
