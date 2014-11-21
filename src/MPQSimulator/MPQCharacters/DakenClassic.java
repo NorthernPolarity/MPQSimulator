@@ -26,15 +26,8 @@ public class DakenClassic extends MPQCharacter {
   // Chemical Reaction
   @Override
   protected List<Ability> initAbility3() {
-    List<Ability> abilityList = new ArrayList<>();
     AbilityComponent changeTiles = new ChangeTileColorAbilityComponent(2, TileColor.BLUE, TileColor.GREEN);
-    Ability ability = new Ability();
-    ability.addComponent(changeTiles);
-    
-    for (int i = 0; i < 5; i++) {
-      abilityList.add(ability);
-    }
-    return abilityList;
+    return this.buildRepeatAbilityList(changeTiles);
   }
 
 }

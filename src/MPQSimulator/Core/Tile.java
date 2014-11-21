@@ -36,6 +36,9 @@ public class Tile implements Comparable<Tile> {
     // destroyTiles depends on this implementation.
     @Override
     public int compareTo(Tile that) {
+    	if( that == null) {
+    		return 0;
+    	}
         if (this.col > that.col) { return 1; }
         else if (this.col < that.col) { return -1; }
         else {
@@ -93,7 +96,7 @@ public class Tile implements Comparable<Tile> {
     }
     
     public void changeLocation(int row, int col){
-        Preconditions.checkArgument(!(row == this.row && col == this.col));
+        //Preconditions.checkArgument(!(row == this.row && col == this.col));
         this.setRow(row);
         this.setCol(col);
     }
@@ -118,11 +121,55 @@ public class Tile implements Comparable<Tile> {
       return (this.row == t.row) && (Math.abs(t.col - this.col) == 1);
     }
     
-    private static TileColor getRandomColor() {
+    public interface RandomCaller {
+    	double random();
+    }
+    
+    static class RandomCallerImpl implements RandomCaller {
+    	public double random() {
+    		return Math.random();
+    	}
+    }
+    
+    // for testing purposes only
+	public static class FixedSequenceRandomImpl implements Tile.RandomCaller {
+		private int counter = 0;
+		private TileColor[] sequence;
+		
+		public FixedSequenceRandomImpl(TileColor ... s) {
+			sequence = s;
+		}
+		
+		@Override
+		public double random() {
+			if(counter >= sequence.length) {
+				counter = 0;
+			}
+			for(int i = 0; i < TileColor.values().length; i++) {
+				if( sequence[counter] == TileColor.values()[i]) {
+					double result = (double)i /  TileColor.values().length;
+					counter += 1;
+					return result;
+				}
+			}
+			assert(false);
+			return 0;
+		}
+		
+	}
+
+	public static RandomCaller defaultRandomCaller = new Tile.RandomCallerImpl();
+    
+    public static TileColor getRandomColor() {
+    	return getRandomColor(defaultRandomCaller);
+    }
+    
+    public static TileColor getRandomColor(RandomCaller mathSource) {
       TileColor[] tileColorValues = TileColor.values();
-      int randomizedIndex = (int)(Math.random() * NUM_NORMAL_TILES) % NUM_NORMAL_TILES;
+      int randomizedIndex = (int)(mathSource.random() * NUM_NORMAL_TILES) % NUM_NORMAL_TILES;
       return tileColorValues[randomizedIndex];
     }
+    
     @Override
     public String toString() {
         return "Tile (" + row + ", " + col + ") has color:" + tileColor;

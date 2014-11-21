@@ -2,8 +2,13 @@ package MPQSimulator.Abilities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import MPQSimulator.Core.GameBoard;
+import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.TileColor;
 
 public class ChangeTileColorAbilityComponent implements AbilityComponent{
@@ -33,5 +38,14 @@ public class ChangeTileColorAbilityComponent implements AbilityComponent{
     this(maxTilesToChange, Arrays.asList(oldTileColor), Arrays.asList(newTileColor));
   }
   
-  
+  public Set<Tile> process(GameBoard board) {
+    Set<Tile> tileSet = board.getTiles(this.oldTileColors);
+    List<Tile> randomizedTileList = new ArrayList<Tile>(tileSet);
+    Collections.shuffle(randomizedTileList);
+    
+    List<Tile> tilesToChangeColor = randomizedTileList.subList(0, Math.min(randomizedTileList.size(), this.maxTilesToChange));
+    board.changeTileColor(new HashSet<Tile>(tilesToChangeColor), this.newTileColors);
+ 
+    return new HashSet<Tile>();
+  }
 }

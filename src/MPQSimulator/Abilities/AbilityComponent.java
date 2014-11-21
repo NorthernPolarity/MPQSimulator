@@ -3,9 +3,11 @@ package MPQSimulator.Abilities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.base.Preconditions;
 
+import MPQSimulator.Core.GameBoard;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.TileColor;
 
@@ -30,4 +32,9 @@ public interface AbilityComponent {
     }
     return newList;
   }
+  
+  // process this ability on the designated board
+  // return a set of tiles to be destroyed by the GameEngine
+  public Set<Tile> process(GameBoard board);
+  
 }

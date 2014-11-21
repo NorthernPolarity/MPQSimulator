@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 
@@ -16,6 +17,7 @@ import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.AbilityComponent.TileLocation;
 import MPQSimulator.Abilities.ChangeTileColorAbilityComponent;
+import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
 import MPQSimulator.Abilities.DestroyTileAbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
 import MPQSimulator.Core.GameBoardMoveResults.MatchedTileBlob;
@@ -31,8 +33,12 @@ public class GameEngine {
   // This is pretty messy, maybe think of another way to deal with TileColors.
   
   public GameEngine() {
-      this.board = new GameBoard(NUM_BOARD_ROWS, NUM_BOARD_COLS);
-      stabilizeBoard();
+      this(new GameBoard(NUM_BOARD_ROWS, NUM_BOARD_COLS));
+  }
+  
+  public GameEngine(GameBoard b) {
+	  this.board = b;
+	  stabilizeBoard();
   }
   
   public GameEngineMoveResults useAbilityAndStabilizeBoard(Ability ability) {
@@ -92,92 +98,8 @@ public class GameEngine {
     Iterator<AbilityComponent> it = components.iterator();
     while (it.hasNext()) {
       AbilityComponent component = it.next();
-      if (component instanceof SwapTileAbilityComponent) {
-        processSwapTileAbility((SwapTileAbilityComponent) component);
-      } else if (component instanceof DestroyTileAbilityComponent) {
-        processDestroyTileAbilityComponent((DestroyTileAbilityComponent) component);
-      } else if (component instanceof ChangeTileColorAbilityComponent) {
-        processChangeTileColorAbilityComponent((ChangeTileColorAbilityComponent) component);
-      }
-    }
-  }
-  
-  private void processChangeTileColorAbilityComponent(ChangeTileColorAbilityComponent component) {
-    Set<Tile> tileSet = board.getTiles(component.oldTileColors);
-    List<Tile> randomizedTileList = new ArrayList<Tile>(tileSet);
-    Collections.shuffle(randomizedTileList);
-    
-    List<Tile> tilesToChangeColor = randomizedTileList.subList(0, Math.min(randomizedTileList.size(), component.maxTilesToChange));
-    board.changeTileColor(new HashSet<Tile>(tilesToChangeColor), component.newTileColors);
-  }
-  
-  // Processes abilities involving destroying tiles.
-  private void processDestroyTileAbilityComponent(DestroyTileAbilityComponent component) {
-    Set<Tile> tileSet = board.getTiles(component.tileColorsToDestroy);
-    List<Tile> randomizedTileList = new ArrayList<Tile>(tileSet);
-    Collections.shuffle(randomizedTileList);
-    List<Tile> tilesToDestroy = randomizedTileList.subList(
-        0, Math.min(randomizedTileList.size(), component.maxTilesToDestroy));
-    
-    Set<Tile> tileSetToDestroy = new HashSet<>(tilesToDestroy);
-    board.destroyTiles(tileSetToDestroy);
-  }
-  
-  // Logic for processing abilities involving swapping tiles.
-  private void processSwapTileAbility(SwapTileAbilityComponent component) {
-    
-    if (component.tileBLocation != TileLocation.RANDOM) {
-      throw new IllegalArgumentException();
-    }
-    
-    Set<Tile> tileSetA = component.tileALocation == TileLocation.RANDOM 
-        ? board.getTiles(component.tileAColors) 
-            : Sets.newHashSet(board.getTile(component.tileARow, component.tileACol));
-    Set<Tile> tileSetB = board.getTiles(component.tileBColors);
-    
-    List<Tile> randomizedTileListA = new ArrayList<Tile>(tileSetA);
-    Collections.shuffle(randomizedTileListA);
-    List<Tile> randomizedTileListB = new ArrayList<Tile>(tileSetB);
-    Collections.shuffle(randomizedTileListB);
-    
-    Set<Tile> alreadyShuffledTiles = new HashSet<>();
-    Iterator<Tile> aIt = randomizedTileListA.iterator();
-    Iterator<Tile> bIt = randomizedTileListB.iterator();
-    int tilePairsSwapped = 0;
-    Tile tileA = null;
-    Tile tileB = null;
-    while ( (component.tilePairsToSwap > tilePairsSwapped)
-        && aIt.hasNext() && bIt.hasNext()) {
-      
-      // Search through the lists until we find a tile A and B that hasn't already been shuffled.
-      if (tileA == null) {
-        Tile next = aIt.next();
-        if (!alreadyShuffledTiles.contains(next)) {
-          tileA = next;
-        } 
-      }
-      
-      if (tileB == null) {
-        Tile next = bIt.next();
-        if (!alreadyShuffledTiles.contains(next)) {
-          tileB = next;
-        }
-      }
-      
-      // If it's the same tile, and tileA is fixed, keep on looking through tileB.
-      if (tileA == tileB && component.tileALocation == TileLocation.FIXED
-          && component.tileBLocation == TileLocation.RANDOM) {
-        tileB = null;
-      }
-      
-      if (tileA != null && tileB != null) {
-        board.swapTiles(tileA, tileB);
-        alreadyShuffledTiles.add(tileA);
-        alreadyShuffledTiles.add(tileB);
-        tilePairsSwapped++;
-        tileA = null;
-        tileB = null;
-      }
+      Set<Tile> tilesToDestroy = component.process(board);
+      board.destroyTiles(tilesToDestroy); 
     }
   }
   

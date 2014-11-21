@@ -37,18 +37,22 @@ public class GameBoardMoveResults {
       this.destroyedTiles = new Tile[tilesPerRow][tilesPerCol];
     }
     
+    public int size() {
+    	return destroyedTileSet.size();
+    }
+    
     public void addTile(Tile tile){
       this.destroyedTileSet.add(tile);
-      this.destroyedTileSetByCol.get(tile.getRow()).add(tile);
+      this.destroyedTileSetByCol.get(tile.getCol()).add(tile);
       destroyedTiles[tile.getRow()][tile.getCol()] = tile;
     }
     
-    public void addTile(Set<Tile> tiles){
+    public void addTiles(Iterable<Tile> tiles){
       for (Tile t: tiles) {
           this.addTile(t);
       }
     }
-    
+
     public void add(GameBoardMoveResults results){
       Set<Tile> tilesDestroyedLocations = results.getDestroyedTileSet();
         

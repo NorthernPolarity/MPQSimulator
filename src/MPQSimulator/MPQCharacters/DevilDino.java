@@ -25,19 +25,21 @@ public class DevilDino extends MPQCharacter {
 
   // Prehistoric Arms
   @Override
-  protected List<Ability> initAbility3() {    
+  protected List<Ability> initAbility3() {
+	  
+	  // TODO: I am not sure these coordinates are correct
     AbilityComponent black = 
-        new SwapTileAbilityComponent(0, GameEngine.NUM_BOARD_COLS - 1, TileColor.BLACK);
+        new SwapTileAbilityComponent(0, 0, TileColor.BLACK);
     AbilityComponent red = 
-        new SwapTileAbilityComponent(1, GameEngine.NUM_BOARD_COLS - 1, TileColor.RED);
+        new SwapTileAbilityComponent(1, 1, TileColor.RED);
     AbilityComponent green = 
-        new SwapTileAbilityComponent(2, GameEngine.NUM_BOARD_COLS - 1, TileColor.GREEN);
+        new SwapTileAbilityComponent(2, 1, TileColor.GREEN);
     AbilityComponent yellow = 
-        new SwapTileAbilityComponent(0, GameEngine.NUM_BOARD_COLS - 2, TileColor.YELLOW);
+        new SwapTileAbilityComponent(0, 2, TileColor.YELLOW);
     AbilityComponent purple = 
-        new SwapTileAbilityComponent(1, GameEngine.NUM_BOARD_COLS - 2, TileColor.PURPLE);
+        new SwapTileAbilityComponent(1, 2, TileColor.PURPLE);
     AbilityComponent blue = 
-        new SwapTileAbilityComponent(2, GameEngine.NUM_BOARD_COLS - 2, TileColor.BLUE);
+        new SwapTileAbilityComponent(2, 2, TileColor.BLUE);
     
     Ability level1 = new Ability();
     level1.addComponent(black);

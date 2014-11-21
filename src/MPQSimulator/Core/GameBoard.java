@@ -1,12 +1,15 @@
 package MPQSimulator.Core;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import MPQSimulator.Core.GameBoardMatches.SingleMatch;
 import MPQSimulator.Core.Tile.TileColor;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 
 /*
  * Performs only the bare necessities for a match-3 game: Supports storing the state for an NxM board, 
@@ -19,6 +22,49 @@ public class GameBoard {
 
     private Tile[][] gameBoard; //Represents the current state of the board
  
+    
+    // tracks stats of things done to the game board, like swaps and destroy
+    // does not include tile matches or other game logic - see GameBoardMatches instead
+    public class GameBoardStats {
+    	public GameBoardStats(int countTileSwaps, int countTilesDestroyed) {
+			super();
+			this.countSwaps = countTileSwaps;
+			this.countDestroyed = countTilesDestroyed;
+		}
+    	
+    	public GameBoardStats() {
+    		this(0,0);
+    	}
+    	
+		public int countSwaps;
+    	public int countDestroyed;
+    	public int countColorChange;
+    	
+		public int getCountColorChange() {
+			return countColorChange;
+		}
+
+		public void incCountColorChange(int countColorChange) {
+			this.countColorChange += countColorChange;
+		}
+
+		public int getCountTileSwaps() {
+			return countSwaps;
+		}
+		public void incCountTileSwaps(int countTileSwaps) {
+			this.countSwaps += countTileSwaps;
+		}
+		public int getCountTilesDestroyed() {
+			return countDestroyed;
+		}
+		public void incCountTilesDestroyed(int countTilesDestroyed) {
+			this.countDestroyed += countTilesDestroyed;
+		}
+
+    };
+    
+    public GameBoardStats stats = new GameBoardStats();
+    
     @Override
     public String toString() {
       String s = "";
@@ -82,17 +128,45 @@ public class GameBoard {
     /*
      * Checks the current state of the board, and returns the set of matches involved in a match 3.
      */
+    // DEPRECATED: use GameBoardMatches directly, just leaving this here for convenience
     public GameBoardMoveResults findMatchesOnBoard() {
-        
-        GameBoardMoveResults colMoveResults = this.findVerticalMatches();
-        GameBoardMoveResults rowMoveResults = this.findHorizontalMatches();
+    	GameBoardMatches policy = new GameBoardMatches(this);
+    	
+    	Set<SingleMatch> moveResults = policy.findVerticalMatches();
+    	moveResults.addAll(policy.findHorizontalMatches());
         
         //Remove any matches from the board, update the board accordingly.
-        GameBoardMoveResults currentMoveResults = colMoveResults;
-        colMoveResults.add(rowMoveResults);
-        
+        GameBoardMoveResults currentMoveResults = new GameBoardMoveResults(tilesPerCol, tilesPerCol);
+        for( SingleMatch r : moveResults ) {
+        	currentMoveResults.addTiles(r.matchTiles);
+        }
         return currentMoveResults;
     }
+    
+    
+    // Finds and returns all tiles that are part of a horizontal match 3.
+    // DEPRECATED
+    public GameBoardMoveResults findHorizontalMatches() {
+    	GameBoardMatches policy = new GameBoardMatches(this);
+        GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
+        for (SingleMatch m : policy.findHorizontalMatches()) {
+            results.addTiles(m);
+        }
+        return results;
+    }
+
+
+    // Finds and returns all tiles that are part of a horizontal match 3.
+    // DEPRECATED in favor of GameBoardMatches
+    public GameBoardMoveResults findVerticalMatches() {
+    	GameBoardMatches policy = new GameBoardMatches(this);
+        GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
+        for (SingleMatch m : policy.findVerticalMatches()) {
+            results.addTiles(m);
+        }
+        return results;
+    }
+
     
     // Returns all of the tiles of the given color currently on the board.
     public Set<Tile> getTiles(TileColor color) {
@@ -107,8 +181,9 @@ public class GameBoard {
       return tiles;
     }
     
+    
     // Returns all of the tiles of the given color currently on the board.
-    public Set<Tile> getTiles(List<TileColor> colors) {
+    public Set<Tile> getTiles(Iterable<TileColor> colors) {
       Set<Tile> tiles = new HashSet<>();
       for (Tile[] col : gameBoard) {
         for (Tile t : col) {
@@ -121,7 +196,11 @@ public class GameBoard {
       }
       return tiles;
     }
-    
+
+    public Set<Tile> getTilesOfColors(TileColor ... colors) {
+    	return getTiles(Arrays.asList(colors));
+    }
+
     // Returns all of the tiles of the given color currently on the board.
     public Set<Tile> getAllTiles() {
       Set<Tile> tiles = new HashSet<>();
@@ -134,16 +213,17 @@ public class GameBoard {
     }
     
     // Returns all the tiles in the given row.
-    public Set<Tile> getTilesInRow(int row) {
-      Set<Tile> tiles = new HashSet<>();
-      for (int col = 0; col < tilesPerRow; col++) {
-        tiles.add(gameBoard[row][col]);
-      }
+    public List<Tile> getTilesInRow(int row) {
+      List<Tile> tiles = Lists.newArrayList(gameBoard[row]);
       return tiles;
+//      for (int col = 0; col < tilesPerRow; col++) {
+//        tiles.add(gameBoard[row][col]);
+//      }
+//      return tiles;
     }
     
-    public Set<Tile> getTilesInCol(int col) {
-      Set<Tile> tiles = new HashSet<>();
+    public List<Tile> getTilesInCol(int col) {
+      List<Tile> tiles = Lists.newArrayList();
       for (int row = 0; row < tilesPerCol; row++) {
         tiles.add(gameBoard[row][col]);
       }
@@ -154,56 +234,72 @@ public class GameBoard {
       return gameBoard[row][col];
     }
     
+    public TileColor getTileColor(int row, int col) {
+    	return getTile(row, col).getColor();
+    }
+
+    private Set<Tile> resolveColumn(int colIndex, List<Tile> existingCol, Set<Tile> destroyedTiles) {
+    	Set<Tile> result = new HashSet<Tile>();
+    	Tile[] colAsArray = existingCol.toArray(new Tile[existingCol.size()]);
+    	for(Tile t : destroyedTiles) {
+    		assert(t.getCol() == colIndex);
+    		colAsArray[t.getRow()] = null;
+    	}
+    	Arrays.sort(colAsArray, new Comparator<Tile>() {
+            @Override
+            public int compare(Tile o1, Tile o2) {
+                if (o1 == null && o2 == null) {
+                    return 0;
+                }
+                if (o1 == null) {
+                    return -1;
+                }
+                if (o2 == null) {
+                    return 1;
+                }
+                return o1.compareTo(o2);
+            }});
+    	
+    	for( int i = 0; i < colAsArray.length; i++ ) {
+    		if( colAsArray[i] == null ) {
+    			colAsArray[i] = new Tile(i, colIndex);
+    		} else {
+    			colAsArray[i].changeLocation(i, colIndex);
+    		}
+    		result.add(colAsArray[i]);
+    	}
+    	return result;
+    }
+    
+    private void replaceTile(Tile t) {
+    	gameBoard[t.getRow()][t.getCol()] = t;
+    }
     
     private void destroyTiles(GameBoardMoveResults results) {
       if (results.getTilesPerRow() != tilesPerRow){
           System.out.println("Error in destroy Tiles!");
-      }
+      }      
+      
+      stats.incCountTilesDestroyed(results.size());
       
       //For each col
-      for (int i = 0; i < tilesPerRow; i++){
-        Set<Tile> tileSet = results.getTilesByCol(i);
-        for (Tile t : tileSet) {
+      for (int currentCol = 0; currentCol < tilesPerRow; currentCol++){
+        Set<Tile> destroyedTilesByCol = results.getTilesByCol(currentCol);
+        if( destroyedTilesByCol.size() == 0 ) {
+        	continue;
+        }
+        for (Tile t : destroyedTilesByCol) {
           Preconditions.checkArgument(gameBoard[t.getRow()][t.getCol()].equals(t));
         }
-        Tile[] tilesToDestroy = tileSet.toArray(new Tile[tileSet.size()]);
-
-        Arrays.sort(tilesToDestroy);
         
-        int numTilesToDestroy = tilesToDestroy.length;
-        if (numTilesToDestroy == 0){
-          continue;
+        List<Tile> currentColTiles = getTilesInCol(currentCol);
+        Set<Tile> newCol = resolveColumn(currentCol, currentColTiles, destroyedTilesByCol);
+        
+        for( Tile t : newCol ) {
+        	replaceTile(t);
         }
         
-        //The current row that is empty and needs a new tile.
-        int emptyRowIndex = tilesToDestroy[0].getCol();
-        //The row of the tile that we are considering moving to the empty row.
-        int tileToCopyIndex = emptyRowIndex + 1;
-        
-        int tilesToDestroyIndex = 1;
-        
-        //While there are still existing tiles on the board that we need to make "fall"
-        while (tileToCopyIndex < tilesPerCol){
-          //If the current tile in the old board has been destroyed by a match, skip it.
-          if (tilesToDestroyIndex < tilesToDestroy.length
-               && tilesToDestroy[tilesToDestroyIndex].getCol() == tileToCopyIndex){
-            tileToCopyIndex++;
-            tilesToDestroyIndex++;
-              
-          } else { //Otherwise move the bottom-most not destroyed tile to the current free location.
-            gameBoard[i][emptyRowIndex] = new Tile(gameBoard[i][tileToCopyIndex]);
-            gameBoard[i][emptyRowIndex].changeLocation(i, emptyRowIndex);
-            emptyRowIndex++;
-            tileToCopyIndex++;
-          }
-        }
-        
-        //Fill the remaining empty rows with "new" blocks.
-        for (int j = emptyRowIndex; j < tilesPerCol; j++){
-            gameBoard[i][j] = new Tile(i, j);
-        }
-      }
-      
+      }     
     }
     
     /*
@@ -212,9 +308,8 @@ public class GameBoard {
      * and each set contains the cols of the tiles in that row to be destroyed.
      */ 
     public void destroyTiles(Set<Tile> tiles) {
-
       GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
-      results.addTile(tiles);
+      results.addTiles(tiles);
       this.destroyTiles(results);
     }
     
@@ -224,6 +319,7 @@ public class GameBoard {
         int rand = (int)(Math.random() * newColors.size());
         t.setColor(newColors.get(rand));
       }
+      stats.incCountColorChange(tiles.size());
     }
     
     // Swaps tiles a and b on the board.
@@ -238,80 +334,22 @@ public class GameBoard {
       int aCol = a.getCol();
       a.changeLocation(b.getRow(), b.getCol());
       b.changeLocation(aRow, aCol);
+      
+      stats.incCountTileSwaps(2);
     }
     
-    // Finds and returns all tiles that are part of a vertical match 3.
-    private GameBoardMoveResults findVerticalMatches() {
-        GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
-        //For each column...
-        for (int i = 0; i < tilesPerCol; i++) {
-            // Go down each column looking for vertical match 3's
-          int j = 0;
-          while (j < tilesPerRow - 2){
-            TileColor currentColor = gameBoard[i][j].getColor();
-            
-            //If there is at least a match 3
-            if (currentColor.equals(gameBoard[i][j+1].getColor())
-                && currentColor.equals(gameBoard[i][j+2].getColor())){
-              
-              results.addTile(gameBoard[i][j]);
-              results.addTile(gameBoard[i][j+1]);
-              results.addTile(gameBoard[i][j+2]);
-              
-              //Check for match 4's+ starting at the tile after the match 3
-              int k = j + 3;
-              while (k < tilesPerRow) {
-                  //Stop searching once we see a different colored tile
-                  if (!currentColor.equals(gameBoard[i][k].getColor())) {
-                      break;
-                  }
-                  results.addTile(this.gameBoard[i][k]);
-                  k++;
-              }
-              
-              j = k;
-            } else {
-              j++;
-            }
-          }
-        }
-        return results;
-    }
+
+	public int[] getDimensions() {
+		int[] d = new int[2];
+		d[0] = this.getNumCols();
+		d[1] = this.getNumRows();
+		return d;
+	}
     
-    // Finds and returns all tiles that are part of a horizontal match 3.
-    private GameBoardMoveResults findHorizontalMatches() {
-      GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
-      // For each row...
-      for (int j = 0; j < tilesPerRow; j++) {
-        // Go across each row looking for horizontal match-3s.
-        int i = 0;
-        while (i < tilesPerCol - 2) {
-          TileColor currentColor = gameBoard[i][j].getColor();
-          
-          //If there is at least a match 3
-          if (currentColor.equals(gameBoard[i + 1][j].getColor())
-              && currentColor.equals(gameBoard[i + 2][j].getColor())) {
-            results.addTile(gameBoard[i][j]);
-            results.addTile(gameBoard[i + 1][j]);
-            results.addTile(gameBoard[i + 2][j]);
-            
-            //Check for match 4's+ starting at the tile after the match 3
-            int k = i + 3;
-            while (k < tilesPerCol) {
-                if (!currentColor.equals(gameBoard[k][j].getColor())) {
-                    break;
-                } 
-                results.addTile(gameBoard[k][j]);
-                k++;
-            }
-            
-            i = k;
-          } else {
-              i++;
-          }
-        }
-      }
-      return results;
-    }
-    
+	public int getNumRows() {
+		return this.tilesPerCol;
+	}
+	public int getNumCols() {
+		return this.tilesPerRow;
+	}
 }

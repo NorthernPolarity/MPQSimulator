@@ -1,13 +1,7 @@
 import MPQSimulator.Core.Simulation;
-import MPQSimulator.MPQCharacters.DakenClassic;
-import MPQSimulator.MPQCharacters.DevilDino;
-import MPQSimulator.MPQCharacters.JuggernautClassic;
 import MPQSimulator.MPQCharacters.MPQCharacter;
-import MPQSimulator.MPQCharacters.Mystique;
-import MPQSimulator.MPQCharacters.SingleTileDestroyed;
-import MPQSimulator.MPQCharacters.ThorModern;
-import MPQSimulator.MPQCharacters.TorchClassic;
 import MPQSimulator.MPQCharacters.MPQCharacter.AbilityLevel;
+import MPQSimulator.MPQCharacters.SingleTileDestroyed;
 
 
 public class MPQSimulatorSingleTest {
