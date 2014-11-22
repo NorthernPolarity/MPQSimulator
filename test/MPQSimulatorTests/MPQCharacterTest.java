@@ -1,4 +1,4 @@
-package MPQSimulatorTests;
+
 
 import static org.junit.Assert.*;
 
@@ -33,32 +33,33 @@ import MPQSimulator.MPQCharacters.WolverineXforce;
 
 public class MPQCharacterTest {
 
-	@Test
-	public void testThorModern() {
-		Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE, TileColor.GREEN, TileColor.TEAMUP);
+    @Test
+    public void testThorModern() {
+        Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE, TileColor.GREEN, TileColor.TEAMUP);
+  
+        String bstr = "R P B \n" +
+                      "Y T P \n" +
+                      "P R R \n";
+        GameBoard board = GameBoardTest.createBoardFromString(bstr);
+        
+        GameEngine engine = new GameEngine(board);
+        assertEquals(board.toString(), bstr); // board is unchanged
+        
+        ThorModern thor = new ThorModern();
+        Ability yellow = thor.getAbility2(AbilityLevel.FIVE);
+        List<AbilityComponent> yellowComponents = yellow.getComponents();
+        assertEquals(yellowComponents.size(), 1);
+        
+        // turns whole board GREEN, leading to new tiles dropping
+        engine.useAbilityAndStabilizeBoard(yellow);
+        String bstrAfter = "B T U \n" +
+                           "U B G \n" +
+                           "G T T \n";
+  
+        assertEquals(bstrAfter, board.toString()); 
+        
+    }
 
-		String bstr = "R P B \n" +
-				      "Y T P \n" +
-				      "P R R \n";
-		GameBoard board = GameBoardTest.createBoardFromString(bstr);
-		
-		GameEngine engine = new GameEngine(board);
-		assertEquals(board.toString(), bstr); // board is unchanged
-		
-		ThorModern thor = new ThorModern();
-		Ability yellow = thor.getAbility2(AbilityLevel.FIVE);
-		List<AbilityComponent> yellowComponents = yellow.getComponents();
-		assertEquals(yellowComponents.size(), 1);
-		
-		// turns whole board GREEN, leading to new tiles dropping
-		engine.useAbilityAndStabilizeBoard(yellow);
-		String bstrAfter = "B T U \n" +
-			               "U B G \n" +
-			               "G T T \n";
-
-		assertEquals(bstrAfter, board.toString()); 
-		
-	}
 	
 	@Test
 	public void testDakenClassic() {
@@ -84,7 +85,6 @@ public class MPQCharacterTest {
 	
 			assertEquals(bstrAfter, board.toString());
 		}
-		
 	}
 
 	@Test
@@ -368,7 +368,9 @@ public class MPQCharacterTest {
 			assertEquals(bstrAfter, board.toString()); 
 			assertEquals(9, board.stats.getCountTilesDestroyed());
 		}
-		
 	}
+	
+
+	
 }
 

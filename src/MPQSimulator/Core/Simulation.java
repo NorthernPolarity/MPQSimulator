@@ -9,7 +9,7 @@ import MPQSimulator.Core.Tile.TileColor;
 
 public class Simulation {
 
-  private static final int NUM_ITERATIONS = 500000;
+  private static final int NUM_ITERATIONS = 50;
   private final List<GameEngineMoveResults> overallResults;
 
   public Simulation (Ability ability) {
@@ -47,7 +47,7 @@ public class Simulation {
   }
   
   public void printResults() {
-    //System.out.println("Tiles Destroyed by run:");
+    System.out.println("Tiles Destroyed by run:");
 
     int whiffs = 0;
     List<Integer> destroyedTilesList = getTilesDestroyedByRun(overallResults);
@@ -55,9 +55,9 @@ public class Simulation {
       if (i == 0) {
         whiffs++;
       }
-      //System.out.print(i + ", ");
+      System.out.print(i + ", ");
     }
-    //System.out.println();
+    System.out.println();
     
     int totalTilesDestroyed = getTotalTilesDestroyed(overallResults);
 

@@ -1,4 +1,4 @@
-package MPQSimulatorTests;
+
 
 import static org.junit.Assert.*;
 
@@ -48,6 +48,7 @@ public class GameEngineTest {
 		               "R G B \n" +
 				       "Y T P \n";
 		
+		engine.stabilizeBoard();
 		assertEquals(bstr2, board.toString()); // board is stabilized
 		
 		engine.stabilizeBoard();
@@ -72,7 +73,7 @@ public class GameEngineTest {
 		String bstr2 = "B Y U \n" +
 		               "U B Y \n" +
 				       "R T Y \n";
-		
+		engine.stabilizeBoard();
 		assertEquals(bstr2, board.toString()); // board is stabilized
 		
 		engine.stabilizeBoard();
