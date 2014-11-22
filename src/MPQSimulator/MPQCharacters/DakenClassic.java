@@ -27,7 +27,7 @@ public class DakenClassic extends MPQCharacter {
   @Override
   protected List<Ability> initAbility3() {
     AbilityComponent changeTiles = new ChangeTileColorAbilityComponent(2, TileColor.BLUE, TileColor.GREEN);
-    return this.buildRepeatAbilityList(changeTiles);
+    return MPQCharacter.buildRepeatAbilityList(changeTiles);
   }
 
 }

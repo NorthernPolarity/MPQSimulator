@@ -19,7 +19,7 @@ public class Punisher extends MPQCharacter {
 
 	@Override
 	protected List<Ability> initAbility2() {
-		return this.buildRepeatAbilityList(new DestroySpecificTilesAbilityComponent(3, 3));
+		return MPQCharacter.buildRepeatAbilityList(new DestroySpecificTilesAbilityComponent(3, 3));
 	}
 
 	@Override

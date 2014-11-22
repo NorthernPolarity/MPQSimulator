@@ -5,16 +5,19 @@ import java.util.List;
 
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
-import MPQSimulator.Abilities.DestroyTileAbilityComponent;
-import MPQSimulator.Core.Tile.TileColor;
+import MPQSimulator.Abilities.SwapTileAbilityComponent;
 
-public class TorchClassic extends MPQCharacter {
+public class DoctorOctopus extends MPQCharacter {
 
+  // Manipulation
   @Override
   protected List<Ability> initAbility1() {
-      AbilityComponent destroyTiles = new DestroyTileAbilityComponent
-              (2, TileColor.RED);
-	  return MPQCharacter.buildRepeatAbilityList(destroyTiles);
+
+    AbilityComponent swapTiles = new SwapTileAbilityComponent(
+        8, AbilityComponent.ALL_COLORS_NO_TEAMUPS_LIST, AbilityComponent.ALL_COLORS_NO_TEAMUPS_LIST);
+
+    
+    return MPQCharacter.buildRepeatAbilityList(swapTiles);
   }
 
   @Override

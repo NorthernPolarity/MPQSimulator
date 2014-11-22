@@ -58,7 +58,8 @@ public class WolverineXforce extends MPQCharacter {
 	@Override
 	protected List<Ability> initAbility2() {
 		// TODO: not sure what color to use, hard-coding GREEN for now
-		return buildRepeatAbilityList(new DestroyTileAbilityComponent(DestroyTileAbilityComponent.DESTROY_ALL_TILES, TileColor.GREEN));
+		return MPQCharacter.buildRepeatAbilityList(
+		    new DestroyTileAbilityComponent(DestroyTileAbilityComponent.DESTROY_ALL_TILES, TileColor.GREEN));
 	}
 
 	@Override

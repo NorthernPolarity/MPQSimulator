@@ -33,12 +33,13 @@ public class GameEngine {
   // This is pretty messy, maybe think of another way to deal with TileColors.
   
   public GameEngine() {
-      this(new GameBoard(NUM_BOARD_ROWS, NUM_BOARD_COLS));
+    this.board = new GameBoard(NUM_BOARD_ROWS, NUM_BOARD_COLS);
+    stabilizeBoard();
   }
   
+  // Used for debugging, relies on the initial board not being stabilized.
   public GameEngine(GameBoard b) {
 	  this.board = b;
-	  stabilizeBoard();
   }
   
   public GameEngineMoveResults useAbilityAndStabilizeBoard(Ability ability) {

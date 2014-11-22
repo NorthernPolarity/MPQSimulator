@@ -20,7 +20,7 @@ public class JuggernautClassic extends MPQCharacter {
   @Override
   protected List<Ability> initAbility2() {
 	  AbilityComponent destroyTiles = new DestroyTileAbilityComponent(16, AbilityComponent.ALL_COLORS_LIST);
-      return this.buildRepeatAbilityList(destroyTiles);
+      return MPQCharacter.buildRepeatAbilityList(destroyTiles);
   }
 
   @Override

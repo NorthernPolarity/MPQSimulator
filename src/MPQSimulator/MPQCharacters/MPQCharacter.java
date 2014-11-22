@@ -58,7 +58,7 @@ public abstract class MPQCharacter {
   }
   
   
-	protected Ability buildAbility(AbilityComponent ... components) {
+	protected static Ability buildAbility(AbilityComponent ... components) {
 		Ability ability = new Ability();
 		for( AbilityComponent c : components) {
 			ability.addComponent(c);
@@ -67,7 +67,7 @@ public abstract class MPQCharacter {
 	}
 	
 
-	protected List<Ability> buildRepeatAbilityList(AbilityComponent c) {
+	protected static List<Ability> buildRepeatAbilityList(AbilityComponent c) {
 		List<Ability> abilityList = new ArrayList<>();
 	    Ability ability = new Ability();
 	    ability.addComponent(c);
@@ -78,7 +78,7 @@ public abstract class MPQCharacter {
 	    return abilityList;
 	}
 
-	protected List<Ability> buildAbilityList(Ability ... abilities) {
+	protected static List<Ability> buildAbilityList(Ability ... abilities) {
 	    List<Ability> abilityList =  new ArrayList<>();
 	    for( Ability a : abilities ) {
 	    	abilityList.add(a);
