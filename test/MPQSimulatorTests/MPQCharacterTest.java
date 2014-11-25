@@ -1,4 +1,4 @@
-
+package MPQSimulatorTests;
 
 import static org.junit.Assert.*;
 
@@ -35,7 +35,7 @@ public class MPQCharacterTest {
 
     @Test
     public void testThorModern() {
-        Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE, TileColor.GREEN, TileColor.TEAMUP);
+        Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE, TileColor.GREEN, TileColor.TEAMUP);
   
         String bstr = "R P B \n" +
                       "Y T P \n" +
@@ -90,7 +90,7 @@ public class MPQCharacterTest {
 	@Test
 	public void testJuggs() {
 		for( AbilityLevel al : AbilityLevel.values() ) {
-			Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE, TileColor.GREEN, TileColor.TEAMUP);
+			Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE, TileColor.GREEN, TileColor.TEAMUP);
 			String bstr = "R P B \n" +
 					      "U T U \n" +
 					      "P R R \n";
@@ -142,7 +142,7 @@ public class MPQCharacterTest {
 	@Test
 	public void testXForce() {
 		for( AbilityLevel al : AbilityLevel.values() ) {
-			Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE, TileColor.TEAMUP);
+			Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE, TileColor.TEAMUP);
 			String bstr = "Y P B Y T \n" +
 					      "U G U U Y \n" +
 					      "P R R P R \n" +
@@ -218,7 +218,7 @@ public class MPQCharacterTest {
 	@Test
 	public void testMagnetoClassic() {
 		for( AbilityLevel al : AbilityLevel.values() ) {
-			Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.YELLOW);
+			Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.BLACK, TileColor.YELLOW);
 			String bstr = "Y P B Y T \n" +
 					      "U G U U Y \n" +
 					      "P R R P R \n" +
@@ -258,7 +258,7 @@ public class MPQCharacterTest {
 	@Test
 	public void testMystique() {
 		for( AbilityLevel al : AbilityLevel.values() ) {
-			Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLUE, TileColor.YELLOW);
+			Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.BLUE, TileColor.YELLOW);
 			String bstr = "Y R G Y T \n" +
 					      "U G U U Y \n" +
 					      "G R R G R \n" +
@@ -289,7 +289,7 @@ public class MPQCharacterTest {
 	@Test
 	public void testStormMohawk() {
 		for( AbilityLevel al : AbilityLevel.values() ) {
-			Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.YELLOW, TileColor.RED, TileColor.GREEN);
+			Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.BLACK, TileColor.YELLOW, TileColor.RED, TileColor.GREEN);
 			String bstr = "Y P B Y T \n" +
 					      "U G U U Y \n" +
 					      "P R T P R \n" +
@@ -319,7 +319,7 @@ public class MPQCharacterTest {
 	@Test
 	public void testTorchClassic() {
 		for( AbilityLevel al : AbilityLevel.values() ) {
-			Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.YELLOW, TileColor.GREEN);
+			Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.BLACK, TileColor.YELLOW, TileColor.GREEN);
 			String bstr = "Y P B Y T \n" +
 					      "U G U U Y \n" +
 					      "P R T P R \n" +
@@ -347,7 +347,7 @@ public class MPQCharacterTest {
 	@Test
 	public void testPunisher() {
 		for( AbilityLevel al : AbilityLevel.values() ) {
-			Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE, TileColor.GREEN, TileColor.TEAMUP);
+			Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE, TileColor.GREEN, TileColor.TEAMUP);
 
 			String bstr = "R P B \n" +
 					      "Y T P \n" +

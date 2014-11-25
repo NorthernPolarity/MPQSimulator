@@ -4,6 +4,7 @@ import java.util.List;
 
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
+import MPQSimulator.Core.Tile;
 
 public class Punisher extends MPQCharacter {
 
@@ -19,7 +20,8 @@ public class Punisher extends MPQCharacter {
 
 	@Override
 	protected List<Ability> initAbility2() {
-		return MPQCharacter.buildRepeatAbilityList(new DestroySpecificTilesAbilityComponent(3, 3));
+		return MPQCharacter.buildRepeatAbilityList(
+		    new DestroySpecificTilesAbilityComponent(3, 3, true, new Tile.RandomCallerImpl()));
 	}
 
 	@Override

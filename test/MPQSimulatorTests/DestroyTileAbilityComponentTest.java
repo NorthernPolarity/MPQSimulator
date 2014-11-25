@@ -1,4 +1,4 @@
-
+package MPQSimulatorTests;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class DestroyTileAbilityComponentTest {
   // Torch Fireball
   @Test
   public void testDestroyTwoRedTiles() {
-    Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.YELLOW, TileColor.GREEN);
+    Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.BLACK, TileColor.YELLOW, TileColor.GREEN);
     String bstr = "Y P B Y T \n" +
                   "U G U U Y \n" +
                   "P R T P R \n" +
@@ -44,7 +44,7 @@ public class DestroyTileAbilityComponentTest {
   // Mohawk Mistress
   @Test
   public void destroyFiveTeamUpTiles() {
-    Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.YELLOW, TileColor.RED, TileColor.GREEN);
+    Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.BLACK, TileColor.YELLOW, TileColor.RED, TileColor.GREEN);
     String bstr = "Y P B Y T \n" +
                   "U G U U Y \n" +
                   "T R T P R \n" +
@@ -64,7 +64,7 @@ public class DestroyTileAbilityComponentTest {
   @Test
   public void testDestroyAllTeamUpTiles() {
       for( AbilityLevel al : AbilityLevel.values() ) {
-          Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.YELLOW);
+          Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.BLACK, TileColor.YELLOW);
           String bstr = "T T T T T \n" +
                         "T T T T T \n" +
                         "T T T T T \n" +

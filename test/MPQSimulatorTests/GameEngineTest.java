@@ -1,4 +1,4 @@
-
+package MPQSimulatorTests;
 
 import static org.junit.Assert.*;
 
@@ -36,7 +36,7 @@ public class GameEngineTest {
 
 	@Test
 	public void testEngineOneMatch() {
-		Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE);
+		Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE);
 		String bstr = "R G B \n" +
 				      "Y T P \n" +
 				      "R R R \n";
@@ -62,7 +62,7 @@ public class GameEngineTest {
 
 	@Test
 	public void testEngineTwoMatches() {
-		Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE , TileColor.YELLOW);
+		Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE , TileColor.YELLOW);
 		String bstr = "R T Y \n" +
 				      "G G G \n" +
 				      "R R R \n";
@@ -134,7 +134,7 @@ public class GameEngineTest {
 	
 	@Test
 	public void testXForcePattern() {
-		Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.PURPLE, TileColor.TEAMUP);
+		Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.PURPLE, TileColor.TEAMUP);
 
 		String bstr = "Y Y U \n" +
 		              "U B Y \n" +
@@ -147,7 +147,7 @@ public class GameEngineTest {
 				{ false, true, false },
 				{ true, false, true }
 			};
-		DestroySpecificTilesAbilityComponent xf = new DestroySpecificTilesAbilityComponent( pattern );
+		DestroySpecificTilesAbilityComponent xf = new DestroySpecificTilesAbilityComponent( pattern, false, new Tile.RandomCallerImpl());
 		assertEquals(5, xf.numTilesToDestroy);
 		
 		Ability level1 = new Ability();
@@ -168,7 +168,7 @@ public class GameEngineTest {
 
 	@Test
 	public void testBlockPattern2x3() {
-		Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.PURPLE, TileColor.TEAMUP, TileColor.RED);
+		Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.PURPLE, TileColor.TEAMUP, TileColor.RED);
 
 		String bstr = "B Y Y \n" +
 		              "U B U \n" +
@@ -176,7 +176,7 @@ public class GameEngineTest {
 		GameBoard board = GameBoardTest.createBoardFromString(bstr);
 		
 		GameEngine engine = new GameEngine(board);
-		DestroySpecificTilesAbilityComponent xf = new DestroySpecificTilesAbilityComponent( 2,3 );
+		DestroySpecificTilesAbilityComponent xf = new DestroySpecificTilesAbilityComponent(2,3, false, new Tile.RandomCallerImpl());
 		assertEquals(6, xf.numTilesToDestroy);
 		
 		Ability level1 = new Ability();

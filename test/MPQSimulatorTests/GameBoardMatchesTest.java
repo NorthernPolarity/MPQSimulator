@@ -1,4 +1,4 @@
-
+package MPQSimulatorTests;
 
 import static org.junit.Assert.*;
 
@@ -20,7 +20,7 @@ public class GameBoardMatchesTest {
 
 	  @Test 
 	  public void testVerticalDrop() {
-		  Tile.defaultRandomCaller = new FixedSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE);
+		  Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE);
 
 		  String test = 
 				    "Y Y B G\n"

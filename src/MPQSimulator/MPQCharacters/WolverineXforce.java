@@ -5,6 +5,7 @@ import java.util.List;
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
 import MPQSimulator.Abilities.DestroyTileAbilityComponent;
+import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.TileColor;
 
 public class WolverineXforce extends MPQCharacter {
@@ -26,7 +27,8 @@ public class WolverineXforce extends MPQCharacter {
 				{ false, true, false },
 				{ true, false, true }
 		};
-		DestroySpecificTilesAbilityComponent destroy3x3 = new DestroySpecificTilesAbilityComponent(pattern3x3);
+		DestroySpecificTilesAbilityComponent destroy3x3 
+		  = new DestroySpecificTilesAbilityComponent(pattern3x3, false, new Tile.RandomCallerImpl());
 
 		boolean[][] pattern5x5 = { 
 				{ true, false, false, false, true },
@@ -35,9 +37,9 @@ public class WolverineXforce extends MPQCharacter {
 				{ false, true, false, true, false },
 				{ true, false, false, false, true },
 		};
-		DestroySpecificTilesAbilityComponent destroy5x5 = new DestroySpecificTilesAbilityComponent(pattern5x5);
+		DestroySpecificTilesAbilityComponent destroy5x5 
+		  = new DestroySpecificTilesAbilityComponent(pattern5x5, false, new Tile.RandomCallerImpl());
 
-		
 		return buildAbilityList(
 				buildAbility(destroy3x3),
 				buildAbility(destroy3x3),

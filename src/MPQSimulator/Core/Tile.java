@@ -125,30 +125,48 @@ public class Tile implements Comparable<Tile> {
     	double random();
     }
     
-    static class RandomCallerImpl implements RandomCaller {
+    public static class RandomCallerImpl implements RandomCaller {
     	public double random() {
     		return Math.random();
     	}
     }
     
     // for testing purposes only
-	public static class FixedSequenceRandomImpl implements Tile.RandomCaller {
+    public static class FixedSequenceRandomImpl implements Tile.RandomCaller {
+        private int counter = 0;
+        private Integer[] sequence;
+        private int maxInt;
+        
+        public FixedSequenceRandomImpl(int maxInt, Integer ... s) {
+            sequence = s;
+            this.maxInt = maxInt;
+        }
+        
+        @Override
+        public double random() {
+          Integer i = sequence[counter];
+          double result = (double) i / maxInt;
+          counter = (counter + 1) % sequence.length;
+          return result;
+        }
+        
+    }
+    
+    // for testing purposes only
+	public static class FixedTileColorSequenceRandomImpl implements Tile.RandomCaller {
 		private int counter = 0;
 		private TileColor[] sequence;
 		
-		public FixedSequenceRandomImpl(TileColor ... s) {
+		public FixedTileColorSequenceRandomImpl(TileColor ... s) {
 			sequence = s;
 		}
 		
 		@Override
 		public double random() {
-			if(counter >= sequence.length) {
-				counter = 0;
-			}
 			for(int i = 0; i < TileColor.values().length; i++) {
 				if( sequence[counter] == TileColor.values()[i]) {
-					double result = (double)i /  TileColor.values().length;
-					counter += 1;
+					double result = (double) i /  TileColor.values().length;
+					counter = (counter + 1) % sequence.length;
 					return result;
 				}
 			}
