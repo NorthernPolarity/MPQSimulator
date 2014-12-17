@@ -9,7 +9,7 @@ import MPQSimulator.Core.Tile.TileColor;
 
 public class Simulation {
 
-  private static final int NUM_ITERATIONS = 50;
+  private static final int NUM_ITERATIONS = 500000;
   private final List<GameEngineMoveResults> overallResults;
 
   public Simulation (Ability ability) {
@@ -19,6 +19,20 @@ public class Simulation {
       GameEngine engine = new GameEngine();
       
       overallResults.add(engine.useAbilityAndStabilizeBoard(ability));
+    }
+  }
+  
+  // Modifies the board using the first n -1 abilities, and then records the results of using the nth ability.
+  public Simulation (Ability... ability) {
+    overallResults = new ArrayList<>();
+    
+    for (int i = 0; i < NUM_ITERATIONS; i++) {
+      GameEngine engine = new GameEngine();
+      for (int j = 0; j < ability.length - 1; j++) {
+        engine.useAbilityAndStabilizeBoard(ability[j]);
+      }
+      
+      overallResults.add(engine.useAbilityAndStabilizeBoard(ability[ability.length - 1]));
     }
   }
   
@@ -47,7 +61,7 @@ public class Simulation {
   }
   
   public void printResults() {
-    System.out.println("Tiles Destroyed by run:");
+    //System.out.println("Tiles Destroyed by run:");
 
     int whiffs = 0;
     List<Integer> destroyedTilesList = getTilesDestroyedByRun(overallResults);
@@ -55,9 +69,9 @@ public class Simulation {
       if (i == 0) {
         whiffs++;
       }
-      System.out.print(i + ", ");
+      //System.out.print(i + ", ");
     }
-    System.out.println();
+    //System.out.println();
     
     int totalTilesDestroyed = getTotalTilesDestroyed(overallResults);
 

@@ -8,6 +8,7 @@ import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
 import MPQSimulator.Abilities.DestroyTileAbilityComponent;
+import MPQSimulator.Core.Tile;
 
 public class SheHulkModern extends MPQCharacter {
 
@@ -63,7 +64,7 @@ public class SheHulkModern extends MPQCharacter {
 			}
 			
 			
-			AbilityComponent destroyTiles = new DestroySpecificTilesAbilityComponent(pattern);
+			AbilityComponent destroyTiles = new DestroySpecificTilesAbilityComponent(pattern, true, new Tile.RandomCallerImpl());
 			Ability ability = new Ability();
 			ability.addComponent(destroyTiles);
 			abilityList.add(ability);

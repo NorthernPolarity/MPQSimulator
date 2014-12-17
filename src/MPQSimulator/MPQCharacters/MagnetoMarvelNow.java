@@ -71,9 +71,9 @@ public class MagnetoMarvelNow extends MPQCharacter {
 	//	Max Level: 1936 damage
 	@Override
 	protected List<Ability> initAbility3() {
-		DestroySpecificTilesAbilityComponent destroy1x1 = new DestroySpecificTilesAbilityComponent(1, 1);
-		DestroySpecificTilesAbilityComponent destroy3x3 = new DestroySpecificTilesAbilityComponent(3, 3);
-		DestroySpecificTilesAbilityComponent destroy5x5 = new DestroySpecificTilesAbilityComponent(5, 5);
+		DestroySpecificTilesAbilityComponent destroy1x1 = null;//new DestroySpecificTilesAbilityComponent(1, 1);
+		DestroySpecificTilesAbilityComponent destroy3x3 = null;//new DestroySpecificTilesAbilityComponent(3, 3);
+		DestroySpecificTilesAbilityComponent destroy5x5 = null;//new DestroySpecificTilesAbilityComponent(5, 5);
 
 		return buildAbilityList(
 				buildAbility(destroy1x1),
