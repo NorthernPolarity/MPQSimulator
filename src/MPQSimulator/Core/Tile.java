@@ -1,6 +1,10 @@
 package MPQSimulator.Core;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 import com.google.common.base.Preconditions;
 
@@ -13,13 +17,46 @@ public class Tile implements Comparable<Tile> {
     public static int NUM_COLORED_TILES = 6;
     public static int NUM_NORMAL_TILES = 7;
     
+    public static class TileLocation implements Comparable<TileLocation> {
+      public int row;
+      public int col;
+      public TileLocation(int row, int col) {
+        this.row = row;
+        this.col = col;
+      }
+      
+      @Override
+      public int compareTo(TileLocation that)  {
+          if( that == null) {
+              return 0;
+          }
+          if (this.col > that.col) { return 1; }
+          else if (this.col < that.col) { return -1; }
+          else {
+              
+              if (this.row > that.row) { return 1; }
+              else if (this.row < that.row) { return -1; }
+              else {
+                  return 0;
+              }
+          }
+      }
+      
+      @Override
+      public boolean equals(Object obj) {
+        if (obj instanceof TileLocation) {
+          TileLocation that = (TileLocation) obj;
+           return this.compareTo(that) == 0;
+        }
+        return false;
+      }
+    }
   
     private TileColor tileColor;
-    private int row;
-    private int col;
+    private TileLocation location;
     
     public Tile(Tile that) {
-      this(that.row, that.col, that.tileColor);
+      this(that.location.row, that.location.col, that.tileColor);
     }
     
     public Tile(int row, int col){
@@ -27,8 +64,8 @@ public class Tile implements Comparable<Tile> {
     }
     
     public Tile(int row, int col, TileColor color) {
-      this.row = row;
-      this.col = col;
+      this.location = new TileLocation(row, col);
+
       Preconditions.checkNotNull(color);
       this.tileColor = color;
     }
@@ -36,24 +73,12 @@ public class Tile implements Comparable<Tile> {
     // destroyTiles depends on this implementation.
     @Override
     public int compareTo(Tile that) {
-    	if( that == null) {
-    		return 0;
-    	}
-        if (this.col > that.col) { return 1; }
-        else if (this.col < that.col) { return -1; }
-        else {
-            
-            if (this.row > that.row) { return 1; }
-            else if (this.row < that.row) { return -1; }
-            else {
-                return 0;
-            }
-        }
+    	return location.compareTo(that.location);
     }
     
     @Override
     public int hashCode() {
-      return Integer.valueOf(row).hashCode() ^ Integer.valueOf(col).hashCode() ^ tileColor.hashCode();
+      return Integer.valueOf(location.row).hashCode() ^ Integer.valueOf(location.col).hashCode() ^ tileColor.hashCode();
     }
     
     
@@ -61,8 +86,7 @@ public class Tile implements Comparable<Tile> {
     public boolean equals(Object obj) {
       if (obj instanceof Tile) {
         Tile that = (Tile) obj;
-         if (row == that.row 
-            && col == that.col
+         if (this.location.equals(that.location)
             && tileColor == that.tileColor) {
            return true;
          }
@@ -75,11 +99,11 @@ public class Tile implements Comparable<Tile> {
     }
     
     public int getRow(){
-        return this.row;
+        return this.location.row;
     }
     
     public int getCol(){
-        return this.col;
+        return this.location.col;
     }
     
     public void setColor(TileColor color){
@@ -88,11 +112,11 @@ public class Tile implements Comparable<Tile> {
     }
     
     private void setRow(int row){
-        this.row = row;
+        this.location.row = row;
     }
     
     private void setCol(int col){
-        this.col = col;
+        this.location.col = col;
     }
     
     public void changeLocation(int row, int col){
@@ -107,19 +131,65 @@ public class Tile implements Comparable<Tile> {
     
     // Returns if this tile is adjacent (north south east west) to tile t.
     public boolean adjacent(Tile t) {
-      int manhattenDistance = Math.abs(t.col - this.col) + Math.abs(t.row - this.row);
+      int manhattenDistance = Math.abs(t.location.col - this.location.col) 
+          + Math.abs(t.location.row - this.location.row);
       return manhattenDistance == 1;
     }
     
     // Returns if this tile is horizontally adjacent to tile t (west / east)
     public boolean horizontallyAdjacent(Tile t) {
-      return (this.col == t.col) && (Math.abs(t.row - this.row) == 1);
+      return (this.location.col == t.location.col) 
+          && (Math.abs(t.location.row - this.location.row) == 1);
     }
     
     // Returns if this tile is vertically adjacent to tile t (north / south)
     public boolean verticallyAdjacent(Tile t) {
-      return (this.row == t.row) && (Math.abs(t.col - this.col) == 1);
+      return (this.location.row == t.location.row) 
+          && (Math.abs(t.location.col - this.location.col) == 1);
     }
+    
+    public interface RandomTileLocation {
+        TileLocation nextLocation();
+    }
+    
+    // Returns any potential sequence of random tile locations.
+    public static class PureRandomTileLocationImpl {
+        private int rows;
+        private int cols;
+        public PureRandomTileLocationImpl(int rows, int cols) {
+          this.rows = rows;
+          this.cols = cols;
+        }
+        public TileLocation nextLocation() {
+          return new TileLocation((int)(Math.random() * rows), (int)(Math.random() * cols));
+        }
+    }
+    
+    public static class NonRepeatingRandomTileLocationImpl {
+      private List<Integer> list;
+      private Iterator<Integer> it;
+      private int rows;
+      public NonRepeatingRandomTileLocationImpl(int rows, int cols) {
+        this.list = new ArrayList<>();
+        for (int i = 0; i < rows * cols; i++) {
+          list.add(i);
+        }
+        
+        Preconditions.checkArgument(!list.isEmpty());
+        Collections.shuffle(list);
+        it = list.iterator();
+        this.rows = rows;
+      }
+      public TileLocation nextLocation() {
+        // Reset iterator and list if end of list has been reached.
+        if (!it.hasNext()) {
+          Collections.shuffle(list);
+          it = list.iterator();
+        }
+        Integer tileLocation = it.next();
+        return new TileLocation(tileLocation % rows, tileLocation / rows);
+      }
+  }
     
     public interface RandomCaller {
     	double random();
@@ -190,6 +260,6 @@ public class Tile implements Comparable<Tile> {
     
     @Override
     public String toString() {
-        return "Tile (" + row + ", " + col + ") has color:" + tileColor;
+        return "Tile (" + location.row + ", " + location.col + ") has color:" + tileColor;
     }
 }
