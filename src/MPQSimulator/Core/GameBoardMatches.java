@@ -169,17 +169,21 @@ public class GameBoardMatches {
 		return results;
 	}
 
+	// Wrapper function for finding horizontal matches for a single row.
 	private Set<SingleMatch> findHorizontalMatchForRow(int row) {
 		List<Tile> thisRow = board.getTilesInRow(row);		
 		return findMatchInList(thisRow);
 	}
 
+	// Returns all matches found in the list.
 	private Set<SingleMatch> findMatchInList(List<Tile> source) {
 		Set<SingleMatch> results = new HashSet<SingleMatch>();
 		assert(source.size() > 2);
 		// Go down each column looking for vertical match 3's
 		int j = 0;
-		while( j < source.size() - 2 ) {
+		while ( j < source.size() - 2 ) {
+		    // Look at the current element and build a match of it and all adjacent elements
+		    // of the same color.
 			TileColor currentColor = source.get(j).getColor();
 			SingleMatch currentMatch = new SingleMatch();
 			for(Tile thisTile : source.subList(j, source.size())) {
@@ -189,12 +193,13 @@ public class GameBoardMatches {
 					break;
 				}
 			}
-			if( currentMatch.length() >= 3 ) {
+			
+			// If the match that was built has more than 3 elements, we have a match-3+!
+			if ( currentMatch.length() >= 3 ) {
 				results.add(currentMatch);
-				j += currentMatch.length();
-			} else {
-				j += 1;
-			}
+			} 
+			
+			j += currentMatch.length();
 		}
 		return results;
 	}
@@ -209,18 +214,21 @@ public class GameBoardMatches {
 		return results;
 	}
 
+	// Wrapper function for finding all matches for a single column.
 	private Set<SingleMatch> findVerticalMatchesForColumn(int col) {
 		List<Tile> thisRow = board.getTilesInCol(col);
 		return findMatchInList(thisRow);
 	}
 
+	// Find all matches on the current board.
 	public GameBoardMoveResults findMatchesOnBoard() {
 
 		Set<SingleMatch> moveResults = this.findVerticalMatches();
 		moveResults.addAll(this.findHorizontalMatches());
 
 		//Remove any matches from the board, update the board accordingly.
-		GameBoardMoveResults currentMoveResults = new GameBoardMoveResults(board.getNumRows(), board.getNumCols());
+		GameBoardMoveResults currentMoveResults = 
+		    new GameBoardMoveResults(board.getNumRows(), board.getNumCols());
 		for( SingleMatch r : moveResults ) {
 			currentMoveResults.addTiles(r.matchTiles);
 		}
