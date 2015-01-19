@@ -165,29 +165,41 @@ public class Tile implements Comparable<Tile> {
         }
     }
     
+    //TODO: Unit tests for these?
     public static class NonRepeatingRandomTileLocationImpl {
-      private List<Integer> list;
-      private Iterator<Integer> it;
-      private int rows;
+      private List<TileLocation> list;
+      private Iterator<TileLocation> it;
+
       public NonRepeatingRandomTileLocationImpl(int rows, int cols) {
+        this(rows, cols, new ArrayList<TileLocation>());
+      }
+      
+      public NonRepeatingRandomTileLocationImpl(int rows, int cols, 
+          List<TileLocation> locationsToExclude) {
         this.list = new ArrayList<>();
-        for (int i = 0; i < rows * cols; i++) {
-          list.add(i);
+        
+        for (int i = 0; i < rows; i++) {
+          for (int j = 0; j < cols; j++) {
+              TileLocation location = new TileLocation(i, j);
+              if(!locationsToExclude.contains(location)) {
+                list.add(location);
+              }
+          }
         }
         
         Preconditions.checkArgument(!list.isEmpty());
         Collections.shuffle(list);
         it = list.iterator();
-        this.rows = rows;
       }
+      
       public TileLocation nextLocation() {
         // Reset iterator and list if end of list has been reached.
         if (!it.hasNext()) {
           Collections.shuffle(list);
           it = list.iterator();
         }
-        Integer tileLocation = it.next();
-        return new TileLocation(tileLocation % rows, tileLocation / rows);
+        
+        return it.next();
       }
   }
     

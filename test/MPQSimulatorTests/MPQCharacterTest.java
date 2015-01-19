@@ -343,7 +343,7 @@ public class MPQCharacterTest {
 		
 	}
 	
-
+	// Should be broken: we need to move characters into ability component tests.
 	@Test
 	public void testPunisher() {
 		for( AbilityLevel al : AbilityLevel.values() ) {

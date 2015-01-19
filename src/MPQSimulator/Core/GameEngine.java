@@ -25,7 +25,8 @@ import MPQSimulator.Core.Tile.TileColor;
 
 
 public class GameEngine {
-  private GameBoard board;
+  // SHould be private, for testing.
+  public GameBoard board;
   
   public static final int NUM_BOARD_ROWS = 8;
   public static final int NUM_BOARD_COLS = 8;
@@ -99,8 +100,7 @@ public class GameEngine {
     Iterator<AbilityComponent> it = components.iterator();
     while (it.hasNext()) {
       AbilityComponent component = it.next();
-      Set<Tile> tilesToDestroy = component.process(board);
-      board.destroyTiles(tilesToDestroy); 
+      component.process(board);
     }
   }
   

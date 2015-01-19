@@ -34,7 +34,6 @@ public interface AbilityComponent {
   }
   
   // process this ability on the designated board
-  // return a set of tiles to be destroyed by the GameEngine
-  public Set<Tile> process(GameBoard board);
+  public void process(GameBoard board);
   
 }

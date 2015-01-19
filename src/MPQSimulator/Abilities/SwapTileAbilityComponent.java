@@ -75,7 +75,7 @@ public class SwapTileAbilityComponent implements AbilityComponent {
 		this.tileBLocation = tileBLocation;  
 	}
 
-	public Set<Tile> process(GameBoard board) {
+	public void process(GameBoard board) {
 		if (this.tileBLocation != TileLocation.RANDOM) {
 			throw new IllegalArgumentException();
 		}
@@ -133,7 +133,6 @@ public class SwapTileAbilityComponent implements AbilityComponent {
 				tileB = null;
 			}
 		}
-		return new HashSet<Tile>();
 	}
 
 }

@@ -58,7 +58,7 @@ public class DestroySpecificTilesAbilityComponent implements AbilityComponent {
   }
   
 //Processes abilities involving destroying specific patterns of tiles.
- public Set<Tile> process(GameBoard board) {    
+ public void process(GameBoard board) {    
      boolean[][] pattern = this.killPattern;
      int height = pattern.length;
      int width = pattern[0].length;
@@ -97,7 +97,8 @@ public class DestroySpecificTilesAbilityComponent implements AbilityComponent {
      	}
      }
      
-     return tilesToDestroy;
+     board.destroyTiles(tilesToDestroy);
  }
+ 
 }
 

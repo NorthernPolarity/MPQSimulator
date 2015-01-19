@@ -34,7 +34,7 @@ public class DestroyTileAbilityComponent implements AbilityComponent {
   }
   
   // Processes abilities involving destroying tiles.
-  public Set<Tile> process(GameBoard board) {
+  public void process(GameBoard board) {
     Set<Tile> tileSet = board.getTiles(tileColorsToDestroy);
     List<Tile> randomizedTileList = new ArrayList<Tile>(tileSet);
     Collections.shuffle(randomizedTileList);
@@ -50,6 +50,6 @@ public class DestroyTileAbilityComponent implements AbilityComponent {
         0, ttd);
     
     Set<Tile> tileSetToDestroy = new HashSet<>(tilesToDestroy);
-    return tileSetToDestroy;
+    board.destroyTiles(tileSetToDestroy);;
   }
 }
