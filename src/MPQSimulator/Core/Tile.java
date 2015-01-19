@@ -25,6 +25,11 @@ public class Tile implements Comparable<Tile> {
         this.col = col;
       }
       
+      public TileLocation(TileLocation that) {
+        this.row = that.row;
+        this.col = that.col;
+      }
+      
       @Override
       public int compareTo(TileLocation that)  {
           if( that == null) {
@@ -96,6 +101,10 @@ public class Tile implements Comparable<Tile> {
     
     public TileColor getColor(){
         return this.tileColor;
+    }
+    
+    public TileLocation getLocation() {
+      return this.location;
     }
     
     public int getRow(){

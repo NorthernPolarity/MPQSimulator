@@ -7,29 +7,13 @@ import java.util.List;
 import java.util.Set;
 
 import MPQSimulator.Core.Tile.TileColor;
+import MPQSimulator.Core.Tile.TileLocation;
 
 
 
 // find the various kinds of matches on a GameBoard (3-in-a-row, 4-in-a-row, etc)
 public class GameBoardMatches {
 
-	class TileLocation {
-		public int col;
-		public int row;
-
-		public TileLocation(int r, int c) {
-			row = r;
-			col = c;
-		}
-
-		public TileLocation(Tile t) {
-			this(t.getRow(), t.getCol());
-		}
-
-		public boolean equals(TileLocation tl) {
-			return tl.col == col && tl.row == row;
-		}
-	}
 	public abstract class Match implements Iterable<Tile> {
 		Set<Tile> matchTiles;
 
@@ -103,7 +87,7 @@ public class GameBoardMatches {
 		private Set<TileLocation> tileLocations() {
 			Set<TileLocation> tls = new HashSet<TileLocation>();
 			for(Tile t : matchTiles) {
-				tls.add(new TileLocation(t));
+				tls.add(t.getLocation());
 			}
 			return tls;
 		}
@@ -143,7 +127,7 @@ public class GameBoardMatches {
 		private void calculateCritLocation(SingleMatch vertical, SingleMatch horizontal) {
 			Tile intersectionPoint = vertical.intersects(horizontal);
 			if( intersectionPoint != null ) {
-				critLocation = new TileLocation(intersectionPoint);
+				critLocation = new TileLocation(intersectionPoint.getLocation());
 			} else {
 				TileLocation adjacentPoint = vertical.adjacent(horizontal);
 				assert(adjacentPoint != null );
