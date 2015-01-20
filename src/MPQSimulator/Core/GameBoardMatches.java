@@ -137,14 +137,25 @@ public class GameBoardMatches {
 	}
 
 	private GameBoard board;
+	private final Set<SingleMatch> horizontalMatches;
+	private final Set<SingleMatch> verticalMatches;
+	
 	public GameBoardMatches(GameBoard b) {
 		board = b;
+		horizontalMatches = findHorizontalMatches();
+		verticalMatches = findVerticalMatches();
 	}
 
-
-
+	public Set<SingleMatch> getHorizontalMatches() {
+	  return horizontalMatches;
+	}
+	
+	public Set<SingleMatch> getVerticalMatches() {
+	  return verticalMatches;
+	}
+	
 	// Finds and returns all tiles that are part of a horizontal match 3.
-	public Set<SingleMatch> findHorizontalMatches() {
+	private Set<SingleMatch> findHorizontalMatches() {
 		Set<SingleMatch> results = new HashSet<SingleMatch>();
 		//For each row...
 		for (int i = 0; i < board.getNumRows(); i++) {
@@ -158,6 +169,23 @@ public class GameBoardMatches {
 		List<Tile> thisRow = board.getTilesInRow(row);		
 		return findMatchInList(thisRow);
 	}
+	
+
+	// Finds and returns all tiles that are part of a vertical match 3.
+    private Set<SingleMatch> findVerticalMatches() {
+        Set<SingleMatch> results = new HashSet<SingleMatch>();
+        // For each column...
+        for (int j = 0; j < board.getNumCols(); j++) {
+            results.addAll(findVerticalMatchesForColumn(j));
+        }
+        return results;
+    }
+
+    // Wrapper function for finding all matches for a single column.
+    private Set<SingleMatch> findVerticalMatchesForColumn(int col) {
+        List<Tile> thisRow = board.getTilesInCol(col);
+        return findMatchInList(thisRow);
+    }
 
 	// Returns all matches found in the list.
 	private Set<SingleMatch> findMatchInList(List<Tile> source) {
@@ -186,22 +214,6 @@ public class GameBoardMatches {
 			j += currentMatch.length();
 		}
 		return results;
-	}
-
-	// Finds and returns all tiles that are part of a horizontal match 3.
-	public Set<SingleMatch> findVerticalMatches() {
-		Set<SingleMatch> results = new HashSet<SingleMatch>();
-		// For each column...
-		for (int j = 0; j < board.getNumCols(); j++) {
-			results.addAll(findVerticalMatchesForColumn(j));
-		}
-		return results;
-	}
-
-	// Wrapper function for finding all matches for a single column.
-	private Set<SingleMatch> findVerticalMatchesForColumn(int col) {
-		List<Tile> thisRow = board.getTilesInCol(col);
-		return findMatchInList(thisRow);
 	}
 
 	// Find all matches on the current board.

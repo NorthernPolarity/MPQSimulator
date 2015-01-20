@@ -132,8 +132,8 @@ public class GameBoard {
     public GameBoardMoveResults findMatchesOnBoard() {
     	GameBoardMatches policy = new GameBoardMatches(this);
     	
-    	Set<SingleMatch> moveResults = policy.findVerticalMatches();
-    	moveResults.addAll(policy.findHorizontalMatches());
+    	Set<SingleMatch> moveResults = policy.getVerticalMatches();
+    	moveResults.addAll(policy.getHorizontalMatches());
         
         //Remove any matches from the board, update the board accordingly.
         GameBoardMoveResults currentMoveResults = new GameBoardMoveResults(tilesPerCol, tilesPerCol);
@@ -149,7 +149,7 @@ public class GameBoard {
     public GameBoardMoveResults findHorizontalMatches() {
     	GameBoardMatches policy = new GameBoardMatches(this);
         GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
-        for (SingleMatch m : policy.findHorizontalMatches()) {
+        for (SingleMatch m : policy.getHorizontalMatches()) {
             results.addTiles(m);
         }
         return results;
@@ -161,7 +161,7 @@ public class GameBoard {
     public GameBoardMoveResults findVerticalMatches() {
     	GameBoardMatches policy = new GameBoardMatches(this);
         GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
-        for (SingleMatch m : policy.findVerticalMatches()) {
+        for (SingleMatch m : policy.getVerticalMatches()) {
             results.addTiles(m);
         }
         return results;
