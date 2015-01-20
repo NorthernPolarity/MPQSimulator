@@ -40,12 +40,12 @@ public class GameBoardMatchesTest {
   @Test
   public void testSingleHorizontalMatch() throws IOException {
     GameBoard board = createBoardFromFile("test/MPQSimulatorTests/res/OneHorizontalMatch3Board3x3.txt");
-    GameBoardMoveResults results = board.findMatchesOnBoard();
+    GameBoardMatches matches = new GameBoardMatches(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(2, 0, TileColor.RED));
     expectedDestroyedTileSet.add(new Tile(2, 1, TileColor.RED));
     expectedDestroyedTileSet.add(new Tile(2, 2, TileColor.RED));
-    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet = matches.getAllMatchedTiles();
     assertTrue(expectedDestroyedTileSet.equals(destroyedTileSet));
     board.destroyTiles(destroyedTileSet);
     
@@ -54,7 +54,7 @@ public class GameBoardMatchesTest {
   @Test
   public void testSingleHorizontalFourInRowMatch() throws IOException {
     GameBoard board = createBoardFromFile("test/MPQSimulatorTests/res/FourInARowBoard5x5.txt");
-    GameBoardMoveResults results = board.findMatchesOnBoard();
+    GameBoardMatches matches = new GameBoardMatches(board);
     
     assertEquals(board.getDimensions()[0], 5);
     assertEquals(board.getDimensions()[1], 5);
@@ -63,7 +63,7 @@ public class GameBoardMatchesTest {
     expectedDestroyedTileSet.add(new Tile(2, 1, TileColor.RED));
     expectedDestroyedTileSet.add(new Tile(2, 2, TileColor.RED));
     expectedDestroyedTileSet.add(new Tile(2, 3, TileColor.RED));
-    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet = matches.getAllMatchedTiles();
     assertEquals(expectedDestroyedTileSet, destroyedTileSet);
     board.destroyTiles(destroyedTileSet);
     printDestroyedTiles(destroyedTileSet, board.getDimensions());
@@ -73,8 +73,8 @@ public class GameBoardMatchesTest {
   @Test 
   public void testTestFile() throws IOException {
     GameBoard board = createBoardFromFile("test/MPQSimulatorTests/res/test.txt");
-    GameBoardMoveResults results = board.findMatchesOnBoard();
-    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
+    GameBoardMatches matches = new GameBoardMatches(board);
+    Set<Tile> destroyedTileSet = matches.getAllMatchedTiles();
     printDestroyedTiles(destroyedTileSet, board.getDimensions());
   }
   
@@ -105,9 +105,8 @@ public class GameBoardMatchesTest {
               + "B R G\n"
               + "G B R";
     GameBoard board = createBoardFromString(test);
-    GameBoardMoveResults results = board.findMatchesOnBoard();
-    Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
-    assertTrue(results.empty());
+    GameBoardMatches matches = new GameBoardMatches(board);
+    assertTrue(matches.getAllMatchedTiles().isEmpty());
 
   }
   
@@ -118,12 +117,12 @@ public class GameBoardMatchesTest {
               + "R R G\n"
               + "R B R";
     GameBoard board = createBoardFromString(test);
-    GameBoardMoveResults results = board.findVerticalMatches();
+    GameBoardMatches matches = new GameBoardMatches(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(0, 0, TileColor.RED));
     expectedDestroyedTileSet.add(new Tile(1, 0, TileColor.RED));
     expectedDestroyedTileSet.add(new Tile(2, 0, TileColor.RED));
-    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet = matches.getVerticalMatchedTiles();
     assertEquals(expectedDestroyedTileSet, destroyedTileSet);
     board.destroyTiles(destroyedTileSet);
     printDestroyedTiles(destroyedTileSet, board.getDimensions());
@@ -137,12 +136,12 @@ public class GameBoardMatchesTest {
               + "Y R G\n"
               + "T B R";
     GameBoard board = createBoardFromString(test);
-    GameBoardMoveResults results = board.findHorizontalMatches();
+    GameBoardMatches matches = new GameBoardMatches(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(0, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(0, 1, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(0, 2, TileColor.TEAMUP));
-    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet = matches.getHorizontalMatchedTiles();
     assertEquals(expectedDestroyedTileSet, destroyedTileSet);
     board.destroyTiles(destroyedTileSet);
     printDestroyedTiles(destroyedTileSet, board.getDimensions());
@@ -159,13 +158,13 @@ public class GameBoardMatchesTest {
               + "T B R Y U\n"
               + "T B R Y U";
     GameBoard board = createBoardFromString(test);
-    GameBoardMoveResults results = board.findHorizontalMatches();
+    GameBoardMatches matches = new GameBoardMatches(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(0, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(0, 1, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(0, 2, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(0, 3, TileColor.TEAMUP));
-    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet = matches.getHorizontalMatchedTiles();
     assertEquals(expectedDestroyedTileSet, destroyedTileSet);
     board.destroyTiles(destroyedTileSet);
     printDestroyedTiles(destroyedTileSet, board.getDimensions());
@@ -182,13 +181,13 @@ public class GameBoardMatchesTest {
               + "T B R Y U\n"
               + "G B R Y U";
     GameBoard board = createBoardFromString(test);
-    GameBoardMoveResults results = board.findVerticalMatches();
+    GameBoardMatches matches = new GameBoardMatches(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(0, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(1, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(2, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(3, 0, TileColor.TEAMUP));
-    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet = matches.getVerticalMatchedTiles();
     assertEquals(expectedDestroyedTileSet, destroyedTileSet);
     board.destroyTiles(destroyedTileSet);
     printDestroyedTiles(destroyedTileSet, board.getDimensions());
@@ -201,25 +200,23 @@ public class GameBoardMatchesTest {
               + "T R G\n"
               + "T B R";
     GameBoard board = createBoardFromString(test);
-    GameBoardMoveResults results = board.findHorizontalMatches();
+    GameBoardMatches matches = new GameBoardMatches(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(0, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(0, 1, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(0, 2, TileColor.TEAMUP));
-    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet = matches.getHorizontalMatchedTiles();
     assertEquals(expectedDestroyedTileSet, destroyedTileSet);
     
 
-    GameBoardMoveResults results2 = board.findVerticalMatches();
     Set<Tile> expectedDestroyedTileSet2 = new HashSet<Tile>();
     expectedDestroyedTileSet2.add(new Tile(0, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet2.add(new Tile(1, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet2.add(new Tile(2, 0, TileColor.TEAMUP));
-    Set<Tile> destroyedTileSet2 = results2.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet2 = matches.getVerticalMatchedTiles();
     assertEquals(expectedDestroyedTileSet2, destroyedTileSet2);
     
-    results = board.findMatchesOnBoard();
-    Set<Tile> destroyedTileSet3 = results.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet3 = matches.getAllMatchedTiles();
     printDestroyedTiles(destroyedTileSet3, board.getDimensions());
     assertEquals(destroyedTileSet3.size(), 5);
     Set<Tile> expectedDestroyedTileSet3 = new HashSet<Tile>();
@@ -239,26 +236,22 @@ public class GameBoardMatchesTest {
               + "T T T\n"
               + "B T R";
     GameBoard board = createBoardFromString(test);
-    GameBoardMoveResults results = board.findHorizontalMatches();
+    GameBoardMatches matches = new GameBoardMatches(board);
+    
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(1, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(1, 1, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(1, 2, TileColor.TEAMUP));
-    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
-    assertEquals(expectedDestroyedTileSet, destroyedTileSet);
+    assertEquals(expectedDestroyedTileSet, matches.getHorizontalMatchedTiles());
     
 
-    GameBoardMoveResults results2 = board.findVerticalMatches();
     Set<Tile> expectedDestroyedTileSet2 = new HashSet<Tile>();
     expectedDestroyedTileSet2.add(new Tile(0, 1, TileColor.TEAMUP));
     expectedDestroyedTileSet2.add(new Tile(1, 1, TileColor.TEAMUP));
     expectedDestroyedTileSet2.add(new Tile(2, 1, TileColor.TEAMUP));
-    Set<Tile> destroyedTileSet2 = results2.getDestroyedTileSet();
-    assertEquals(expectedDestroyedTileSet2, destroyedTileSet2);
+    assertEquals(expectedDestroyedTileSet2, matches.getVerticalMatchedTiles());
     
-    results = board.findMatchesOnBoard();
-    Set<Tile> destroyedTileSet3 = results.getDestroyedTileSet();
-    printDestroyedTiles(destroyedTileSet3, board.getDimensions());
+    Set<Tile> destroyedTileSet3 = matches.getAllMatchedTiles();
     assertEquals(destroyedTileSet3.size(), 5);
   }
   
@@ -269,13 +262,12 @@ public class GameBoardMatchesTest {
               + "Y T T\n"
               + "B T T";
     GameBoard board = createBoardFromString(test);
-    GameBoardMoveResults results = board.findHorizontalMatches();
+    GameBoardMatches matches = new GameBoardMatches(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
-    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet = matches.getHorizontalMatchedTiles();
     assertEquals(expectedDestroyedTileSet, destroyedTileSet);
     
 
-    GameBoardMoveResults results2 = board.findVerticalMatches();
     Set<Tile> expectedDestroyedTileSet2 = new HashSet<Tile>();
     expectedDestroyedTileSet2.add(new Tile(0, 1, TileColor.TEAMUP));
     expectedDestroyedTileSet2.add(new Tile(1, 1, TileColor.TEAMUP));
@@ -283,11 +275,10 @@ public class GameBoardMatchesTest {
     expectedDestroyedTileSet2.add(new Tile(0, 2, TileColor.TEAMUP));
     expectedDestroyedTileSet2.add(new Tile(1, 2, TileColor.TEAMUP));
     expectedDestroyedTileSet2.add(new Tile(2, 2, TileColor.TEAMUP));
-    Set<Tile> destroyedTileSet2 = results2.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet2 = matches.getVerticalMatchedTiles();
     assertEquals(expectedDestroyedTileSet2, destroyedTileSet2);
     
-    results = board.findMatchesOnBoard();
-    Set<Tile> destroyedTileSet3 = results.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet3 = matches.getAllMatchedTiles();
     printDestroyedTiles(destroyedTileSet3, board.getDimensions());
     assertEquals(destroyedTileSet3.size(), 6);
   }
@@ -299,16 +290,14 @@ public class GameBoardMatchesTest {
               + "Y T T\n"
               + "T T T";
     GameBoard board = createBoardFromString(test);
-    GameBoardMoveResults results = board.findHorizontalMatches();
+    GameBoardMatches matches = new GameBoardMatches(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(2, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(2, 1, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(2, 2, TileColor.TEAMUP));
-    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet = matches.getHorizontalMatchedTiles();
     assertEquals(expectedDestroyedTileSet, destroyedTileSet);
     
-
-    GameBoardMoveResults results2 = board.findVerticalMatches();
     Set<Tile> expectedDestroyedTileSet2 = new HashSet<Tile>();
     expectedDestroyedTileSet2.add(new Tile(0, 1, TileColor.TEAMUP));
     expectedDestroyedTileSet2.add(new Tile(1, 1, TileColor.TEAMUP));
@@ -316,11 +305,10 @@ public class GameBoardMatchesTest {
     expectedDestroyedTileSet2.add(new Tile(0, 2, TileColor.TEAMUP));
     expectedDestroyedTileSet2.add(new Tile(1, 2, TileColor.TEAMUP));
     expectedDestroyedTileSet2.add(new Tile(2, 2, TileColor.TEAMUP));
-    Set<Tile> destroyedTileSet2 = results2.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet2 = matches.getVerticalMatchedTiles();
     assertEquals(expectedDestroyedTileSet2, destroyedTileSet2);
     
-    results = board.findMatchesOnBoard();
-    Set<Tile> destroyedTileSet3 = results.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet3 = matches.getAllMatchedTiles();
     printDestroyedTiles(destroyedTileSet3, board.getDimensions());
     assertEquals(destroyedTileSet3.size(), 7);
   }
@@ -332,60 +320,20 @@ public class GameBoardMatchesTest {
               + "Y G T\n"
               + "G T G";
     GameBoard board = createBoardFromString(test);
-    GameBoardMoveResults results = board.findHorizontalMatches();
+    GameBoardMatches matches = new GameBoardMatches(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
-    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet = matches.getHorizontalMatchedTiles();
     assertEquals(expectedDestroyedTileSet, destroyedTileSet);
     
 
-    GameBoardMoveResults results2 = board.findVerticalMatches();
     Set<Tile> expectedDestroyedTileSet2 = new HashSet<Tile>();
-    Set<Tile> destroyedTileSet2 = results2.getDestroyedTileSet();
+    Set<Tile> destroyedTileSet2 = matches.getVerticalMatchedTiles();
     assertEquals(expectedDestroyedTileSet2, destroyedTileSet2);
     
-    results = board.findMatchesOnBoard();
-    Set<Tile> destroyedTileSet3 = results.getDestroyedTileSet();
+    
+    Set<Tile> destroyedTileSet3 = matches.getAllMatchedTiles();
     printDestroyedTiles(destroyedTileSet3, board.getDimensions());
     assertEquals(destroyedTileSet3.size(), 0);
-  }
-
-  @Test 
-  public void testColorMethods() {
-      String test = 
-                "R T G\n"
-              + "Y G T\n"
-              + "G T G";
-    GameBoard board = createBoardFromString(test);
-    Set<Tile> expected = new HashSet<>();
-    assertEquals(board.getTiles(TileColor.BLUE), expected);
-    expected.add(new Tile(0,0,TileColor.RED));
-    assertEquals(board.getTiles(TileColor.RED), expected);
-
-    ImmutableList<TileColor> colors = ImmutableList.of(TileColor.RED, TileColor.BLUE);
-    assertEquals(board.getTiles(colors), expected);
-  }
-  
-  @Test 
-  public void testChangeColor() {
-      String test = 
-                "U T G\n"
-              + "Y G T\n"
-              + "G T G";
-    GameBoard board = createBoardFromString(test);
-    Set<Tile> expected = new HashSet<>();
-    assertEquals(board.getTiles(TileColor.RED), expected);
-
-    // no red, yet
-    ImmutableList<TileColor> newColors = ImmutableList.of(TileColor.RED, TileColor.RED);
-    board.changeTileColor(board.getTiles(TileColor.BLUE), newColors);
-    // change one blue to red
-    
-    expected.add(new Tile(0,0,TileColor.RED));
-    assertEquals(board.getTiles(TileColor.RED), expected);
-
-    // only one red or blue now
-    ImmutableList<TileColor> colors = ImmutableList.of(TileColor.RED, TileColor.BLUE);
-    assertEquals(board.getTiles(colors), expected);
   }
   
   @Test 
@@ -414,8 +362,8 @@ public class GameBoardMatchesTest {
     expectedRow3.add(new Tile(2, 2, TileColor.RED));
     assertEquals(expectedRow3, board.getTilesInRow(2));
 
-    GameBoardMoveResults results = board.findMatchesOnBoard();
-    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
+    GameBoardMatches matches = new GameBoardMatches(board);
+    Set<Tile> destroyedTileSet = matches.getAllMatchedTiles();
     board.destroyTiles(destroyedTileSet);
     
     List<Tile> expectedRow2After = Lists.newArrayList();
@@ -498,8 +446,8 @@ public class GameBoardMatchesTest {
     expectedRow3.add(new Tile(2, 2, TileColor.GREEN));
     assertEquals(expectedRow3, board.getTilesInRow(2));
 
-    GameBoardMoveResults results = board.findMatchesOnBoard();
-    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
+    GameBoardMatches matches = new GameBoardMatches(board);
+    Set<Tile> destroyedTileSet = matches.getAllMatchedTiles();
     board.destroyTiles(destroyedTileSet);
     
     List<Tile> expectedRow2After = Lists.newArrayList();
@@ -511,9 +459,6 @@ public class GameBoardMatchesTest {
   
 }
   
-
-  
-
 public static GameBoard createBoardFromString(String inputString) {
     ImmutableList<String> rows = ImmutableList.copyOf(inputString.split("\n"));   
     GameBoard board = createBoardFromStringRows(rows);

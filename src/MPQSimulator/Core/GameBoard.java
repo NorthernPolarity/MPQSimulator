@@ -143,31 +143,6 @@ public class GameBoard {
         return currentMoveResults;
     }
     
-    
-    // Finds and returns all tiles that are part of a horizontal match 3.
-    // DEPRECATED
-    public GameBoardMoveResults findHorizontalMatches() {
-    	GameBoardMatches policy = new GameBoardMatches(this);
-        GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
-        for (SingleMatch m : policy.getHorizontalMatches()) {
-            results.addTiles(m);
-        }
-        return results;
-    }
-
-
-    // Finds and returns all tiles that are part of a horizontal match 3.
-    // DEPRECATED in favor of GameBoardMatches
-    public GameBoardMoveResults findVerticalMatches() {
-    	GameBoardMatches policy = new GameBoardMatches(this);
-        GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
-        for (SingleMatch m : policy.getVerticalMatches()) {
-            results.addTiles(m);
-        }
-        return results;
-    }
-
-    
     // Returns all of the tiles of the given color currently on the board.
     public Set<Tile> getTiles(TileColor color) {
       Set<Tile> tiles = new HashSet<>();

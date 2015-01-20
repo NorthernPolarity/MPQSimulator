@@ -33,6 +33,10 @@ public class GameBoardMatches {
 		public Iterator<Tile> iterator() {
 			return matchTiles.iterator();
 		}
+		
+		public Set<Tile> getTiles() {
+		  return new HashSet<Tile>(matchTiles);
+		}
 	}
 
 	// simple N-in-a-row match object
@@ -139,11 +143,26 @@ public class GameBoardMatches {
 	private GameBoard board;
 	private final Set<SingleMatch> horizontalMatches;
 	private final Set<SingleMatch> verticalMatches;
+	private final Set<Tile> horizontalMatchedTiles;
+    private final Set<Tile> verticalMatchedTiles;
+    private final Set<Tile> allMatchedTiles;
 	
 	public GameBoardMatches(GameBoard b) {
 		board = b;
 		horizontalMatches = findHorizontalMatches();
 		verticalMatches = findVerticalMatches();
+		
+		horizontalMatchedTiles = new HashSet<>();
+      	for (SingleMatch m : horizontalMatches) {
+      	  horizontalMatchedTiles.addAll(m.getTiles());
+      	}
+        verticalMatchedTiles = new HashSet<>();
+        for (SingleMatch m : verticalMatches) {
+          verticalMatchedTiles.addAll(m.getTiles());
+        }	
+        
+        allMatchedTiles = new HashSet<>(horizontalMatchedTiles);
+        allMatchedTiles.addAll(verticalMatchedTiles);
 	}
 
 	public Set<SingleMatch> getHorizontalMatches() {
@@ -152,6 +171,18 @@ public class GameBoardMatches {
 	
 	public Set<SingleMatch> getVerticalMatches() {
 	  return verticalMatches;
+	}
+	
+    public Set<Tile> getHorizontalMatchedTiles() {
+	  return horizontalMatchedTiles;
+	}
+	    
+	public Set<Tile> getVerticalMatchedTiles() {
+	  return verticalMatchedTiles;
+	}
+	
+	public Set<Tile> getAllMatchedTiles() {
+	  return allMatchedTiles;
 	}
 	
 	// Finds and returns all tiles that are part of a horizontal match 3.

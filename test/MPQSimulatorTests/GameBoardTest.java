@@ -14,6 +14,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import MPQSimulator.Core.GameBoard;
+import MPQSimulator.Core.GameBoardMatches;
 import MPQSimulator.Core.GameBoardMoveResults;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.TileColor;
@@ -39,8 +40,8 @@ public class GameBoardTest {
   @Test 
   public void testTestFile() throws IOException {
     GameBoard board = createBoardFromFile("test/MPQSimulatorTests/res/test.txt");
-    GameBoardMoveResults results = board.findMatchesOnBoard();
-    Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
+    GameBoardMatches matches = new GameBoardMatches(board);
+    Set<Tile> destroyedTileSet = matches.getAllMatchedTiles();
     printDestroyedTiles(destroyedTileSet, board.getDimensions());
   }
   
@@ -169,7 +170,8 @@ public class GameBoardTest {
     
   }
   
- // #TODO; test changing to a set of colors
+ // #TODO: test changing to a set of colors
+ // TODO: test the destroy tile function.
 
   public static GameBoard createBoardFromString(String inputString) {
   	ImmutableList<String> rows = ImmutableList.copyOf(inputString.split("\n"));	  

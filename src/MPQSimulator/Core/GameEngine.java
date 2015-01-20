@@ -74,7 +74,6 @@ public class GameEngine {
   // Finds and destroys all tiles involved in match 3s+ on the current board.
   public GameEngineMoveResults resolveCurrentBoard() {
     GameEngineMoveResults engineResults = new GameEngineMoveResults();
-    
     GameBoardMoveResults results = board.findMatchesOnBoard();
     Set<Tile> tilesToDestroy = results.getDestroyedTileSet();
     
