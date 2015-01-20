@@ -1,10 +1,14 @@
 package MPQSimulator.Core;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
+
+import com.google.common.base.Preconditions;
 
 import MPQSimulator.Core.Tile.TileColor;
 import MPQSimulator.Core.Tile.TileLocation;
@@ -36,6 +40,10 @@ public class GameBoardMatches {
 		
 		public Set<Tile> getTiles() {
 		  return new HashSet<Tile>(matchTiles);
+		}
+		
+		public int size() {
+		  return matchTiles.size();
 		}
 	}
 
@@ -146,6 +154,7 @@ public class GameBoardMatches {
 	private final Set<Tile> horizontalMatchedTiles;
     private final Set<Tile> verticalMatchedTiles;
     private final Set<Tile> allMatchedTiles;
+    private final Tile[][] matchedTiles;
 	
 	public GameBoardMatches(GameBoard b) {
 		board = b;
@@ -163,6 +172,11 @@ public class GameBoardMatches {
         
         allMatchedTiles = new HashSet<>(horizontalMatchedTiles);
         allMatchedTiles.addAll(verticalMatchedTiles);
+        
+        matchedTiles = new Tile[board.getTilesPerRow()][board.getTilesPerCol()];
+        for (Tile t : allMatchedTiles) {
+          matchedTiles[t.getRow()][t.getCol()] = t;
+        }
 	}
 
 	public Set<SingleMatch> getHorizontalMatches() {
@@ -185,11 +199,31 @@ public class GameBoardMatches {
 	  return allMatchedTiles;
 	}
 	
+	public Set<Integer> getHorizontalMatchFours() {
+	  Set<Integer> s = new HashSet<>();
+      for (SingleMatch m : horizontalMatches) {
+        if (m.size() >= 4) {
+          s.add(m.iterator().next().getRow());
+        }
+      }
+      return s;
+	}
+	
+	public Set<Integer> getVerticalMatchFours() {
+	   Set<Integer> s = new HashSet<>();
+	      for (SingleMatch m : verticalMatches) {
+	        if (m.size() >= 4) {
+	          s.add(m.iterator().next().getCol());
+	        }
+	      }
+	      return s;
+	}
+	
 	// Finds and returns all tiles that are part of a horizontal match 3.
 	private Set<SingleMatch> findHorizontalMatches() {
 		Set<SingleMatch> results = new HashSet<SingleMatch>();
 		//For each row...
-		for (int i = 0; i < board.getNumRows(); i++) {
+		for (int i = 0; i < board.getTilesPerCol(); i++) {
 			results.addAll(findHorizontalMatchForRow(i));
 		}
 		return results;
@@ -206,7 +240,7 @@ public class GameBoardMatches {
     private Set<SingleMatch> findVerticalMatches() {
         Set<SingleMatch> results = new HashSet<SingleMatch>();
         // For each column...
-        for (int j = 0; j < board.getNumCols(); j++) {
+        for (int j = 0; j < board.getTilesPerRow(); j++) {
             results.addAll(findVerticalMatchesForColumn(j));
         }
         return results;
@@ -255,11 +289,243 @@ public class GameBoardMatches {
 
 		//Remove any matches from the board, update the board accordingly.
 		GameBoardMoveResults currentMoveResults = 
-		    new GameBoardMoveResults(board.getNumRows(), board.getNumCols());
+		    new GameBoardMoveResults(board.getTilesPerRow(), board.getTilesPerCol());
 		for( SingleMatch r : moveResults ) {
 			currentMoveResults.addTiles(r.matchTiles);
 		}
 		return currentMoveResults;
 	}
-
+	
+	// Returns a list of all of the tile blobs in these MoveResults.
+    public List<MatchedTileBlob> findTileBlobs() {
+      
+      int tilesPerRow = board.getTilesPerRow();
+      int tilesPerCol = board.getTilesPerCol();
+      // The search algorithm modifies this array, so make a copy of it.
+      Tile[][] matchedTilesCopy = new Tile[tilesPerRow][tilesPerCol];
+      for (int i = 0; i < tilesPerRow; i++) {
+        for (int j = 0; j < tilesPerRow; j++) {
+          matchedTilesCopy[i][j] = matchedTiles[i][j];
+        }
+      }
+      
+      // Find the beginning of each blob, and recursively find all tiles belonging to that blob.
+      // The recursion will automatically set the tiles to null as it adds it to a blob, so we
+      // can linearly scan through the entire array without fearing duplicate tiles added to blobs.
+      List<MatchedTileBlob> blobs = new ArrayList<>();
+      for (int i = 0; i < tilesPerRow; i++) {
+        for (int j = 0; j < tilesPerCol; j++) {
+          if (matchedTilesCopy[i][j] != null) {
+            MatchedTileBlob blob = new MatchedTileBlob(matchedTilesCopy[i][j].getColor());
+            findTileBlobsHelper(matchedTilesCopy, i, j, blob);
+            blobs.add(blob);
+          }
+        }
+      }
+      
+      return blobs;
+    }
+    
+    // Searches all adjacent tiles from row, col outwards to add to the current blob, and 
+    // marks them as searched.
+    private void findTileBlobsHelper(Tile[][] destroyedTiles, int row, int col,
+        MatchedTileBlob blob) {
+      
+      int tilesPerRow = board.getTilesPerRow();
+      int tilesPerCol = board.getTilesPerCol();
+      // Overstepped our bounds, return.
+      if (row >= tilesPerRow || col >= tilesPerCol
+          || row < 0 || col < 0) {
+        return;
+      }
+      // If this is a destroyed tile that hasn't been marked, mark it, add it to the blob,
+      // and keep on searching all directions.
+      if (destroyedTiles[row][col] != null 
+          && destroyedTiles[row][col].getColor() == blob.getColor()) {
+        blob.addTile(destroyedTiles[row][col]);
+        destroyedTiles[row][col] = null;
+        findTileBlobsHelper(destroyedTiles, row - 1, col, blob);
+        findTileBlobsHelper(destroyedTiles, row, col - 1, blob);
+        findTileBlobsHelper(destroyedTiles, row + 1, col, blob);
+        findTileBlobsHelper(destroyedTiles, row, col + 1, blob);
+      }
+      // Otherwise stop searching and do nothing.
+    }
+    
+    // A blob is a set of adjacent tiles.
+    public static class MatchedTileBlob {
+      private List<TreeSet<Tile>> tilesByCol;
+      private List<TreeSet<Tile>> tilesByRow;
+      private TileColor color;
+      
+      public MatchedTileBlob(TileColor color) {
+        tilesByCol = new ArrayList<>();
+        tilesByRow = new ArrayList<>();
+        this.color = color;
+      }
+      
+      // Adds a tile to the blob. Throws an exception if the tile is not adjacent 
+      // to an existing tile in the blob.
+      public void addTile(Tile t) throws IllegalArgumentException {
+        Preconditions.checkArgument(t.getColor() == color);
+        addToRowsList(t);
+        addToColsList(t);
+      }
+      
+      public TileColor getColor() {
+        return color;
+      }
+      
+      private void addToRowsList(Tile t) throws IllegalArgumentException {
+        // If the tile isn't adjacent to any tiles in the list (and the lists aren't empty).
+        if (!adjacent(t) && !tilesByRow.isEmpty()) {
+          throw new IllegalArgumentException();
+        }
+        // Find the correct row to add the tile at
+        for (Set<Tile> s : tilesByRow) {
+          // Make sure the tile wasn't already added to the list.
+          Preconditions.checkArgument(!s.contains(t));
+          Preconditions.checkState(!s.isEmpty());
+          // Check the row of the first element of the set to see if its the right row.
+          if (t.getRow() != s.iterator().next().getRow()) {
+            continue;
+          }
+          
+          s.add(t);
+          return;
+        }
+        
+        // Getting to this point means that the list doesn't have the tile's row.
+        TreeSet<Tile> s = new TreeSet<>();
+        s.add(t);
+        tilesByRow.add(s);
+      }
+      
+      private void addToColsList(Tile t) {
+        // If the tile isn't adjacent to any tiles in the list (and the lists aren't empty).
+        if (!adjacent(t) && !tilesByCol.isEmpty()) {
+          throw new IllegalArgumentException();
+        }
+        // Find the correct row to add the tile at
+        for (Set<Tile> s : tilesByCol) {
+          // Make sure the tile wasn't already added to the list.
+          Preconditions.checkArgument(!s.contains(t));
+          Preconditions.checkState(!s.isEmpty());
+          // Check the col of the first element of the set to see if its the right cp;.
+          if (t.getCol() != s.iterator().next().getCol()) {
+            continue;
+          }
+          
+          s.add(t);
+          return;
+        }
+        
+        // Getting to this point means that the list doesn't have the tile's row.
+        TreeSet<Tile> s = new TreeSet<>();
+        s.add(t);
+        tilesByCol.add(s);
+      }
+      
+      // Returns if tile t is adjacent to any of the tiles in the current blob
+      private boolean adjacent(Tile t) {
+        for (Set<Tile> s : tilesByCol) {
+          for (Tile tile : s) {
+            if (t.adjacent(tile)) {
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+      
+      // Returns empty list if there aren't any.
+      public Set<Integer> getHorizontalMatchFours() {
+        Set<Integer> matchFourRows = new HashSet<>();
+        
+          for (Set<Tile> s : tilesByCol) {
+            // Skip rows that don't have 4 elements.
+            if (s.size() < 4) {
+              continue;
+            }
+            
+            if (s.isEmpty()) {
+              throw new IllegalArgumentException();
+            }
+            
+            Iterator<Tile> it = s.iterator();
+            // This works because TreeSets are sorted.
+            Tile prevTile = it.next();
+            int adjacentTilesCount = 1;
+            while (it.hasNext() && adjacentTilesCount < 4) {
+              Tile currentTile = it.next();
+              if (prevTile.horizontallyAdjacent(currentTile)) {
+                adjacentTilesCount++;
+              } else {
+                adjacentTilesCount = 1;
+              }
+              
+              prevTile = currentTile;
+            }
+            
+            if (adjacentTilesCount >= 4) {
+              matchFourRows.add(prevTile.getCol());
+            }
+          }
+          
+          return matchFourRows;
+      }
+      
+      // Returns empty list if there aren't any.
+      public Set<Integer> getVerticalMatchFours() {
+        Set<Integer> matchFourCols = new HashSet<>();
+        
+        for (Set<Tile> s : tilesByRow) {
+          // Skip rows that don't have 4 elements.
+          if (s.size() < 4) {
+            continue;
+          }
+          
+          if (s.isEmpty()) {
+            throw new IllegalArgumentException();
+          }
+          
+          Iterator<Tile> it = s.iterator();
+          // This works because TreeSets are sorted.
+          Tile prevTile = it.next();
+          int adjacentTilesCount = 1;
+          while (it.hasNext() && adjacentTilesCount < 4) {
+            Tile currentTile = it.next();
+            if (prevTile.verticallyAdjacent(currentTile)) {
+              adjacentTilesCount++;
+            } else {
+              adjacentTilesCount = 1;
+            }
+            
+            prevTile = currentTile;
+          }
+          
+          if (adjacentTilesCount >= 4) {
+            matchFourCols.add(prevTile.getRow());
+          }
+        }
+        
+        return matchFourCols;
+      }
+    }
 }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+

@@ -17,6 +17,7 @@ import MPQSimulator.Core.GameBoard;
 import MPQSimulator.Core.GameBoardMatches;
 import MPQSimulator.Core.GameBoardMoveResults;
 import MPQSimulator.Core.Tile;
+import MPQSimulator.Core.GameBoardMoveResults.MatchedTileBlob;
 import MPQSimulator.Core.Tile.TileColor;
 import MPQSimulator.Core.Tile.FixedSequenceRandomImpl;
 
@@ -458,6 +459,82 @@ public class GameBoardMatchesTest {
     assertEquals(expectedRow2After, board.getTilesInRow(1));
   
 }
+  
+  @Test
+  public void testSingleHorizontalMatch4() throws IOException {
+    String test = 
+        "R R R R\n"
+      + "T U G T\n"
+      + "T R G T\n"
+      + "R R P Y";
+    GameBoard board = createBoardFromString(test);
+    GameBoardMatches matches = new GameBoardMatches(board);
+    
+    // Single horizontal match 4 in row 0.
+    Set<Integer> actualRows = matches.getHorizontalMatchFours();
+    
+    Set<Integer> expectedRows = new HashSet<>();
+    expectedRows.add(0);
+    assertTrue(expectedRows.equals(actualRows));
+    
+    //assertNull(blob.getCriticalTileLocation());
+    
+    // No vertical match-4s.
+    assertEquals(0, matches.getVerticalMatchFours().size());
+  }  
+  
+  @Test
+  public void testSingleVerticalMatch4() throws IOException {
+    String test = 
+        "G R U R\n"
+      + "T R G T\n"
+      + "T R G T\n"
+      + "R R P Y";
+    GameBoard board = createBoardFromString(test);
+    GameBoardMatches matches = new GameBoardMatches(board);
+    
+    // Single vertical match 4 in row 1.
+    Set<Integer> actualRows = matches.getVerticalMatchFours();
+    
+    Set<Integer> expectedRows = new HashSet<>();
+    expectedRows.add(1);
+    assertTrue(expectedRows.equals(actualRows));
+    
+    //assertNull(blob.getCriticalTileLocation());
+    
+    // No vertical match-4s.
+    assertEquals(0, matches.getHorizontalMatchFours().size());
+  }
+  
+  @Test
+  public void testTwoMatchFours() throws IOException {
+    String test = 
+        "Y R R R R\n"
+      + "R Y R R U\n"
+      + "Y R R R T\n"
+      + "R R R Y U\n"
+      + "U Y G U Y";
+    
+    GameBoard board = createBoardFromString(test);
+    GameBoardMatches matches = new GameBoardMatches(board);
+    
+    // Expect a column and row at 0,0.
+    Set<Integer> expectedCols = new HashSet<>();
+    expectedCols.add(2);
+    
+    Set<Integer> expectedRows = new HashSet<>();
+    expectedRows.add(0);
+
+    Set<Integer> actualCols = matches.getVerticalMatchFours();
+    assertTrue(expectedCols.equals(actualCols));
+    Set<Integer> actualRows = matches.getHorizontalMatchFours();
+    assertTrue(expectedRows.equals(actualRows));
+    
+    // Crit tile at the intersection of the two.
+    /*Tile critTile = blob.getCriticalTileLocation();
+    assertEquals(0, critTile.getRow());
+    assertEquals(0, critTile.getCol());*/
+  } 
   
 public static GameBoard createBoardFromString(String inputString) {
     ImmutableList<String> rows = ImmutableList.copyOf(inputString.split("\n"));   

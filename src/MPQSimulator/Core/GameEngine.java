@@ -74,19 +74,17 @@ public class GameEngine {
   // Finds and destroys all tiles involved in match 3s+ on the current board.
   public GameEngineMoveResults resolveCurrentBoard() {
     GameEngineMoveResults engineResults = new GameEngineMoveResults();
-    GameBoardMoveResults results = board.findMatchesOnBoard();
-    Set<Tile> tilesToDestroy = results.getDestroyedTileSet();
+    GameBoardMatches matches = new GameBoardMatches(board);
     
-    List<MatchedTileBlob> blobs = results.findTileBlobs();
-    for (MatchedTileBlob blob : blobs) {
-      Set<Integer> rowsToDestroy = blob.getHorizontalMatchFours();
-      for (Integer row : rowsToDestroy) {
-        tilesToDestroy.addAll(board.getTilesInRow(row));
-      }
-      Set<Integer> colsToDestroy = blob.getVerticalMatchFours();
-      for (Integer col : colsToDestroy) {
-        tilesToDestroy.addAll(board.getTilesInCol(col));
-      }
+    Set<Tile> tilesToDestroy = matches.getAllMatchedTiles();
+    
+    Set<Integer> rowsToDestroy = matches.getHorizontalMatchFours();
+    for (Integer row : rowsToDestroy) {
+      tilesToDestroy.addAll(board.getTilesInRow(row));
+    }
+    Set<Integer> colsToDestroy = matches.getVerticalMatchFours();
+    for (Integer col : colsToDestroy) {
+      tilesToDestroy.addAll(board.getTilesInCol(col));
     }
     
     engineResults.addDestroyedTiles(tilesToDestroy);

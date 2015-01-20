@@ -33,40 +33,7 @@ public class MoveResultsTest {
     List<MatchedTileBlob> blobList = results.findTileBlobs();
     assertEquals(1, blobList.size());
     
-    MatchedTileBlob blob = blobList.get(0);
-    Set<Integer> expectedRows = new HashSet<>();
-    expectedRows.add(0);
-    Set<Integer> actualRows = blob.getHorizontalMatchFours();
-    assertTrue(expectedRows.equals(actualRows));
-    
     //assertNull(blob.getCriticalTileLocation());
-    
-    // No vertical match-4s.
-    assertEquals(0, blob.getVerticalMatchFours().size());
-  }
-  
-  @Test
-  public void testHorizontalMatch4BlobNotImmediate() throws IOException {
-    GameBoardMoveResults results = new GameBoardMoveResults(7, 7);
-    results.addTile(new Tile(0, 0, TileColor.RED));
-    results.addTile(new Tile(1, 0, TileColor.RED));
-    results.addTile(new Tile(2, 0, TileColor.RED));
-    results.addTile(new Tile(3, 0, TileColor.RED));
-    
-    // Single horizontal match 4 in row 0.
-    List<MatchedTileBlob> blobList = results.findTileBlobs();
-    assertEquals(1, blobList.size());
-    
-    MatchedTileBlob blob = blobList.get(0);
-    Set<Integer> expectedRows = new HashSet<>();
-    expectedRows.add(0);
-    Set<Integer> actualRows = blob.getHorizontalMatchFours();
-    assertTrue(expectedRows.equals(actualRows));
-    
-    //assertNull(blob.getCriticalTileLocation());
-    
-    // No vertical match-4s.
-    assertEquals(0, blob.getVerticalMatchFours().size());
   }
   
   @Test
@@ -81,16 +48,8 @@ public class MoveResultsTest {
     List<MatchedTileBlob> blobList = results.findTileBlobs();
     assertEquals(1, blobList.size());
     
-    MatchedTileBlob blob = blobList.get(0);
-    Set<Integer> expectedCols = new HashSet<>();
-    expectedCols.add(0);
-    Set<Integer> actualCols = blob.getVerticalMatchFours();
-    assertTrue(expectedCols.equals(actualCols));
-    
     //assertNull(blob.getCriticalTileLocation());
     
-    // No horizontal match-4s.
-    assertEquals(0, blob.getHorizontalMatchFours().size());
   }
   
   @Test
@@ -106,18 +65,9 @@ public class MoveResultsTest {
     List<MatchedTileBlob> blobList = results.findTileBlobs();
     assertEquals(1, blobList.size());
     
-    MatchedTileBlob blob = blobList.get(0);
-    Set<Integer> expectedRows = new HashSet<>();
-    expectedRows.add(0);
-    Set<Integer> actualRows = blob.getHorizontalMatchFours();
-    assertTrue(expectedRows.equals(actualRows));
-    
     /*Tile critTile = blob.getCriticalTileLocation();
     assertEquals(2, critTile.getRow());
     assertEquals(0, critTile.getCol());*/
-    
-    // No vertical match-5s.
-    assertEquals(0, blob.getVerticalMatchFours().size());
   }
   
   @Test
@@ -133,18 +83,10 @@ public class MoveResultsTest {
     List<MatchedTileBlob> blobList = results.findTileBlobs();
     assertEquals(1, blobList.size());
     
-    MatchedTileBlob blob = blobList.get(0);
-    Set<Integer> expectedCols = new HashSet<>();
-    expectedCols.add(0);
-    Set<Integer> actualCols = blob.getVerticalMatchFours();
-    assertTrue(expectedCols.equals(actualCols));
-    
     /*Tile critTile = blob.getCriticalTileLocation();
     assertEquals(0, critTile.getRow());
     assertEquals(2, critTile.getCol());*/
     
-    // No horizontal match-5s.
-    assertEquals(0, blob.getHorizontalMatchFours().size());
   }
   
   @Test
@@ -161,18 +103,10 @@ public class MoveResultsTest {
     List<MatchedTileBlob> blobList = results.findTileBlobs();
     assertEquals(1, blobList.size());
     
-    MatchedTileBlob blob = blobList.get(0);
-    Set<Integer> expectedRows = new HashSet<>();
-    expectedRows.add(0);
-    Set<Integer> actualRows = blob.getHorizontalMatchFours();
-    assertTrue(expectedRows.equals(actualRows));
-    
     /*Tile critTile = blob.getCriticalTileLocation();
     assertEquals(2, critTile.getRow());
     assertEquals(0, critTile.getCol());*/
     
-    // No vertical match-6s.
-    assertEquals(0, blob.getVerticalMatchFours().size());
   }
   
   @Test
@@ -189,18 +123,10 @@ public class MoveResultsTest {
     List<MatchedTileBlob> blobList = results.findTileBlobs();
     assertEquals(1, blobList.size());
     
-    MatchedTileBlob blob = blobList.get(0);
-    Set<Integer> expectedCols = new HashSet<>();
-    expectedCols.add(0);
-    Set<Integer> actualCols = blob.getVerticalMatchFours();
-    assertTrue(expectedCols.equals(actualCols));
-    
     /*Tile critTile = blob.getCriticalTileLocation();
     assertEquals(0, critTile.getRow());
     assertEquals(2, critTile.getCol());*/
     
-    // No horizontal match-5s.
-    assertEquals(0, blob.getHorizontalMatchFours().size());
   }
   
   @Test
@@ -214,12 +140,6 @@ public class MoveResultsTest {
     
     List<MatchedTileBlob> blobList = results.findTileBlobs();
     assertEquals(1, blobList.size());
-    
-    MatchedTileBlob blob = blobList.get(0);
-    
-    // No horizontal match-4s.
-    assertEquals(0, blob.getHorizontalMatchFours().size());
-    assertEquals(0, blob.getVerticalMatchFours().size());
     
     // Crit tile at the intersection of the two.
     /*Tile critTile = blob.getCriticalTileLocation();
@@ -241,15 +161,6 @@ public class MoveResultsTest {
     List<MatchedTileBlob> blobList = results.findTileBlobs();
     assertEquals(1, blobList.size());
     
-    // Expect a column and row at 0,0.
-    MatchedTileBlob blob = blobList.get(0);
-    Set<Integer> expectedColsAndRows = new HashSet<>();
-    expectedColsAndRows.add(0);
-    Set<Integer> actualCols = blob.getVerticalMatchFours();
-    assertTrue(expectedColsAndRows.equals(actualCols));
-    Set<Integer> actualRows = blob.getHorizontalMatchFours();
-    assertTrue(expectedColsAndRows.equals(actualRows));
-    
     // Crit tile at the intersection of the two.
     /*Tile critTile = blob.getCriticalTileLocation();
     assertEquals(0, critTile.getRow());
@@ -268,12 +179,6 @@ public class MoveResultsTest {
     
     List<MatchedTileBlob> blobList = results.findTileBlobs();
     assertEquals(1, blobList.size());
-    
-    // Expect a column and row at 0,0.
-    MatchedTileBlob blob = blobList.get(0);
-    // No horizontal match-4s.
-    assertEquals(0, blob.getHorizontalMatchFours().size());
-    assertEquals(0, blob.getVerticalMatchFours().size());
     
     // Crit tile at the top left corner.
     /*Tile critTile = blob.getCriticalTileLocation();
@@ -299,17 +204,7 @@ public class MoveResultsTest {
     
     List<MatchedTileBlob> blobList = results.findTileBlobs();
     assertEquals(1, blobList.size());
-    
-    // Expect a column and row at 0,0.
-    MatchedTileBlob blob = blobList.get(0);
-    Set<Integer> expectedColsAndRows = new HashSet<>();
-    expectedColsAndRows.add(0);
-    expectedColsAndRows.add(3);
-    Set<Integer> actualCols = blob.getVerticalMatchFours();
-    assertTrue(expectedColsAndRows.equals(actualCols));
-    Set<Integer> actualRows = blob.getHorizontalMatchFours();
-    assertTrue(expectedColsAndRows.equals(actualRows));
-    
+
     // Crit tile at the top left corner.
     /*Tile critTile = blob.getCriticalTileLocation();
     assertEquals(0, critTile.getRow());
@@ -331,13 +226,6 @@ public class MoveResultsTest {
     
     List<MatchedTileBlob> blobList = results.findTileBlobs();
     assertEquals(1, blobList.size());
-    
-    // Expect a single blob
-    MatchedTileBlob blob = blobList.get(0);
-    
-    // No horizontal match-4s.
-    assertEquals(0, blob.getHorizontalMatchFours().size());
-    assertEquals(0, blob.getVerticalMatchFours().size());
     
     // Crit tile at the top left corner.
     /*Tile critTile = blob.getCriticalTileLocation();

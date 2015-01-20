@@ -316,15 +316,15 @@ public class GameBoard {
 
 	public int[] getDimensions() {
 		int[] d = new int[2];
-		d[0] = this.getNumCols();
-		d[1] = this.getNumRows();
+		d[0] = this.getTilesPerRow();
+		d[1] = this.getTilesPerCol();
 		return d;
 	}
     
-	public int getNumRows() {
+	public int getTilesPerCol() {
 		return this.tilesPerCol;
 	}
-	public int getNumCols() {
+	public int getTilesPerRow() {
 		return this.tilesPerRow;
 	}
 }
