@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import MPQSimulator.Core.GameBoard;
+import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.TileColor;
 
@@ -38,7 +38,7 @@ public class ChangeTileColorAbilityComponent implements AbilityComponent{
     this(maxTilesToChange, Arrays.asList(oldTileColor), Arrays.asList(newTileColor));
   }
   
-  public void process(GameBoard board) {
+  public void process(GameBoardImpl board) {
     Set<Tile> tileSet = board.getTiles(this.oldTileColors);
     List<Tile> randomizedTileList = new ArrayList<Tile>(tileSet);
     Collections.shuffle(randomizedTileList);

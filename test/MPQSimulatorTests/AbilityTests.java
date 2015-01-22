@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import MPQSimulator.Abilities.Ability;
+import MPQSimulator.Abilities.AbilityImpl;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
 import MPQSimulator.Core.GameEngine;
@@ -27,24 +27,24 @@ public class AbilityTests {
 		AbilityComponent blue = 
 				new SwapTileAbilityComponent(2, 0, TileColor.BLUE);
 
-		Ability level1 = new Ability();
+		AbilityImpl level1 = new AbilityImpl();
 		level1.addComponent(black);
 		
 		assertEquals(level1.getComponents().get(0), black);
 		
-		Ability level2 = new Ability(level1);
+		AbilityImpl level2 = new AbilityImpl(level1);
 		level2.addComponent(red);
 		assertEquals(level2.getComponents().get(0), black);
 		assertEquals(level2.getComponents().get(1), red);
 
-		Ability level3 = new Ability(level2);
+		AbilityImpl level3 = new AbilityImpl(level2);
 		level3.addComponent(green);
 
 		assertEquals(level3.getComponents().get(0), black);
 		assertEquals(level3.getComponents().get(1), red);
 		assertEquals(level3.getComponents().get(2), green);
 
-		Ability level4 = new Ability(level3);
+		AbilityImpl level4 = new AbilityImpl(level3);
 		level4.addComponent(yellow);
 		
 		assertEquals(level4.getComponents().get(0), black);
@@ -53,7 +53,7 @@ public class AbilityTests {
 		assertEquals(level4.getComponents().get(3), yellow);
 
 		
-		Ability level5 = new Ability(level4);
+		AbilityImpl level5 = new AbilityImpl(level4);
 		level5.addComponent(purple);
 		level5.addComponent(blue);
 

@@ -1,45 +1,31 @@
 package MPQSimulator.Core;
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
+
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Sets;
 
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
-import MPQSimulator.Abilities.AbilityComponent.TileLocation;
-import MPQSimulator.Abilities.ChangeTileColorAbilityComponent;
-import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
-import MPQSimulator.Abilities.DestroyTileAbilityComponent;
-import MPQSimulator.Abilities.SwapTileAbilityComponent;
-import MPQSimulator.Core.GameBoardMoveResults.MatchedTileBlob;
-import MPQSimulator.Core.Tile.TileColor;
 
 
 public class GameEngine {
   // SHould be private, for testing.
-  public GameBoard board;
+  public GameBoardImpl board;
   
+  public static final String NUM_BOARD_ROWS_STRING = "numBoardRows";
+  public static final String NUM_BOARD_COLS_STRING = "numBoardCols";
   public static final int NUM_BOARD_ROWS = 8;
   public static final int NUM_BOARD_COLS = 8;
   public static final int NUM_TILES_ON_BOARD = NUM_BOARD_COLS * NUM_BOARD_ROWS;
   // This is pretty messy, maybe think of another way to deal with TileColors.
   
   public GameEngine() {
-    this.board = new GameBoard(NUM_BOARD_ROWS, NUM_BOARD_COLS);
+    this.board = new GameBoardImpl(NUM_BOARD_ROWS, NUM_BOARD_COLS);
     stabilizeBoard();
   }
   
   // Used for debugging, relies on the initial board not being stabilized.
-  public GameEngine(GameBoard b) {
+  public GameEngine(GameBoardImpl b) {
 	  this.board = b;
   }
   

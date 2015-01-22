@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import MPQSimulator.Abilities.Ability;
+import MPQSimulator.Abilities.AbilityImpl;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
 import MPQSimulator.Abilities.DestroyTileAbilityComponent;
@@ -13,13 +13,13 @@ import MPQSimulator.Core.Tile;
 public class SheHulkModern extends MPQCharacter {
 
 	@Override
-	protected List<Ability> initAbility1() {
+	protected List<AbilityImpl> initAbility1() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected List<Ability> initAbility2() {
+	protected List<AbilityImpl> initAbility2() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -32,10 +32,10 @@ public class SheHulkModern extends MPQCharacter {
 	//		Level 5: Destroys 16 Tiles and deals 224 Damage
 	//		Max Level: Destroys 16 Tiles and deals 1401 Damage
 	@Override
-	protected List<Ability> initAbility3() {
+	protected List<AbilityImpl> initAbility3() {
 		// TODO Auto-generated method stub
 		int[] tilesDestroyedByLevel = {10, 10, 13, 13, 16};
-		List<Ability> abilityList = new ArrayList<>();
+		List<AbilityImpl> abilityList = new ArrayList<>();
 
 		// TODO: figure out how to use DestroySpecificTilesAbilityComponent here instead to blow up 
 		// MNMags' specific shapes
@@ -65,7 +65,7 @@ public class SheHulkModern extends MPQCharacter {
 			
 			
 			AbilityComponent destroyTiles = new DestroySpecificTilesAbilityComponent(pattern, true, new Tile.RandomCallerImpl());
-			Ability ability = new Ability();
+			AbilityImpl ability = new AbilityImpl();
 			ability.addComponent(destroyTiles);
 			abilityList.add(ability);
 		}

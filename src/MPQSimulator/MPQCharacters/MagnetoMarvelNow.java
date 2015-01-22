@@ -3,7 +3,7 @@ package MPQSimulator.MPQCharacters;
 import java.util.ArrayList;
 import java.util.List;
 
-import MPQSimulator.Abilities.Ability;
+import MPQSimulator.Abilities.AbilityImpl;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.ChangeTileColorAbilityComponent;
 import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
@@ -22,16 +22,16 @@ public class MagnetoMarvelNow extends MPQCharacter {
 	//Level 5: Increase area of effect to entire board, +1 to Countdown timer, +4 AP Cost.
 
 	@Override
-	protected List<Ability> initAbility1() {
+	protected List<AbilityImpl> initAbility1() {
 		int[] tilesDestroyedByLevel = {9, 13, 21, 29, DestroyTileAbilityComponent.DESTROY_ALL_TILES};
-		List<Ability> abilityList = new ArrayList<>();
+		List<AbilityImpl> abilityList = new ArrayList<>();
 
 		// TODO: figure out how to use DestroySpecificTilesAbilityComponent here instead to blow up 
 		// MNMags' specific shapes
 		for (int i = 0; i < 5; i++) {
 			AbilityComponent destroyTiles = new DestroyTileAbilityComponent
 					(tilesDestroyedByLevel[i], AbilityComponent.ALL_COLORS_LIST);
-			Ability ability = new Ability();
+			AbilityImpl ability = new AbilityImpl();
 			ability.addComponent(destroyTiles);
 			abilityList.add(ability);
 		}
@@ -46,15 +46,15 @@ public class MagnetoMarvelNow extends MPQCharacter {
 	//	Level 4: Costs 1 AP less.
 	//	Level 5: +1 tile affected (total 5).
 	@Override
-	protected List<Ability> initAbility2() {
+	protected List<AbilityImpl> initAbility2() {
 		int[] tilesChangedByLevel = {3, 3, 4, 4, 5};
 		// TODO Auto-generated method stub
-		List<Ability> abilityList = new ArrayList<>();
+		List<AbilityImpl> abilityList = new ArrayList<>();
 
 		for (int i = 0; i < 5; i++) {
 
 			AbilityComponent changeTiles = new ChangeTileColorAbilityComponent(tilesChangedByLevel[i], TileColor.BLUE);
-			Ability ability = new Ability();
+			AbilityImpl ability = new AbilityImpl();
 			ability.addComponent(changeTiles);
 			abilityList.add(ability);
 		}
@@ -70,7 +70,7 @@ public class MagnetoMarvelNow extends MPQCharacter {
 	//	Level 5: Destroy a 5x5 block, +3 AP cost.
 	//	Max Level: 1936 damage
 	@Override
-	protected List<Ability> initAbility3() {
+	protected List<AbilityImpl> initAbility3() {
 		DestroySpecificTilesAbilityComponent destroy1x1 = null;//new DestroySpecificTilesAbilityComponent(1, 1);
 		DestroySpecificTilesAbilityComponent destroy3x3 = null;//new DestroySpecificTilesAbilityComponent(3, 3);
 		DestroySpecificTilesAbilityComponent destroy5x5 = null;//new DestroySpecificTilesAbilityComponent(5, 5);

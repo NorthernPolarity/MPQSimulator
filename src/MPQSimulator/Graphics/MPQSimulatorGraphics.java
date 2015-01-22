@@ -2,7 +2,7 @@ package MPQSimulator.Graphics;
 import java.awt.Color;
 import java.util.Map;
 
-import MPQSimulator.Core.GameBoard;
+import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.TileColor;
 import MPQSimulator.ThirdParty.StdDraw;
@@ -27,7 +27,7 @@ public class MPQSimulatorGraphics {
       StdDraw.setYscale(0, MPQSimulatorGraphics.Y_SCALING);
     }
  
-    private static void drawGameBoard(GameBoard board) {
+    private static void drawGameBoard(GameBoardImpl board) {
         Tile[][] tiles = board.getBoardState();
         for (int x = 0; x < tiles.length; x++) {
           Tile[] col = tiles[x]; 
@@ -50,7 +50,7 @@ public class MPQSimulatorGraphics {
     
     
     public static void main(String[] args) {
-      GameBoard board = new GameBoard(8, 8);
+      GameBoardImpl board = new GameBoardImpl(8, 8);
       drawGameBoard(board);
       
       while (true) {

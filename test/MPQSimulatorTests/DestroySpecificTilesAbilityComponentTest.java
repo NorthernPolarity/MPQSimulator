@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import MPQSimulator.Abilities.Ability;
+import MPQSimulator.Abilities.AbilityImpl;
 import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
 import MPQSimulator.Abilities.DestroyTileAbilityComponent;
-import MPQSimulator.Core.GameBoard;
+import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.GameEngine;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.FixedSequenceRandomImpl;
@@ -26,11 +26,11 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "Y T P \n" +
                   "P R R \n";
 
-    GameBoard board = GameBoardTest.createBoardFromString(bstr);
+    GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
     GameEngine engine = new GameEngine(board);
     assertEquals(board.toString(), bstr); // board is unchanged
     
-    Ability judgement = new Ability(new DestroySpecificTilesAbilityComponent(3, 3, true, new FixedSequenceRandomImpl(3, 0, 0)));
+    AbilityImpl judgement = new AbilityImpl(new DestroySpecificTilesAbilityComponent(3, 3, true, new FixedSequenceRandomImpl(3, 0, 0)));
     // destroys whole board
     engine.useAbilityAndStabilizeBoard(judgement);
     String bstrAfter = "B G B \n" +
@@ -49,11 +49,11 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "Y T P \n" +
                   "P R R \n";
 
-    GameBoard board = GameBoardTest.createBoardFromString(bstr);
+    GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
     GameEngine engine = new GameEngine(board);
     assertEquals(board.toString(), bstr); // board is unchanged
     
-    Ability judgement = new Ability(new DestroySpecificTilesAbilityComponent(3, 3, true, new FixedSequenceRandomImpl(3, 1, 2)));
+    AbilityImpl judgement = new AbilityImpl(new DestroySpecificTilesAbilityComponent(3, 3, true, new FixedSequenceRandomImpl(3, 1, 2)));
     // destroys whole board
     engine.useAbilityAndStabilizeBoard(judgement);
     String bstrAfter = "R B T \n" +
@@ -72,11 +72,11 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "Y T P \n" +
                   "P R R \n";
 
-    GameBoard board = GameBoardTest.createBoardFromString(bstr);
+    GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
     GameEngine engine = new GameEngine(board);
     assertEquals(board.toString(), bstr); // board is unchanged
     
-    Ability judgement = new Ability(new DestroySpecificTilesAbilityComponent(3, 3, true, new FixedSequenceRandomImpl(3, 1, 1)));
+    AbilityImpl judgement = new AbilityImpl(new DestroySpecificTilesAbilityComponent(3, 3, true, new FixedSequenceRandomImpl(3, 1, 1)));
     // destroys whole board
     engine.useAbilityAndStabilizeBoard(judgement);
     String bstrAfter = "B T G \n" +
@@ -95,7 +95,7 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "Y T P \n" +
                   "P R R \n";
 
-    GameBoard board = GameBoardTest.createBoardFromString(bstr);
+    GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
     GameEngine engine = new GameEngine(board);
     assertEquals(board.toString(), bstr); // board is unchanged
     
@@ -105,7 +105,7 @@ public class DestroySpecificTilesAbilityComponentTest {
         { true, false, true }
     };
     
-    Ability xforce = new Ability(new DestroySpecificTilesAbilityComponent(pattern3x3, true, new FixedSequenceRandomImpl(3, 1, 1)));
+    AbilityImpl xforce = new AbilityImpl(new DestroySpecificTilesAbilityComponent(pattern3x3, true, new FixedSequenceRandomImpl(3, 1, 1)));
     // destroys whole board
     engine.useAbilityAndStabilizeBoard(xforce);
     String bstrAfter = "B G T \n" +

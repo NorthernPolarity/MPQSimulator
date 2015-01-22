@@ -12,7 +12,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
 import MPQSimulator.Abilities.AbilityComponent.TileLocation;
-import MPQSimulator.Core.GameBoard;
+import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.TileColor;
 
@@ -75,7 +75,7 @@ public class SwapTileAbilityComponent implements AbilityComponent {
 		this.tileBLocation = tileBLocation;  
 	}
 
-	public void process(GameBoard board) {
+	public void process(GameBoardImpl board) {
 		if (this.tileBLocation != TileLocation.RANDOM) {
 			throw new IllegalArgumentException();
 		}

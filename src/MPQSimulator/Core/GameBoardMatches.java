@@ -148,7 +148,7 @@ public class GameBoardMatches {
 		}
 	}
 
-	private GameBoard board;
+	private GameBoardImpl board;
 	private final Set<SingleMatch> horizontalMatches;
 	private final Set<SingleMatch> verticalMatches;
 	private final Set<Tile> horizontalMatchedTiles;
@@ -156,7 +156,7 @@ public class GameBoardMatches {
     private final Set<Tile> allMatchedTiles;
     private final Tile[][] matchedTiles;
 	
-	public GameBoardMatches(GameBoard b) {
+	public GameBoardMatches(GameBoardImpl b) {
 		board = b;
 		horizontalMatches = findHorizontalMatches();
 		verticalMatches = findVerticalMatches();

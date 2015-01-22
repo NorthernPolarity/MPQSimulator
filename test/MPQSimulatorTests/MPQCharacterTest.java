@@ -6,11 +6,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import MPQSimulator.Abilities.Ability;
+import MPQSimulator.Abilities.AbilityImpl;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
 import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
-import MPQSimulator.Core.GameBoard;
+import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.GameBoardMoveResults;
 import MPQSimulator.Core.GameEngine;
 import MPQSimulator.Core.GameEngineMoveResults;
@@ -40,13 +40,13 @@ public class MPQCharacterTest {
         String bstr = "R P B \n" +
                       "Y T P \n" +
                       "P R R \n";
-        GameBoard board = GameBoardTest.createBoardFromString(bstr);
+        GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
         
         GameEngine engine = new GameEngine(board);
         assertEquals(board.toString(), bstr); // board is unchanged
         
         ThorModern thor = new ThorModern();
-        Ability yellow = thor.getAbility2(AbilityLevel.FIVE);
+        AbilityImpl yellow = thor.getAbility2(AbilityLevel.FIVE);
         List<AbilityComponent> yellowComponents = yellow.getComponents();
         assertEquals(yellowComponents.size(), 1);
         
@@ -67,13 +67,13 @@ public class MPQCharacterTest {
 			String bstr = "R P B \n" +
 					      "U T U \n" +
 					      "P R R \n";
-			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 			
 			GameEngine engine = new GameEngine(board);
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			DakenClassic daken = new DakenClassic();
-			Ability twogreens = daken.getAbility3(al);
+			AbilityImpl twogreens = daken.getAbility3(al);
 			List<AbilityComponent> yellowComponents = twogreens.getComponents();
 			assertEquals(yellowComponents.size(), 1);
 			
@@ -94,13 +94,13 @@ public class MPQCharacterTest {
 			String bstr = "R P B \n" +
 					      "U T U \n" +
 					      "P R R \n";
-			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 			
 			GameEngine engine = new GameEngine(board);
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			JuggernautClassic juggs = new JuggernautClassic();
-			Ability crash = juggs.getAbility2(al);
+			AbilityImpl crash = juggs.getAbility2(al);
 			
 			// destroys the whole board
 			engine.useAbilityAndStabilizeBoard(crash);
@@ -120,14 +120,14 @@ public class MPQCharacterTest {
 			String bstr = "Y P B \n" +
 					      "U T U \n" +
 					      "P R R \n";
-			GameBoard boardBefore = GameBoardTest.createBoardFromString(bstr);
-			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+			GameBoardImpl boardBefore = GameBoardTest.createBoardFromString(bstr);
+			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 			
 			GameEngine engine = new GameEngine(board);
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			LokiDarkReign loki = new LokiDarkReign();
-			Ability illusions = loki.getAbility2(al);
+			AbilityImpl illusions = loki.getAbility2(al);
 
 			// there are not three of any color so should be no matches possible
 			engine.useAbilityAndStabilizeBoard(illusions);
@@ -148,14 +148,14 @@ public class MPQCharacterTest {
 					      "P R R P R \n" +
 					      "R P B U P \n" +
 					      "U B P Y T \n";
-			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 			
 			GameEngine engine = new GameEngine(board);
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			WolverineXforce xf = new WolverineXforce();
-			Ability rage = xf.getAbility1(al);
-			Ability surgical = xf.getAbility2(al);
+			AbilityImpl rage = xf.getAbility1(al);
+			AbilityImpl surgical = xf.getAbility2(al);
 
 			// destroy just the one GREEN tile
 			assertEquals(board.getTiles(TileColor.GREEN).size(), 1);
@@ -179,13 +179,13 @@ public class MPQCharacterTest {
 			String bstr = "Y P B \n" +
 				          "U T U \n" +
 				          "P R G \n";
-			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 			
 			GameEngine engine = new GameEngine(board);
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			DevilDino dino = new DevilDino();
-			Ability swap = dino.getAbility3(al);
+			AbilityImpl swap = dino.getAbility3(al);
 
 			assertEquals(board.getTile(0,0).getColor(), TileColor.YELLOW);
 			engine.useAbilityAndStabilizeBoard(swap);
@@ -224,15 +224,15 @@ public class MPQCharacterTest {
 					      "P R R P R \n" +
 					      "R P B U P \n" +
 					      "U R Y Y T \n";
-			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 			assertEquals( TileColor.BLUE, board.getTile(1,0).getColor());
 
 			GameEngine engine = new GameEngine(board);
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			MagnetoClassic mags = new MagnetoClassic();
-			Ability polar = mags.getAbility2(al);
-			Ability projectiles = mags.getAbility3(al);
+			AbilityImpl polar = mags.getAbility2(al);
+			AbilityImpl projectiles = mags.getAbility3(al);
 
 			assertEquals(2, board.getTiles(TileColor.TEAMUP).size());
 			engine.useAbilityAndStabilizeBoard(polar);			
@@ -264,13 +264,13 @@ public class MPQCharacterTest {
 					      "G R R G R \n" +
 					      "G T G U R \n" +
 					      "U G Y Y T \n";
-			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 
 			GameEngine engine = new GameEngine(board);
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			Mystique mystique = new Mystique();
-			Ability changeColors = mystique.getAbility2(al);
+			AbilityImpl changeColors = mystique.getAbility2(al);
 
 			assertEquals(0, board.getTiles(TileColor.BLACK).size());
 			assertEquals(0, board.getTiles(TileColor.PURPLE).size());
@@ -295,13 +295,13 @@ public class MPQCharacterTest {
 					      "P R T P R \n" +
 					      "R G T U P \n" +
 					      "T R Y Y T \n";
-			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 			GameEngine engine = new GameEngine(board);
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			StormMohawk mohawk = new StormMohawk();
-			Ability lightning = mohawk.getAbility1(al);
-			Ability mistress = mohawk.getAbility2(al);
+			AbilityImpl lightning = mohawk.getAbility1(al);
+			AbilityImpl mistress = mohawk.getAbility2(al);
 
 			assertEquals(5, board.getTiles(TileColor.TEAMUP).size());
 			engine.useAbilityAndStabilizeBoard(mistress);			
@@ -325,12 +325,12 @@ public class MPQCharacterTest {
 					      "P R T P R \n" +
 					      "R G T U P \n" +
 					      "T R Y Y T \n";
-			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 			GameEngine engine = new GameEngine(board);
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			TorchClassic torch = new TorchClassic();
-			Ability fireball = torch.getAbility1(al);
+			AbilityImpl fireball = torch.getAbility1(al);
 
 			assertEquals(4, board.getTiles(TileColor.RED).size());
 			GameEngineMoveResults cascades = engine.useAbilityAndStabilizeBoard(fireball);
@@ -353,12 +353,12 @@ public class MPQCharacterTest {
 					      "Y T P \n" +
 					      "P R R \n";
 
-			GameBoard board = GameBoardTest.createBoardFromString(bstr);
+			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 			GameEngine engine = new GameEngine(board);
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			Punisher punisher = new Punisher();
-			Ability judgement = punisher.getAbility2(al);
+			AbilityImpl judgement = punisher.getAbility2(al);
 			// destroys whole board
 			engine.useAbilityAndStabilizeBoard(judgement);
 			String bstrAfter = "B T G \n" +

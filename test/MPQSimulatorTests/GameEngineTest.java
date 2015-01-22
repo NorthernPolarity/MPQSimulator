@@ -4,11 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import MPQSimulator.Abilities.Ability;
+import MPQSimulator.Abilities.AbilityImpl;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
 import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
-import MPQSimulator.Core.GameBoard;
+import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.GameEngine;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.FixedSequenceRandomImpl;
@@ -21,7 +21,7 @@ public class GameEngineTest {
 		String bstr = "R G B \n" +
 				      "Y T P \n" +
 				      "G R R \n";
-		GameBoard board = GameBoardTest.createBoardFromString(bstr);
+		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
 		GameEngine engine = new GameEngine(board);
 		assertEquals(board.toString(), bstr); // board is unchanged
@@ -40,7 +40,7 @@ public class GameEngineTest {
 		String bstr = "R G B \n" +
 				      "Y T P \n" +
 				      "R R R \n";
-		GameBoard board = GameBoardTest.createBoardFromString(bstr);
+		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
 		GameEngine engine = new GameEngine(board);
 
@@ -66,7 +66,7 @@ public class GameEngineTest {
 		String bstr = "R T Y \n" +
 				      "G G G \n" +
 				      "R R R \n";
-		GameBoard board = GameBoardTest.createBoardFromString(bstr);
+		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
 		GameEngine engine = new GameEngine(board);
 
@@ -91,13 +91,13 @@ public class GameEngineTest {
 		String bstr = "B Y U \n" +
 		              "U B Y \n" +
 				      "R T Y \n";
-		GameBoard board = GameBoardTest.createBoardFromString(bstr);
+		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
 		GameEngine engine = new GameEngine(board);
 		AbilityComponent black = 
 				new SwapTileAbilityComponent(0, 0, TileColor.BLACK);
 		
-		Ability level1 = new Ability();
+		AbilityImpl level1 = new AbilityImpl();
 		level1.addComponent(black);
 		engine.useAbilityAndStabilizeBoard(level1);
 		
@@ -111,13 +111,13 @@ public class GameEngineTest {
 		String bstr = "Y Y U \n" +
 		              "U B Y \n" +
 				      "R T Y \n";
-		GameBoard board = GameBoardTest.createBoardFromString(bstr);
+		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
 		GameEngine engine = new GameEngine(board);
 		AbilityComponent black = 
 				new SwapTileAbilityComponent(0, 0, TileColor.BLACK);
 		
-		Ability level1 = new Ability();
+		AbilityImpl level1 = new AbilityImpl();
 		level1.addComponent(black);
 		
 		assertEquals(TileColor.YELLOW, board.getTile(0, 0).getColor()); 
@@ -139,7 +139,7 @@ public class GameEngineTest {
 		String bstr = "Y Y U \n" +
 		              "U B Y \n" +
 				      "R Y Y \n";
-		GameBoard board = GameBoardTest.createBoardFromString(bstr);
+		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
 		GameEngine engine = new GameEngine(board);
 		boolean[][] pattern = {
@@ -150,7 +150,7 @@ public class GameEngineTest {
 		DestroySpecificTilesAbilityComponent xf = new DestroySpecificTilesAbilityComponent( pattern, false, new Tile.RandomCallerImpl());
 		assertEquals(5, xf.numTilesToDestroy);
 		
-		Ability level1 = new Ability();
+		AbilityImpl level1 = new AbilityImpl();
 		level1.addComponent(xf);
 		
 		assertEquals(TileColor.YELLOW, board.getTile(0, 1).getColor()); 
@@ -173,13 +173,13 @@ public class GameEngineTest {
 		String bstr = "B Y Y \n" +
 		              "U B U \n" +
 				      "B Y Y \n";
-		GameBoard board = GameBoardTest.createBoardFromString(bstr);
+		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
 		GameEngine engine = new GameEngine(board);
 		DestroySpecificTilesAbilityComponent xf = new DestroySpecificTilesAbilityComponent(2,3, false, new Tile.RandomCallerImpl());
 		assertEquals(6, xf.numTilesToDestroy);
 		
-		Ability level1 = new Ability();
+		AbilityImpl level1 = new AbilityImpl();
 		level1.addComponent(xf);
 		
 		assertEquals(TileColor.BLACK, board.getTile(0, 0).getColor()); 

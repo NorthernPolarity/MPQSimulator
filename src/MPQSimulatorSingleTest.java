@@ -1,6 +1,12 @@
-import MPQSimulator.Abilities.Ability;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+import MPQSimulator.Abilities.AbilityImpl;
 import MPQSimulator.Core.GameBoardSimulation;
+import MPQSimulator.Core.MainModule;
 import MPQSimulator.Core.Simulation;
+import MPQSimulator.Core.Simulation.SimulationFactory;
+import MPQSimulator.Core.SimulationImpl;
 import MPQSimulator.Core.Tile.TileColor;
 import MPQSimulator.MPQCharacters.DevilDino;
 import MPQSimulator.MPQCharacters.DoctorDoom;
@@ -17,6 +23,11 @@ import MPQSimulator.MPQCharacters.SingleTileDestroyed;
 public class MPQSimulatorSingleTest {
 
   public static void main(String[] args) {
+    Injector injector = Guice.createInjector(new MainModule());
+    SimulationFactory simFactory = injector.getInstance(SimulationFactory.class);
+    
+
+    
     /*MPQCharacter torch = new Punisher();
     Simulation sim = new Simulation(torch.getAbility2(AbilityLevel.ONE));
     sim.printResults();*/
@@ -24,12 +35,13 @@ public class MPQSimulatorSingleTest {
     
     MPQCharacter thor = new StormMohawk();
     for (int i = 0; i < 5; i++) {
-      Simulation sim = new Simulation(thor.getAbility1(AbilityLevel.values()[i]));
+      Simulation sim = simFactory.create(thor.getAbility1(AbilityLevel.values()[i]));
       sim.printResults();
     }
     
     /*int count = 0;
     for (int i = 0; i < 100000; i++) {
+    
       GameBoardSimulation sim = new GameBoardSimulation();
       if (sim.getNumTiles(TileColor.RED) >= 11) {
         count++;

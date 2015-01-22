@@ -2,7 +2,7 @@ package MPQSimulator.MPQCharacters;
 
 import java.util.List;
 
-import MPQSimulator.Abilities.Ability;
+import MPQSimulator.Abilities.AbilityImpl;
 import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
 import MPQSimulator.Abilities.DestroyTileAbilityComponent;
 import MPQSimulator.Core.Tile;
@@ -20,7 +20,7 @@ public class WolverineXforce extends MPQCharacter {
 	//  from http://www.d3pforums.com/viewtopic.php?f=14&t=552
 	
 	@Override
-	protected List<Ability> initAbility1() {
+	protected List<AbilityImpl> initAbility1() {
 		
 		boolean[][] pattern3x3 = { 
 				{ true, false, true },
@@ -58,14 +58,14 @@ public class WolverineXforce extends MPQCharacter {
 	//	Max Level: 522 damage per tile
 	//	from http://www.d3pforums.com/viewtopic.php?f=14&t=552
 	@Override
-	protected List<Ability> initAbility2() {
+	protected List<AbilityImpl> initAbility2() {
 		// TODO: not sure what color to use, hard-coding GREEN for now
 		return MPQCharacter.buildRepeatAbilityList(
 		    new DestroyTileAbilityComponent(DestroyTileAbilityComponent.DESTROY_ALL_TILES, TileColor.GREEN));
 	}
 
 	@Override
-	protected List<Ability> initAbility3() {
+	protected List<AbilityImpl> initAbility3() {
 		// TODO Auto-generated method stub
 		return null;
 	}

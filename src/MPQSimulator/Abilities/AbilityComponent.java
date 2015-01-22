@@ -7,7 +7,7 @@ import java.util.Set;
 
 import com.google.common.base.Preconditions;
 
-import MPQSimulator.Core.GameBoard;
+import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.TileColor;
 
@@ -34,6 +34,6 @@ public interface AbilityComponent {
   }
   
   // process this ability on the designated board
-  public void process(GameBoard board);
+  public void process(GameBoardImpl board);
   
 }

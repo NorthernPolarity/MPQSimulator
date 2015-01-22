@@ -9,14 +9,14 @@ import java.util.Map;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 
-import MPQSimulator.Abilities.Ability;
+import MPQSimulator.Abilities.AbilityImpl;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Core.Tile.TileColor;
 
 public abstract class MPQCharacter {
-  private final List<Ability> ability1;
-  private final List<Ability> ability2;
-  private final List<Ability> ability3;
+  private final List<AbilityImpl> ability1;
+  private final List<AbilityImpl> ability2;
+  private final List<AbilityImpl> ability3;
   public enum AbilityLevel {ONE, TWO, THREE, FOUR, FIVE};
   private static final int NUM_LEVELS = 5;
   private static final Map<AbilityLevel, Integer> abilityLevelToListIndexMap = 
@@ -37,29 +37,29 @@ public abstract class MPQCharacter {
     Preconditions.checkState(ability3 == null || ability3.size() == NUM_LEVELS);
   }
   
-  protected abstract List<Ability> initAbility1();
-  protected abstract List<Ability> initAbility2();
-  protected abstract List<Ability> initAbility3();
+  protected abstract List<AbilityImpl> initAbility1();
+  protected abstract List<AbilityImpl> initAbility2();
+  protected abstract List<AbilityImpl> initAbility3();
   
-  public Ability getAbility1(AbilityLevel level) {
+  public AbilityImpl getAbility1(AbilityLevel level) {
     return getAbility(ability1, level);
   }
   
-  public Ability getAbility2(AbilityLevel level) {
+  public AbilityImpl getAbility2(AbilityLevel level) {
     return getAbility(ability2, level);
   }
   
-  public Ability getAbility3(AbilityLevel level) {
+  public AbilityImpl getAbility3(AbilityLevel level) {
     return getAbility(ability3, level);
   }
   
-  private Ability getAbility(List<Ability> abilityList, AbilityLevel level) {
+  private AbilityImpl getAbility(List<AbilityImpl> abilityList, AbilityLevel level) {
     return abilityList.get(abilityLevelToListIndexMap.get(level));
   }
   
   
-	protected static Ability buildAbility(AbilityComponent ... components) {
-		Ability ability = new Ability();
+	protected static AbilityImpl buildAbility(AbilityComponent ... components) {
+		AbilityImpl ability = new AbilityImpl();
 		for( AbilityComponent c : components) {
 			ability.addComponent(c);
 		}
@@ -67,9 +67,9 @@ public abstract class MPQCharacter {
 	}
 	
 
-	protected static List<Ability> buildRepeatAbilityList(AbilityComponent c) {
-		List<Ability> abilityList = new ArrayList<>();
-	    Ability ability = new Ability();
+	protected static List<AbilityImpl> buildRepeatAbilityList(AbilityComponent c) {
+		List<AbilityImpl> abilityList = new ArrayList<>();
+	    AbilityImpl ability = new AbilityImpl();
 	    ability.addComponent(c);
 	    
 	    for (int i = 0; i < 5; i++) {
@@ -78,9 +78,9 @@ public abstract class MPQCharacter {
 	    return abilityList;
 	}
 
-	protected static List<Ability> buildAbilityList(Ability ... abilities) {
-	    List<Ability> abilityList =  new ArrayList<>();
-	    for( Ability a : abilities ) {
+	protected static List<AbilityImpl> buildAbilityList(AbilityImpl ... abilities) {
+	    List<AbilityImpl> abilityList =  new ArrayList<>();
+	    for( AbilityImpl a : abilities ) {
 	    	abilityList.add(a);
 	    }
 	    return abilityList;

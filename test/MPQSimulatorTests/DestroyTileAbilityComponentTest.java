@@ -3,10 +3,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import MPQSimulator.Abilities.Ability;
+import MPQSimulator.Abilities.AbilityImpl;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.DestroyTileAbilityComponent;
-import MPQSimulator.Core.GameBoard;
+import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.GameEngine;
 import MPQSimulator.Core.GameEngineMoveResults;
 import MPQSimulator.Core.Tile;
@@ -28,10 +28,10 @@ public class DestroyTileAbilityComponentTest {
                   "P R T P R \n" +
                   "R G T U P \n" +
                   "T R Y Y T \n";
-    GameBoard board = GameBoardTest.createBoardFromString(bstr);
+    GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
     GameEngine engine = new GameEngine(board);
     
-    Ability destroyTiles = new Ability(new DestroyTileAbilityComponent(2, TileColor.RED));
+    AbilityImpl destroyTiles = new AbilityImpl(new DestroyTileAbilityComponent(2, TileColor.RED));
 
     assertEquals(4, board.getTiles(TileColor.RED).size());
     GameEngineMoveResults cascades = engine.useAbilityAndStabilizeBoard(destroyTiles);
@@ -50,10 +50,10 @@ public class DestroyTileAbilityComponentTest {
                   "T R T P R \n" +
                   "R G T U P \n" +
                   "T R Y Y T \n";
-    GameBoard board = GameBoardTest.createBoardFromString(bstr);
+    GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
     GameEngine engine = new GameEngine(board);
     
-    Ability mistress = new Ability(new DestroyTileAbilityComponent(5, TileColor.TEAMUP));
+    AbilityImpl mistress = new AbilityImpl(new DestroyTileAbilityComponent(5, TileColor.TEAMUP));
 
     assertEquals(6, board.getTiles(TileColor.TEAMUP).size());
     engine.useAbilityAndStabilizeBoard(mistress);           
@@ -70,10 +70,10 @@ public class DestroyTileAbilityComponentTest {
                         "T T T T T \n" +
                         "T T T T T \n" +
                         "T T T R T \n";
-          GameBoard board = GameBoardTest.createBoardFromString(bstr);
+          GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
           GameEngine engine = new GameEngine(board);
           
-          Ability polar = new Ability(new DestroyTileAbilityComponent
+          AbilityImpl polar = new AbilityImpl(new DestroyTileAbilityComponent
               (DestroyTileAbilityComponent.DESTROY_ALL_TILES, TileColor.TEAMUP));
 
           System.out.println("WAT: " + board.getTiles(TileColor.TEAMUP).size());

@@ -8,7 +8,7 @@ import java.util.Set;
 
 import com.google.common.base.Preconditions;
 
-import MPQSimulator.Core.GameBoard;
+import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.RandomCaller;
 import MPQSimulator.Core.Tile.TileColor;
@@ -58,7 +58,7 @@ public class DestroySpecificTilesAbilityComponent implements AbilityComponent {
   }
   
 //Processes abilities involving destroying specific patterns of tiles.
- public void process(GameBoard board) {    
+ public void process(GameBoardImpl board) {    
      boolean[][] pattern = this.killPattern;
      int height = pattern.length;
      int width = pattern[0].length;

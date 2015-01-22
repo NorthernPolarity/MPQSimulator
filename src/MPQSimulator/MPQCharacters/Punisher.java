@@ -2,14 +2,14 @@ package MPQSimulator.MPQCharacters;
 
 import java.util.List;
 
-import MPQSimulator.Abilities.Ability;
+import MPQSimulator.Abilities.AbilityImpl;
 import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
 import MPQSimulator.Core.Tile;
 
 public class Punisher extends MPQCharacter {
 
 	@Override
-	protected List<Ability> initAbility1() {
+	protected List<AbilityImpl> initAbility1() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -19,13 +19,13 @@ public class Punisher extends MPQCharacter {
 	// Chaos creates an opening, converting a basic color tile to a strength 12 Strike tile.
 
 	@Override
-	protected List<Ability> initAbility2() {
+	protected List<AbilityImpl> initAbility2() {
 		return MPQCharacter.buildRepeatAbilityList(
 		    new DestroySpecificTilesAbilityComponent(3, 3, true, new Tile.RandomCallerImpl()));
 	}
 
 	@Override
-	protected List<Ability> initAbility3() {
+	protected List<AbilityImpl> initAbility3() {
 		// TODO Auto-generated method stub
 		return null;
 	}

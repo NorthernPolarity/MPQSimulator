@@ -1,4 +1,4 @@
-import MPQSimulator.Core.Simulation;
+import MPQSimulator.Core.SimulationImpl;
 import MPQSimulator.MPQCharacters.LokiDarkReign;
 import MPQSimulator.MPQCharacters.MPQCharacter;
 import MPQSimulator.MPQCharacters.MPQCharacter.AbilityLevel;
@@ -14,22 +14,22 @@ public class MPQSimulator {
     MPQCharacter storm = new StormMohawk();
     System.out.println("Mohawk Lightning Storm:");
     for (int i = 0; i < 5; i++) {
-      Simulation sim = new Simulation(storm.getAbility1(AbilityLevel.values()[i]));
+      SimulationImpl sim = new SimulationImpl(storm.getAbility1(AbilityLevel.values()[i]));
       sim.printResults();
     }
     
     System.out.println("Mohawk Mistress:");
     for (int i = 0; i < 5; i++) {
-      Simulation sim = new Simulation(storm.getAbility2(AbilityLevel.values()[i]));
+      SimulationImpl sim = new SimulationImpl(storm.getAbility2(AbilityLevel.values()[i]));
       sim.printResults();
     }
     
     System.out.println("C Mags Blue:");
-    Simulation sim = new Simulation(cmags.getAbility3(AbilityLevel.ONE));
+    SimulationImpl sim = new SimulationImpl(cmags.getAbility3(AbilityLevel.ONE));
     sim.printResults();
-    sim = new Simulation(cmags.getAbility3(AbilityLevel.THREE));
+    sim = new SimulationImpl(cmags.getAbility3(AbilityLevel.THREE));
     sim.printResults();
-    sim = new Simulation(cmags.getAbility3(AbilityLevel.FIVE));
+    sim = new SimulationImpl(cmags.getAbility3(AbilityLevel.FIVE));
     sim.printResults();
     
     /*System.out.println("C Mags Red:");

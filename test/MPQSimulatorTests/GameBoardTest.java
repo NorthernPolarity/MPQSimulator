@@ -13,7 +13,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import MPQSimulator.Core.GameBoard;
+import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.GameBoardMatches;
 import MPQSimulator.Core.GameBoardMoveResults;
 import MPQSimulator.Core.Tile;
@@ -39,7 +39,7 @@ public class GameBoardTest {
   
   @Test 
   public void testTestFile() throws IOException {
-    GameBoard board = createBoardFromFile("test/MPQSimulatorTests/res/test.txt");
+    GameBoardImpl board = createBoardFromFile("test/MPQSimulatorTests/res/test.txt");
     GameBoardMatches matches = new GameBoardMatches(board);
     Set<Tile> destroyedTileSet = matches.getAllMatchedTiles();
     printDestroyedTiles(destroyedTileSet, board.getDimensions());
@@ -52,7 +52,7 @@ public class GameBoardTest {
 			    "R G B \n"
 			  + "B R G \n"
 			  + "G B R \n";
-	GameBoard board = createBoardFromString(test);
+	GameBoardImpl board = createBoardFromString(test);
 	assertEquals(board.getTileColor(0, 0), TileColor.RED);
 	assertEquals(board.getTileColor(0, 1), TileColor.GREEN);
 	assertEquals(board.getTileColor(0, 2), TileColor.BLACK);
@@ -71,7 +71,7 @@ public class GameBoardTest {
 			    "R T G\n"
 			  + "Y G T\n"
 			  + "G T G";
-	GameBoard board = createBoardFromString(test);
+	GameBoardImpl board = createBoardFromString(test);
 	Set<Tile> expected = new HashSet<>();
     assertEquals(board.getTiles(TileColor.BLUE), expected);
   }
@@ -82,7 +82,7 @@ public class GameBoardTest {
                 "R T G\n"
               + "Y G T\n"
               + "G T G";
-    GameBoard board = createBoardFromString(test);
+    GameBoardImpl board = createBoardFromString(test);
     Set<Tile> expected = new HashSet<>();
     expected.add(new Tile(0,0,TileColor.RED));
     assertEquals(board.getTiles(TileColor.RED), expected);
@@ -94,7 +94,7 @@ public class GameBoardTest {
         "R T G\n"
       + "Y G T\n"
       + "G T R";
-    GameBoard board = createBoardFromString(test);
+    GameBoardImpl board = createBoardFromString(test);
     Set<Tile> expected = new HashSet<>();
     expected.add(new Tile(0,0,TileColor.RED));
     expected.add(new Tile(2,2,TileColor.RED));
@@ -107,7 +107,7 @@ public class GameBoardTest {
         "R T G\n"
       + "Y G T\n"
       + "G U R";
-    GameBoard board = createBoardFromString(test);
+    GameBoardImpl board = createBoardFromString(test);
     Set<Tile> expected = new HashSet<>();
     expected.add(new Tile(0,0,TileColor.RED));
     expected.add(new Tile(2,2,TileColor.RED));
@@ -121,7 +121,7 @@ public class GameBoardTest {
 			    "U T G\n"
 			  + "Y G T\n"
 			  + "G T G";
-	GameBoard board = createBoardFromString(test);
+	GameBoardImpl board = createBoardFromString(test);
 	Set<Tile> expected = new HashSet<>();
     assertEquals(board.getTiles(TileColor.RED), expected);
 
@@ -140,7 +140,7 @@ public class GameBoardTest {
                 "U T G\n"
               + "Y U T\n"
               + "G T G";
-    GameBoard board = createBoardFromString(test);
+    GameBoardImpl board = createBoardFromString(test);
     Set<Tile> expected = new HashSet<>();
     assertEquals(board.getTiles(TileColor.RED), expected);
 
@@ -160,7 +160,7 @@ public class GameBoardTest {
         "U T G\n"
       + "Y U T\n"
       + "G T G";
-    GameBoard board = createBoardFromString(test);
+    GameBoardImpl board = createBoardFromString(test);
     Tile a = board.getTile(0, 0);
     Tile b = board.getTile(2, 2);
     board.swapTiles(a, b);
@@ -173,9 +173,9 @@ public class GameBoardTest {
  // #TODO: test changing to a set of colors
  // TODO: test the destroy tile function.
 
-  public static GameBoard createBoardFromString(String inputString) {
+  public static GameBoardImpl createBoardFromString(String inputString) {
   	ImmutableList<String> rows = ImmutableList.copyOf(inputString.split("\n"));	  
-      GameBoard board = createBoardFromStringRows(rows);
+      GameBoardImpl board = createBoardFromStringRows(rows);
   	return board;
   }
 
@@ -200,13 +200,13 @@ public class GameBoardTest {
     }
   }
   // Assumes that the game board is N by N.
-  private static GameBoard createBoardFromFile(String filePath) throws IOException {
+  private static GameBoardImpl createBoardFromFile(String filePath) throws IOException {
     CharSource fileSource = Files.asCharSource(new File(filePath), Charset.defaultCharset());
     ImmutableList<String> rows = fileSource.readLines();
     return createBoardFromStringRows(rows);
   }
 
-  private static GameBoard createBoardFromStringRows(ImmutableList<String> rows) {
+  private static GameBoardImpl createBoardFromStringRows(ImmutableList<String> rows) {
 	Tile[][] initialBoard = new Tile[rows.size()][rows.size()];
     
     for (int i = 0; i < rows.size(); i++) {
@@ -221,6 +221,6 @@ public class GameBoardTest {
         initialBoard[i][j] = new Tile(i, j, tileColor);
       }
     }
-    return new GameBoard(rows.size(), rows.size(), initialBoard);
+    return new GameBoardImpl(rows.size(), rows.size(), initialBoard);
 }
 }

@@ -1,32 +1,11 @@
 package MPQSimulator.Abilities;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class Ability {
+public interface Ability {
 
-  private List<AbilityComponent> components;
+  public void addComponent(AbilityComponent component);
   
-  public Ability() {
-    components = new ArrayList<AbilityComponent>();
-  }
+  public List<AbilityComponent> getComponents();
   
-  public Ability(Ability ability) {
-    // Defensive copy
-    components = new ArrayList<>(ability.components);
-  }
-  
-  public Ability(AbilityComponent component) {
-    // Defensive copy
-    components = Arrays.asList(component);
-  }
-  
-  public void addComponent(AbilityComponent component) {
-    components.add(component);
-  }
-  
-  public List<AbilityComponent> getComponents() {
-    return components;
-  }
 }
