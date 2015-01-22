@@ -8,7 +8,7 @@ import MPQSimulator.Abilities.AbilityImpl;
 import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
 import MPQSimulator.Abilities.DestroyTileAbilityComponent;
 import MPQSimulator.Core.GameBoardImpl;
-import MPQSimulator.Core.GameEngine;
+import MPQSimulator.Core.GameEngineImpl;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.FixedSequenceRandomImpl;
 import MPQSimulator.Core.Tile.TileColor;
@@ -27,7 +27,7 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "P R R \n";
 
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngine engine = new GameEngine(board);
+    GameEngineImpl engine = new GameEngineImpl(board, false);
     assertEquals(board.toString(), bstr); // board is unchanged
     
     AbilityImpl judgement = new AbilityImpl(new DestroySpecificTilesAbilityComponent(3, 3, true, new FixedSequenceRandomImpl(3, 0, 0)));
@@ -50,7 +50,7 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "P R R \n";
 
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngine engine = new GameEngine(board);
+    GameEngineImpl engine = new GameEngineImpl(board, false);
     assertEquals(board.toString(), bstr); // board is unchanged
     
     AbilityImpl judgement = new AbilityImpl(new DestroySpecificTilesAbilityComponent(3, 3, true, new FixedSequenceRandomImpl(3, 1, 2)));
@@ -73,7 +73,7 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "P R R \n";
 
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngine engine = new GameEngine(board);
+    GameEngineImpl engine = new GameEngineImpl(board, false);
     assertEquals(board.toString(), bstr); // board is unchanged
     
     AbilityImpl judgement = new AbilityImpl(new DestroySpecificTilesAbilityComponent(3, 3, true, new FixedSequenceRandomImpl(3, 1, 1)));
@@ -96,7 +96,7 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "P R R \n";
 
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngine engine = new GameEngine(board);
+    GameEngineImpl engine = new GameEngineImpl(board, false);
     assertEquals(board.toString(), bstr); // board is unchanged
     
     boolean[][] pattern3x3 = { 

@@ -1,7 +1,6 @@
 package MPQSimulator.Core;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -12,8 +11,6 @@ import com.google.common.base.Preconditions;
 
 import MPQSimulator.Core.Tile.TileColor;
 import MPQSimulator.Core.Tile.TileLocation;
-
-
 
 // find the various kinds of matches on a GameBoard (3-in-a-row, 4-in-a-row, etc)
 public class GameBoardMatches {

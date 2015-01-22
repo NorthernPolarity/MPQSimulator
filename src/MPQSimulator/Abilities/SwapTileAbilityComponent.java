@@ -11,7 +11,6 @@ import java.util.Set;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
-import MPQSimulator.Abilities.AbilityComponent.TileLocation;
 import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.TileColor;

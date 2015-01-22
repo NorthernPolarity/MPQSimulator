@@ -7,5 +7,6 @@ public interface Simulation {
   
   public interface SimulationFactory {
     Simulation create(Ability ability);
+    Simulation create(Ability[] abilities);
   }
 }

@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import MPQSimulator.Core.GameBoardMatches.SingleMatch;
 import MPQSimulator.Core.Tile.TileColor;
 
 import com.google.common.base.Preconditions;
@@ -82,8 +81,8 @@ public class GameBoardImpl implements GameBoard {
     
     @Inject
     public GameBoardImpl(
-        @Named(GameEngine.NUM_BOARD_ROWS_STRING) int tilesPerRow, 
-        @Named(GameEngine.NUM_BOARD_COLS_STRING) int tilesPerCol) {
+        @Named(GameEngineImpl.NUM_BOARD_ROWS_STRING) int tilesPerRow, 
+        @Named(GameEngineImpl.NUM_BOARD_COLS_STRING) int tilesPerCol) {
       this.tilesPerRow = tilesPerRow;
       this.tilesPerCol = tilesPerCol;
       gameBoard = new Tile[tilesPerRow][tilesPerCol];

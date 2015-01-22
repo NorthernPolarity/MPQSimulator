@@ -7,7 +7,7 @@ import MPQSimulator.Abilities.AbilityImpl;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.DestroyTileAbilityComponent;
 import MPQSimulator.Core.GameBoardImpl;
-import MPQSimulator.Core.GameEngine;
+import MPQSimulator.Core.GameEngineImpl;
 import MPQSimulator.Core.GameEngineMoveResults;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.FixedSequenceRandomImpl;
@@ -29,7 +29,7 @@ public class DestroyTileAbilityComponentTest {
                   "R G T U P \n" +
                   "T R Y Y T \n";
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngine engine = new GameEngine(board);
+    GameEngineImpl engine = new GameEngineImpl(board, false);
     
     AbilityImpl destroyTiles = new AbilityImpl(new DestroyTileAbilityComponent(2, TileColor.RED));
 
@@ -51,7 +51,7 @@ public class DestroyTileAbilityComponentTest {
                   "R G T U P \n" +
                   "T R Y Y T \n";
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngine engine = new GameEngine(board);
+    GameEngineImpl engine = new GameEngineImpl(board, false);
     
     AbilityImpl mistress = new AbilityImpl(new DestroyTileAbilityComponent(5, TileColor.TEAMUP));
 
@@ -71,7 +71,7 @@ public class DestroyTileAbilityComponentTest {
                         "T T T T T \n" +
                         "T T T R T \n";
           GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-          GameEngine engine = new GameEngine(board);
+          GameEngineImpl engine = new GameEngineImpl(board, false);
           
           AbilityImpl polar = new AbilityImpl(new DestroyTileAbilityComponent
               (DestroyTileAbilityComponent.DESTROY_ALL_TILES, TileColor.TEAMUP));

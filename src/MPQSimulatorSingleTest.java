@@ -1,8 +1,8 @@
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityImpl;
-import MPQSimulator.Core.GameBoardSimulation;
 import MPQSimulator.Core.MainModule;
 import MPQSimulator.Core.Simulation;
 import MPQSimulator.Core.Simulation.SimulationFactory;
@@ -35,7 +35,9 @@ public class MPQSimulatorSingleTest {
     
     MPQCharacter thor = new StormMohawk();
     for (int i = 0; i < 5; i++) {
-      Simulation sim = simFactory.create(thor.getAbility1(AbilityLevel.values()[i]));
+      Ability[] abilities = {thor.getAbility2(AbilityLevel.values()[1]), thor.getAbility1(AbilityLevel.values()[i])};
+      Simulation sim = simFactory.create(abilities);
+      //Simulation sim = simFactory.create(thor.getAbility2(AbilityLevel.values()[1]), thor.getAbility1(AbilityLevel.values()[i]));
       sim.printResults();
     }
     

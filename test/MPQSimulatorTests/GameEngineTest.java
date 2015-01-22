@@ -9,7 +9,7 @@ import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
 import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
 import MPQSimulator.Core.GameBoardImpl;
-import MPQSimulator.Core.GameEngine;
+import MPQSimulator.Core.GameEngineImpl;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.FixedSequenceRandomImpl;
 import MPQSimulator.Core.Tile.TileColor;
@@ -23,7 +23,7 @@ public class GameEngineTest {
 				      "G R R \n";
 		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
-		GameEngine engine = new GameEngine(board);
+		GameEngineImpl engine = new GameEngineImpl(board, false);
 		assertEquals(board.toString(), bstr); // board is unchanged
 		
 		engine.stabilizeBoard();
@@ -42,7 +42,7 @@ public class GameEngineTest {
 				      "R R R \n";
 		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
-		GameEngine engine = new GameEngine(board);
+		GameEngineImpl engine = new GameEngineImpl(board, false);
 
 		String bstr2 = "B U B \n" +
 		               "R G B \n" +
@@ -68,7 +68,7 @@ public class GameEngineTest {
 				      "R R R \n";
 		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
-		GameEngine engine = new GameEngine(board);
+		GameEngineImpl engine = new GameEngineImpl(board, false);
 
 		String bstr2 = "B Y U \n" +
 		               "U B Y \n" +
@@ -93,7 +93,7 @@ public class GameEngineTest {
 				      "R T Y \n";
 		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
-		GameEngine engine = new GameEngine(board);
+		GameEngineImpl engine = new GameEngineImpl(board, false);
 		AbilityComponent black = 
 				new SwapTileAbilityComponent(0, 0, TileColor.BLACK);
 		
@@ -113,7 +113,7 @@ public class GameEngineTest {
 				      "R T Y \n";
 		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
-		GameEngine engine = new GameEngine(board);
+		GameEngineImpl engine = new GameEngineImpl(board, false);
 		AbilityComponent black = 
 				new SwapTileAbilityComponent(0, 0, TileColor.BLACK);
 		
@@ -141,7 +141,7 @@ public class GameEngineTest {
 				      "R Y Y \n";
 		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
-		GameEngine engine = new GameEngine(board);
+		GameEngineImpl engine = new GameEngineImpl(board, false);
 		boolean[][] pattern = {
 				{ true, false, true },
 				{ false, true, false },
@@ -175,7 +175,7 @@ public class GameEngineTest {
 				      "B Y Y \n";
 		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
-		GameEngine engine = new GameEngine(board);
+		GameEngineImpl engine = new GameEngineImpl(board, false);
 		DestroySpecificTilesAbilityComponent xf = new DestroySpecificTilesAbilityComponent(2,3, false, new Tile.RandomCallerImpl());
 		assertEquals(6, xf.numTilesToDestroy);
 		

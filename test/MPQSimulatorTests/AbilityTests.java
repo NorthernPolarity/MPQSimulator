@@ -7,7 +7,7 @@ import org.junit.Test;
 import MPQSimulator.Abilities.AbilityImpl;
 import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
-import MPQSimulator.Core.GameEngine;
+import MPQSimulator.Core.GameEngineImpl;
 import MPQSimulator.Core.Tile.TileColor;
 
 public class AbilityTests {

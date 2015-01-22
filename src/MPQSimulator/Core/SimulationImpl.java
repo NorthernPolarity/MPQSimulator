@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityImpl;
@@ -16,12 +18,14 @@ public class SimulationImpl implements Simulation {
   private static final int NUM_ITERATIONS = 100000;
   private final List<GameEngineMoveResults> overallResults;
 
-  @Inject
-  public SimulationImpl(@Assisted Ability ability) {
+  @AssistedInject
+  public SimulationImpl(
+      @Assisted Ability ability,
+      Provider<GameEngine> gameEngineProvider) {
     overallResults = new ArrayList<>();
     
     for (int i = 0; i < NUM_ITERATIONS; i++) {
-      GameEngine engine = new GameEngine();
+      GameEngine engine = gameEngineProvider.get();
       
       overallResults.add(engine.useAbilityAndStabilizeBoard(ability));
     }
@@ -29,17 +33,19 @@ public class SimulationImpl implements Simulation {
   }
   
   // Modifies the board using the first n -1 abilities, and then records the results of using the nth ability.
-  
-  public SimulationImpl (AbilityImpl... ability) {
+  @AssistedInject
+  public SimulationImpl (
+      Provider<GameEngine> gameEngineProvider,
+      @Assisted Ability[] abilities) {
     overallResults = new ArrayList<>();
     
     for (int i = 0; i < NUM_ITERATIONS; i++) {
-      GameEngine engine = new GameEngine();
-      for (int j = 0; j < ability.length - 1; j++) {
-        engine.useAbilityAndStabilizeBoard(ability[j]);
+      GameEngine engine = gameEngineProvider.get();
+      for (int j = 0; j < abilities.length - 1; j++) {
+        engine.useAbilityAndStabilizeBoard(abilities[j]);
       }
       
-      overallResults.add(engine.useAbilityAndStabilizeBoard(ability[ability.length - 1]));
+      overallResults.add(engine.useAbilityAndStabilizeBoard(abilities[abilities.length - 1]));
     }
   }
   

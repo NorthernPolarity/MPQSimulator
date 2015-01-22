@@ -9,7 +9,7 @@ import MPQSimulator.MPQCharacters.StormMohawk;
 public class MPQSimulator {
 
   public static void main(String[] args) {
-    MPQCharacter cmags = new MagnetoClassic();
+    /*MPQCharacter cmags = new MagnetoClassic();
     MPQCharacter loki = new LokiDarkReign();
     MPQCharacter storm = new StormMohawk();
     System.out.println("Mohawk Lightning Storm:");
@@ -32,7 +32,7 @@ public class MPQSimulator {
     sim = new SimulationImpl(cmags.getAbility3(AbilityLevel.FIVE));
     sim.printResults();
     
-    /*System.out.println("C Mags Red:");
+    System.out.println("C Mags Red:");
     sim = new Simulation(cmags.getAbility2(AbilityLevel.ONE));
     sim.printResults();
     

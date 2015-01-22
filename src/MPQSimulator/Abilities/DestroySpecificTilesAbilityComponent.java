@@ -3,7 +3,6 @@ package MPQSimulator.Abilities;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.google.common.base.Preconditions;
@@ -11,7 +10,6 @@ import com.google.common.base.Preconditions;
 import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.RandomCaller;
-import MPQSimulator.Core.Tile.TileColor;
 
 public class DestroySpecificTilesAbilityComponent implements AbilityComponent {
 

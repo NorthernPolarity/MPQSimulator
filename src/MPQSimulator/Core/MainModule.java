@@ -16,15 +16,16 @@ public class MainModule extends AbstractModule {
     
     bind(Ability.class).to(AbilityImpl.class);
     bind(GameBoard.class).to(GameBoardImpl.class);
-   
+    bind(GameEngine.class).to(GameEngineImpl.class);
+    
     install(new FactoryModuleBuilder()
     .implement(Simulation.class, SimulationImpl.class)
     .build(SimulationFactory.class));
 
     
     bindConstant()
-      .annotatedWith(Names.named(GameEngine.NUM_BOARD_ROWS_STRING)).to(GameEngine.NUM_BOARD_ROWS);
+      .annotatedWith(Names.named(GameEngineImpl.NUM_BOARD_ROWS_STRING)).to(GameEngineImpl.NUM_BOARD_ROWS);
     bindConstant()
-      .annotatedWith(Names.named(GameEngine.NUM_BOARD_COLS_STRING)).to(GameEngine.NUM_BOARD_COLS);
+      .annotatedWith(Names.named(GameEngineImpl.NUM_BOARD_COLS_STRING)).to(GameEngineImpl.NUM_BOARD_COLS);
   }
 }

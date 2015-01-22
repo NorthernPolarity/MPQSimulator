@@ -64,7 +64,6 @@ public class GameEngineMoveResults {
     Map<TileColor, Integer> totalTilesDestroyedCount = getTilesDestroyedCount();
     int tilesDestroyed = 0;
     for (TileColor color : TileColor.values()) {
-      Integer count = totalTilesDestroyedCount.get(color);
       tilesDestroyed += totalTilesDestroyedCount.get(color);
     }
     
