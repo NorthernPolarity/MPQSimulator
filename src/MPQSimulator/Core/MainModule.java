@@ -13,10 +13,10 @@ public class MainModule extends AbstractModule {
   @Override
   protected void configure() {
 
-    
     bind(Ability.class).to(AbilityImpl.class);
     bind(GameBoard.class).to(GameBoardImpl.class);
     bind(GameEngine.class).to(GameEngineImpl.class);
+    bind(GameEngineMoveResults.class).to(GameEngineMoveResultsImpl.class);
     
     install(new FactoryModuleBuilder()
     .implement(Simulation.class, SimulationImpl.class)

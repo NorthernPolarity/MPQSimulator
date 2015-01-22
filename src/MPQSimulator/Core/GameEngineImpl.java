@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
@@ -19,15 +20,18 @@ public class GameEngineImpl implements GameEngine{
   public static final int NUM_BOARD_ROWS = 8;
   public static final int NUM_BOARD_COLS = 8;
   public static final int NUM_TILES_ON_BOARD = NUM_BOARD_COLS * NUM_BOARD_ROWS;
+  private final Provider<GameEngineMoveResults> engineMoveResultsProvider;
   
   @Inject
-  public GameEngineImpl(GameBoardImpl b) {
-    this(b, true);
+  public GameEngineImpl(GameBoardImpl b, Provider<GameEngineMoveResults> engineMoveResultsProvider) {
+    this(b, true, engineMoveResultsProvider);
   }
   
   // Used for debugging, relies on the initial board not being stabilized.
-  public GameEngineImpl(GameBoardImpl b, boolean stabilizeBoard) {
+  public GameEngineImpl(GameBoardImpl b, boolean stabilizeBoard, 
+      Provider<GameEngineMoveResults> engineMoveResultsProvider) {
 	  this.board = b;
+	  this.engineMoveResultsProvider = engineMoveResultsProvider;
 	  if (stabilizeBoard) {
 	    stabilizeBoard();
 	  }
@@ -41,19 +45,10 @@ public class GameEngineImpl implements GameEngine{
   
   public GameEngineMoveResults stabilizeBoard() {
     
-    GameEngineMoveResults overallResults = new GameEngineMoveResults();
+    GameEngineMoveResults overallResults = engineMoveResultsProvider.get();
     
     GameEngineMoveResults currentMoveResults = resolveCurrentBoard();
     while (!currentMoveResults.empty()) {
-      /*int totalTilesDestroyed = 0;
-      for (TileColor color : currentMoveResults.getTilesDestroyedCount().keySet()) {
-        totalTilesDestroyed += currentMoveResults.getTilesDestroyedCount().get(color);
-      }
-      
-      if (totalTilesDestroyed > 20) {
-        System.out.println("wat");
-      }
-      System.out.println("Total tiles destroyed: " + totalTilesDestroyed);*/
       overallResults.add(currentMoveResults);
       currentMoveResults = resolveCurrentBoard();
     }
@@ -63,7 +58,7 @@ public class GameEngineImpl implements GameEngine{
   
   // Finds and destroys all tiles involved in match 3s+ on the current board.
   public GameEngineMoveResults resolveCurrentBoard() {
-    GameEngineMoveResults engineResults = new GameEngineMoveResults();
+    GameEngineMoveResults engineResults = engineMoveResultsProvider.get();
     GameBoardMatches matches = new GameBoardMatches(board);
     
     Set<Tile> tilesToDestroy = matches.getAllMatchedTiles();

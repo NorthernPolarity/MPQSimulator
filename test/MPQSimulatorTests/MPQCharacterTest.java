@@ -14,6 +14,7 @@ import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.GameBoardMoveResults;
 import MPQSimulator.Core.GameEngineImpl;
 import MPQSimulator.Core.GameEngineMoveResults;
+import MPQSimulator.Core.GameEngineMoveResultsImpl;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.FixedSequenceRandomImpl;
 import MPQSimulator.Core.Tile.TileColor;
@@ -42,7 +43,7 @@ public class MPQCharacterTest {
                       "P R R \n";
         GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
         
-        GameEngineImpl engine = new GameEngineImpl(board, false);
+        GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
         assertEquals(board.toString(), bstr); // board is unchanged
         
         ThorModern thor = new ThorModern();
@@ -69,7 +70,7 @@ public class MPQCharacterTest {
 					      "P R R \n";
 			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 			
-			GameEngineImpl engine = new GameEngineImpl(board, false);
+			GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			DakenClassic daken = new DakenClassic();
@@ -96,7 +97,7 @@ public class MPQCharacterTest {
 					      "P R R \n";
 			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 			
-			GameEngineImpl engine = new GameEngineImpl(board, false);
+			GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			JuggernautClassic juggs = new JuggernautClassic();
@@ -123,7 +124,7 @@ public class MPQCharacterTest {
 			GameBoardImpl boardBefore = GameBoardTest.createBoardFromString(bstr);
 			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 			
-			GameEngineImpl engine = new GameEngineImpl(board, false);
+			GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			LokiDarkReign loki = new LokiDarkReign();
@@ -150,7 +151,7 @@ public class MPQCharacterTest {
 					      "U B P Y T \n";
 			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 			
-			GameEngineImpl engine = new GameEngineImpl(board, false);
+			GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			WolverineXforce xf = new WolverineXforce();
@@ -181,7 +182,7 @@ public class MPQCharacterTest {
 				          "P R G \n";
 			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 			
-			GameEngineImpl engine = new GameEngineImpl(board, false);
+			GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			DevilDino dino = new DevilDino();
@@ -227,7 +228,7 @@ public class MPQCharacterTest {
 			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 			assertEquals( TileColor.BLUE, board.getTile(1,0).getColor());
 
-			GameEngineImpl engine = new GameEngineImpl(board, false);
+			GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			MagnetoClassic mags = new MagnetoClassic();
@@ -266,7 +267,7 @@ public class MPQCharacterTest {
 					      "U G Y Y T \n";
 			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 
-			GameEngineImpl engine = new GameEngineImpl(board, false);
+			GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			Mystique mystique = new Mystique();
@@ -296,7 +297,7 @@ public class MPQCharacterTest {
 					      "R G T U P \n" +
 					      "T R Y Y T \n";
 			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-			GameEngineImpl engine = new GameEngineImpl(board, false);
+			GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			StormMohawk mohawk = new StormMohawk();
@@ -326,7 +327,7 @@ public class MPQCharacterTest {
 					      "R G T U P \n" +
 					      "T R Y Y T \n";
 			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-			GameEngineImpl engine = new GameEngineImpl(board, false);
+			GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			TorchClassic torch = new TorchClassic();
@@ -354,7 +355,7 @@ public class MPQCharacterTest {
 					      "P R R \n";
 
 			GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-			GameEngineImpl engine = new GameEngineImpl(board, false);
+			GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
 			assertEquals(board.toString(), bstr); // board is unchanged
 			
 			Punisher punisher = new Punisher();

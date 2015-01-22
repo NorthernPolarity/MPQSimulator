@@ -4,11 +4,15 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.google.inject.Provider;
+
 import MPQSimulator.Abilities.AbilityImpl;
 import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
 import MPQSimulator.Abilities.DestroyTileAbilityComponent;
 import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.GameEngineImpl;
+import MPQSimulator.Core.GameEngineMoveResults;
+import MPQSimulator.Core.GameEngineMoveResultsImpl;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.FixedSequenceRandomImpl;
 import MPQSimulator.Core.Tile.TileColor;
@@ -17,7 +21,7 @@ import MPQSimulator.MPQCharacters.MPQCharacter.AbilityLevel;
 
 
 public class DestroySpecificTilesAbilityComponentTest {
-
+  
   @Test
   public void testDestroy3x3EdgeTopLeftCorner() {
     Tile.defaultRandomCaller = new Tile.FixedTileColorSequenceRandomImpl(TileColor.BLACK, TileColor.BLUE, TileColor.GREEN, TileColor.TEAMUP);
@@ -27,7 +31,7 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "P R R \n";
 
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngineImpl engine = new GameEngineImpl(board, false);
+    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
     assertEquals(board.toString(), bstr); // board is unchanged
     
     AbilityImpl judgement = new AbilityImpl(new DestroySpecificTilesAbilityComponent(3, 3, true, new FixedSequenceRandomImpl(3, 0, 0)));
@@ -50,7 +54,7 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "P R R \n";
 
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngineImpl engine = new GameEngineImpl(board, false);
+    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
     assertEquals(board.toString(), bstr); // board is unchanged
     
     AbilityImpl judgement = new AbilityImpl(new DestroySpecificTilesAbilityComponent(3, 3, true, new FixedSequenceRandomImpl(3, 1, 2)));
@@ -73,7 +77,7 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "P R R \n";
 
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngineImpl engine = new GameEngineImpl(board, false);
+    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
     assertEquals(board.toString(), bstr); // board is unchanged
     
     AbilityImpl judgement = new AbilityImpl(new DestroySpecificTilesAbilityComponent(3, 3, true, new FixedSequenceRandomImpl(3, 1, 1)));
@@ -96,7 +100,7 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "P R R \n";
 
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngineImpl engine = new GameEngineImpl(board, false);
+    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
     assertEquals(board.toString(), bstr); // board is unchanged
     
     boolean[][] pattern3x3 = { 

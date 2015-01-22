@@ -17,11 +17,13 @@ public class SimulationImpl implements Simulation {
 
   private static final int NUM_ITERATIONS = 100000;
   private final List<GameEngineMoveResults> overallResults;
+  private final Provider<GameEngineMoveResults> engineMoveResultsProvider;
 
   @AssistedInject
   public SimulationImpl(
       @Assisted Ability ability,
-      Provider<GameEngine> gameEngineProvider) {
+      Provider<GameEngine> gameEngineProvider,
+      Provider<GameEngineMoveResults> engineMoveResultsProvider) {
     overallResults = new ArrayList<>();
     
     for (int i = 0; i < NUM_ITERATIONS; i++) {
@@ -30,12 +32,15 @@ public class SimulationImpl implements Simulation {
       overallResults.add(engine.useAbilityAndStabilizeBoard(ability));
     }
     
+    this.engineMoveResultsProvider = engineMoveResultsProvider;
+    
   }
   
   // Modifies the board using the first n -1 abilities, and then records the results of using the nth ability.
   @AssistedInject
   public SimulationImpl (
       Provider<GameEngine> gameEngineProvider,
+      Provider<GameEngineMoveResults> engineMoveResultsProvider,
       @Assisted Ability[] abilities) {
     overallResults = new ArrayList<>();
     
@@ -47,6 +52,8 @@ public class SimulationImpl implements Simulation {
       
       overallResults.add(engine.useAbilityAndStabilizeBoard(abilities[abilities.length - 1]));
     }
+    
+    this.engineMoveResultsProvider = engineMoveResultsProvider;
   }
   
   private List<Integer> getTilesDestroyedByRun(List<GameEngineMoveResults> resultsList) {
@@ -66,7 +73,7 @@ public class SimulationImpl implements Simulation {
   }
   
   private Map<TileColor, Integer> getTotalTilesDestroyedByColor(List<GameEngineMoveResults> resultsList) {
-    GameEngineMoveResults overallResults = new GameEngineMoveResults();
+    GameEngineMoveResults overallResults = engineMoveResultsProvider.get();
     for (GameEngineMoveResults results : resultsList) {
       overallResults.add(results);
     }

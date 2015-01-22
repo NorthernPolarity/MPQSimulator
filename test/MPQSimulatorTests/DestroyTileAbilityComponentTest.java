@@ -4,17 +4,12 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import MPQSimulator.Abilities.AbilityImpl;
-import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.DestroyTileAbilityComponent;
 import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.GameEngineImpl;
 import MPQSimulator.Core.GameEngineMoveResults;
 import MPQSimulator.Core.Tile;
-import MPQSimulator.Core.Tile.FixedSequenceRandomImpl;
 import MPQSimulator.Core.Tile.TileColor;
-import MPQSimulator.MPQCharacters.MagnetoClassic;
-import MPQSimulator.MPQCharacters.StormMohawk;
-import MPQSimulator.MPQCharacters.TorchClassic;
 import MPQSimulator.MPQCharacters.MPQCharacter.AbilityLevel;
 
 public class DestroyTileAbilityComponentTest {
@@ -29,7 +24,7 @@ public class DestroyTileAbilityComponentTest {
                   "R G T U P \n" +
                   "T R Y Y T \n";
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngineImpl engine = new GameEngineImpl(board, false);
+    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
     
     AbilityImpl destroyTiles = new AbilityImpl(new DestroyTileAbilityComponent(2, TileColor.RED));
 
@@ -51,7 +46,7 @@ public class DestroyTileAbilityComponentTest {
                   "R G T U P \n" +
                   "T R Y Y T \n";
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngineImpl engine = new GameEngineImpl(board, false);
+    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
     
     AbilityImpl mistress = new AbilityImpl(new DestroyTileAbilityComponent(5, TileColor.TEAMUP));
 
@@ -71,7 +66,7 @@ public class DestroyTileAbilityComponentTest {
                         "T T T T T \n" +
                         "T T T R T \n";
           GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-          GameEngineImpl engine = new GameEngineImpl(board, false);
+          GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
           
           AbilityImpl polar = new AbilityImpl(new DestroyTileAbilityComponent
               (DestroyTileAbilityComponent.DESTROY_ALL_TILES, TileColor.TEAMUP));

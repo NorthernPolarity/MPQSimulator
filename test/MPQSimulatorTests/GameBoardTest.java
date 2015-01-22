@@ -38,34 +38,6 @@ public class GameBoardTest {
       .build();
   
   @Test 
-  public void testTestFile() throws IOException {
-    GameBoardImpl board = createBoardFromFile("test/MPQSimulatorTests/res/test.txt");
-    GameBoardMatches matches = new GameBoardMatches(board);
-    Set<Tile> destroyedTileSet = matches.getAllMatchedTiles();
-    printDestroyedTiles(destroyedTileSet, board.getDimensions());
-  }
-  
-
-  @Test 
-  public void testBoardConstruction() {
-	  String test = 
-			    "R G B \n"
-			  + "B R G \n"
-			  + "G B R \n";
-	GameBoardImpl board = createBoardFromString(test);
-	assertEquals(board.getTileColor(0, 0), TileColor.RED);
-	assertEquals(board.getTileColor(0, 1), TileColor.GREEN);
-	assertEquals(board.getTileColor(0, 2), TileColor.BLACK);
-	assertEquals(board.getTileColor(1, 0), TileColor.BLACK);
-	assertEquals(board.getTileColor(1, 1), TileColor.RED);
-	assertEquals(board.getTileColor(1, 2), TileColor.GREEN);
-	assertEquals(board.getTileColor(2, 0), TileColor.GREEN);
-	assertEquals(board.getTileColor(2, 1), TileColor.BLACK);
-	assertEquals(board.getTileColor(2, 2), TileColor.RED);
-	assertEquals(board.toString(), test);
-  }
-
-  @Test 
   public void testGetTilesOfSingleColorNotInBoardReturnsEmpty() {
     String test = 
 			    "R T G\n"
@@ -178,6 +150,36 @@ public class GameBoardTest {
       GameBoardImpl board = createBoardFromStringRows(rows);
   	return board;
   }
+  
+  //////////////// Helper functions and tests for helper functions.
+  
+  @Test 
+  public void testTestFile() throws IOException {
+    GameBoardImpl board = createBoardFromFile("test/MPQSimulatorTests/res/test.txt");
+    GameBoardMatches matches = new GameBoardMatches(board);
+    Set<Tile> destroyedTileSet = matches.getAllMatchedTiles();
+    printDestroyedTiles(destroyedTileSet, board.getDimensions());
+  }
+  
+
+  @Test 
+  public void testBoardConstruction() {
+      String test = 
+                "R G B \n"
+              + "B R G \n"
+              + "G B R \n";
+    GameBoardImpl board = createBoardFromString(test);
+    assertEquals(board.getTileColor(0, 0), TileColor.RED);
+    assertEquals(board.getTileColor(0, 1), TileColor.GREEN);
+    assertEquals(board.getTileColor(0, 2), TileColor.BLACK);
+    assertEquals(board.getTileColor(1, 0), TileColor.BLACK);
+    assertEquals(board.getTileColor(1, 1), TileColor.RED);
+    assertEquals(board.getTileColor(1, 2), TileColor.GREEN);
+    assertEquals(board.getTileColor(2, 0), TileColor.GREEN);
+    assertEquals(board.getTileColor(2, 1), TileColor.BLACK);
+    assertEquals(board.getTileColor(2, 2), TileColor.RED);
+    assertEquals(board.toString(), test);
+  }
 
   
   private static void printDestroyedTiles(Set<Tile> destroyedTiles, int[] dimensions) {
@@ -222,5 +224,5 @@ public class GameBoardTest {
       }
     }
     return new GameBoardImpl(rows.size(), rows.size(), initialBoard);
-}
+  }
 }

@@ -1,72 +1,22 @@
 package MPQSimulator.Core;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.base.Preconditions;
-
 import MPQSimulator.Core.Tile.TileColor;
 
-public class GameEngineMoveResults {
+public interface GameEngineMoveResults {
 
-  private List<Map<TileColor, Integer>> tilesDestroyedCountList;
+  public void add(GameEngineMoveResults results);
   
-  public GameEngineMoveResults() {
-    this.tilesDestroyedCountList = new ArrayList<>();
-
-  }
+  public boolean empty();
   
-  public void add(GameEngineMoveResults results) {
-    tilesDestroyedCountList.addAll(results.tilesDestroyedCountList);
-  }
+  public void addDestroyedTiles(Set<Tile> tiles);
   
-  public boolean empty() {
-    return tilesDestroyedCountList.isEmpty();
-  }
+  public Map<TileColor,Integer> getTilesDestroyedCount();
   
-  private Map<TileColor,Integer> getNewTilesDestroyedMap() {
-    Map<TileColor, Integer> map = new HashMap<>();
-    for (TileColor color : TileColor.values()) {
-      map.put(color, 0);
-    }
-    return map;
-  }
+  public int getNumTilesDestroyed();
   
-  public void addDestroyedTiles(Set<Tile> tiles) {
-    if (tiles.isEmpty()) {
-      return;
-    }
-    Map<TileColor, Integer> tilesDestroyedCount = getNewTilesDestroyedMap();
-    for (Tile t: tiles) {
-      Integer count = tilesDestroyedCount.get(t.getColor());
-      Preconditions.checkNotNull(count);
-      tilesDestroyedCount.put(t.getColor(), count + 1);
-    }
-    tilesDestroyedCountList.add(tilesDestroyedCount);
-  }
-  
-  public Map<TileColor,Integer> getTilesDestroyedCount() {
-    Map<TileColor, Integer> totalTilesDestroyedCount = getNewTilesDestroyedMap();
-    
-    for (Map<TileColor,Integer> map : tilesDestroyedCountList) {
-      for (TileColor color : TileColor.values()) {
-        Integer count = map.get(color);
-        totalTilesDestroyedCount.put(color, totalTilesDestroyedCount.get(color) + count);
-      }
-    }
-    return totalTilesDestroyedCount; 
-  }  
-  
-  public int getNumTilesDestroyed() {
-    Map<TileColor, Integer> totalTilesDestroyedCount = getTilesDestroyedCount();
-    int tilesDestroyed = 0;
-    for (TileColor color : TileColor.values()) {
-      tilesDestroyed += totalTilesDestroyedCount.get(color);
-    }
-    
-      return tilesDestroyed;
-  }
+  public List<Map<TileColor, Integer>> getTilesDestroyedCountList();
 }
