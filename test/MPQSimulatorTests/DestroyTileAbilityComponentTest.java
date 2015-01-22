@@ -24,7 +24,7 @@ public class DestroyTileAbilityComponentTest {
                   "R G T U P \n" +
                   "T R Y Y T \n";
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
+    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider(), new TestUtilities.GameBoardMatchesFactoryImpl());
     
     AbilityImpl destroyTiles = new AbilityImpl(new DestroyTileAbilityComponent(2, TileColor.RED));
 
@@ -46,7 +46,7 @@ public class DestroyTileAbilityComponentTest {
                   "R G T U P \n" +
                   "T R Y Y T \n";
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
+    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider(), new TestUtilities.GameBoardMatchesFactoryImpl());
     
     AbilityImpl mistress = new AbilityImpl(new DestroyTileAbilityComponent(5, TileColor.TEAMUP));
 
@@ -66,7 +66,7 @@ public class DestroyTileAbilityComponentTest {
                         "T T T T T \n" +
                         "T T T R T \n";
           GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-          GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
+          GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider(), new TestUtilities.GameBoardMatchesFactoryImpl());
           
           AbilityImpl polar = new AbilityImpl(new DestroyTileAbilityComponent
               (DestroyTileAbilityComponent.DESTROY_ALL_TILES, TileColor.TEAMUP));

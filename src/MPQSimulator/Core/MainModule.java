@@ -2,6 +2,7 @@ package MPQSimulator.Core;
 
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityImpl;
+import MPQSimulator.Core.GameBoardMatches.GameBoardMatchesFactory;
 import MPQSimulator.Core.Simulation.SimulationFactory;
 
 import com.google.inject.AbstractModule;
@@ -21,8 +22,10 @@ public class MainModule extends AbstractModule {
     install(new FactoryModuleBuilder()
     .implement(Simulation.class, SimulationImpl.class)
     .build(SimulationFactory.class));
+    install(new FactoryModuleBuilder()
+    .implement(GameBoardMatches.class, GameBoardMatchesImpl.class)
+    .build(GameBoardMatchesFactory.class));
 
-    
     bindConstant()
       .annotatedWith(Names.named(GameEngineImpl.NUM_BOARD_ROWS_STRING)).to(GameEngineImpl.NUM_BOARD_ROWS);
     bindConstant()

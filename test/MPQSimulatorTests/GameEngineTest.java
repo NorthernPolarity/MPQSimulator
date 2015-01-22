@@ -23,7 +23,7 @@ public class GameEngineTest {
 				      "G R R \n";
 		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
-		GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
+		GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider(), new TestUtilities.GameBoardMatchesFactoryImpl());
 		assertEquals(board.toString(), bstr); // board is unchanged
 		
 		engine.stabilizeBoard();
@@ -42,7 +42,7 @@ public class GameEngineTest {
 				      "R R R \n";
 		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
-		GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
+		GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider(), new TestUtilities.GameBoardMatchesFactoryImpl());
 
 		String bstr2 = "B U B \n" +
 		               "R G B \n" +
@@ -68,7 +68,7 @@ public class GameEngineTest {
 				      "R R R \n";
 		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
-		GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
+		GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider(), new TestUtilities.GameBoardMatchesFactoryImpl());
 
 		String bstr2 = "B Y U \n" +
 		               "U B Y \n" +
@@ -93,7 +93,7 @@ public class GameEngineTest {
 				      "R T Y \n";
 		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
-		GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
+		GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider(), new TestUtilities.GameBoardMatchesFactoryImpl());
 		AbilityComponent black = 
 				new SwapTileAbilityComponent(0, 0, TileColor.BLACK);
 		
@@ -113,7 +113,7 @@ public class GameEngineTest {
 				      "R T Y \n";
 		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
-		GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
+		GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider(), new TestUtilities.GameBoardMatchesFactoryImpl());
 		AbilityComponent black = 
 				new SwapTileAbilityComponent(0, 0, TileColor.BLACK);
 		
@@ -141,7 +141,7 @@ public class GameEngineTest {
 				      "R Y Y \n";
 		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
-		GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
+		GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider(), new TestUtilities.GameBoardMatchesFactoryImpl());
 		boolean[][] pattern = {
 				{ true, false, true },
 				{ false, true, false },
@@ -162,8 +162,6 @@ public class GameEngineTest {
 		assertEquals(TileColor.BLUE, board.getTile(2, 0).getColor()); 
 		assertEquals(TileColor.YELLOW, board.getTile(2, 1).getColor()); 
 		assertEquals(TileColor.YELLOW, board.getTile(2, 2).getColor()); 
-
-
 	}
 
 	@Test
@@ -175,7 +173,7 @@ public class GameEngineTest {
 				      "B Y Y \n";
 		GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
 		
-		GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
+		GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider(), new TestUtilities.GameBoardMatchesFactoryImpl());
 		DestroySpecificTilesAbilityComponent xf = new DestroySpecificTilesAbilityComponent(2,3, false, new Tile.RandomCallerImpl());
 		assertEquals(6, xf.numTilesToDestroy);
 		
@@ -196,9 +194,6 @@ public class GameEngineTest {
 		assertEquals(TileColor.BLACK, board.getTile(2, 0).getColor()); 
 		assertEquals(TileColor.YELLOW, board.getTile(2, 1).getColor()); 
 		assertEquals(TileColor.YELLOW, board.getTile(2, 2).getColor()); 
-
-
 	}
-
 	
 }

@@ -14,7 +14,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import MPQSimulator.Core.GameBoardImpl;
-import MPQSimulator.Core.GameBoardMatches;
+import MPQSimulator.Core.GameBoardMatchesImpl;
 import MPQSimulator.Core.GameBoardMoveResults;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.GameBoardMoveResults.MatchedTileBlob;
@@ -41,7 +41,7 @@ public class GameBoardMatchesTest {
   @Test
   public void testSingleHorizontalMatch() throws IOException {
     GameBoardImpl board = createBoardFromFile("test/MPQSimulatorTests/res/OneHorizontalMatch3Board3x3.txt");
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(2, 0, TileColor.RED));
     expectedDestroyedTileSet.add(new Tile(2, 1, TileColor.RED));
@@ -55,7 +55,7 @@ public class GameBoardMatchesTest {
   @Test
   public void testSingleHorizontalFourInRowMatch() throws IOException {
     GameBoardImpl board = createBoardFromFile("test/MPQSimulatorTests/res/FourInARowBoard5x5.txt");
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     
     assertEquals(board.getDimensions()[0], 5);
     assertEquals(board.getDimensions()[1], 5);
@@ -74,7 +74,7 @@ public class GameBoardMatchesTest {
   @Test 
   public void testTestFile() throws IOException {
     GameBoardImpl board = createBoardFromFile("test/MPQSimulatorTests/res/test.txt");
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     Set<Tile> destroyedTileSet = matches.getAllMatchedTiles();
     printDestroyedTiles(destroyedTileSet, board.getDimensions());
   }
@@ -106,7 +106,7 @@ public class GameBoardMatchesTest {
               + "B R G\n"
               + "G B R";
     GameBoardImpl board = createBoardFromString(test);
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     assertTrue(matches.getAllMatchedTiles().isEmpty());
 
   }
@@ -118,7 +118,7 @@ public class GameBoardMatchesTest {
               + "R R G\n"
               + "R B R";
     GameBoardImpl board = createBoardFromString(test);
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(0, 0, TileColor.RED));
     expectedDestroyedTileSet.add(new Tile(1, 0, TileColor.RED));
@@ -137,7 +137,7 @@ public class GameBoardMatchesTest {
               + "Y R G\n"
               + "T B R";
     GameBoardImpl board = createBoardFromString(test);
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(0, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(0, 1, TileColor.TEAMUP));
@@ -159,7 +159,7 @@ public class GameBoardMatchesTest {
               + "T B R Y U\n"
               + "T B R Y U";
     GameBoardImpl board = createBoardFromString(test);
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(0, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(0, 1, TileColor.TEAMUP));
@@ -182,7 +182,7 @@ public class GameBoardMatchesTest {
               + "T B R Y U\n"
               + "G B R Y U";
     GameBoardImpl board = createBoardFromString(test);
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(0, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(1, 0, TileColor.TEAMUP));
@@ -201,7 +201,7 @@ public class GameBoardMatchesTest {
               + "T R G\n"
               + "T B R";
     GameBoardImpl board = createBoardFromString(test);
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(0, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(0, 1, TileColor.TEAMUP));
@@ -237,7 +237,7 @@ public class GameBoardMatchesTest {
               + "T T T\n"
               + "B T R";
     GameBoardImpl board = createBoardFromString(test);
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(1, 0, TileColor.TEAMUP));
@@ -263,7 +263,7 @@ public class GameBoardMatchesTest {
               + "Y T T\n"
               + "B T T";
     GameBoardImpl board = createBoardFromString(test);
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     Set<Tile> destroyedTileSet = matches.getHorizontalMatchedTiles();
     assertEquals(expectedDestroyedTileSet, destroyedTileSet);
@@ -291,7 +291,7 @@ public class GameBoardMatchesTest {
               + "Y T T\n"
               + "T T T";
     GameBoardImpl board = createBoardFromString(test);
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     expectedDestroyedTileSet.add(new Tile(2, 0, TileColor.TEAMUP));
     expectedDestroyedTileSet.add(new Tile(2, 1, TileColor.TEAMUP));
@@ -321,7 +321,7 @@ public class GameBoardMatchesTest {
               + "Y G T\n"
               + "G T G";
     GameBoardImpl board = createBoardFromString(test);
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     Set<Tile> expectedDestroyedTileSet = new HashSet<Tile>();
     Set<Tile> destroyedTileSet = matches.getHorizontalMatchedTiles();
     assertEquals(expectedDestroyedTileSet, destroyedTileSet);
@@ -363,7 +363,7 @@ public class GameBoardMatchesTest {
     expectedRow3.add(new Tile(2, 2, TileColor.RED));
     assertEquals(expectedRow3, board.getTilesInRow(2));
 
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     Set<Tile> destroyedTileSet = matches.getAllMatchedTiles();
     board.destroyTiles(destroyedTileSet);
     
@@ -400,7 +400,7 @@ public class GameBoardMatchesTest {
     expectedCol2.add(new Tile(3, 1, TileColor.RED));
     assertEquals(expectedCol2, board.getTilesInCol(1));
 
-    GameBoardMatches policy = new GameBoardMatches(board);
+    GameBoardMatchesImpl policy = new GameBoardMatchesImpl(board);
     GameBoardMoveResults results = policy.findMatchesOnBoard();
     Set<Tile> destroyedTileSet = results.getDestroyedTileSet();
     board.destroyTiles(destroyedTileSet);
@@ -447,7 +447,7 @@ public class GameBoardMatchesTest {
     expectedRow3.add(new Tile(2, 2, TileColor.GREEN));
     assertEquals(expectedRow3, board.getTilesInRow(2));
 
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     Set<Tile> destroyedTileSet = matches.getAllMatchedTiles();
     board.destroyTiles(destroyedTileSet);
     
@@ -468,7 +468,7 @@ public class GameBoardMatchesTest {
       + "T R G T\n"
       + "R R P Y";
     GameBoardImpl board = createBoardFromString(test);
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     
     // Single horizontal match 4 in row 0.
     Set<Integer> actualRows = matches.getHorizontalMatchFours();
@@ -491,7 +491,7 @@ public class GameBoardMatchesTest {
       + "T R G T\n"
       + "R R P Y";
     GameBoardImpl board = createBoardFromString(test);
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     
     // Single vertical match 4 in row 1.
     Set<Integer> actualRows = matches.getVerticalMatchFours();
@@ -516,7 +516,7 @@ public class GameBoardMatchesTest {
       + "U Y G U Y";
     
     GameBoardImpl board = createBoardFromString(test);
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     
     // Expect a column and row at 0,0.
     Set<Integer> expectedCols = new HashSet<>();

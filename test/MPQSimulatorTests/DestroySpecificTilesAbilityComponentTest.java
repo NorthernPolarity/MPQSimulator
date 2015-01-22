@@ -31,7 +31,7 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "P R R \n";
 
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
+    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider(), new TestUtilities.GameBoardMatchesFactoryImpl());
     assertEquals(board.toString(), bstr); // board is unchanged
     
     AbilityImpl judgement = new AbilityImpl(new DestroySpecificTilesAbilityComponent(3, 3, true, new FixedSequenceRandomImpl(3, 0, 0)));
@@ -54,7 +54,7 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "P R R \n";
 
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
+    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider(), new TestUtilities.GameBoardMatchesFactoryImpl());
     assertEquals(board.toString(), bstr); // board is unchanged
     
     AbilityImpl judgement = new AbilityImpl(new DestroySpecificTilesAbilityComponent(3, 3, true, new FixedSequenceRandomImpl(3, 1, 2)));
@@ -77,7 +77,7 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "P R R \n";
 
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
+    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider(), new TestUtilities.GameBoardMatchesFactoryImpl());
     assertEquals(board.toString(), bstr); // board is unchanged
     
     AbilityImpl judgement = new AbilityImpl(new DestroySpecificTilesAbilityComponent(3, 3, true, new FixedSequenceRandomImpl(3, 1, 1)));
@@ -100,7 +100,7 @@ public class DestroySpecificTilesAbilityComponentTest {
                   "P R R \n";
 
     GameBoardImpl board = GameBoardTest.createBoardFromString(bstr);
-    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider());
+    GameEngineImpl engine = new GameEngineImpl(board, false, new TestUtilities.GameEngineMoveResultsProvider(), new TestUtilities.GameBoardMatchesFactoryImpl());
     assertEquals(board.toString(), bstr); // board is unchanged
     
     boolean[][] pattern3x3 = { 

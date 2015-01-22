@@ -14,7 +14,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import MPQSimulator.Core.GameBoardImpl;
-import MPQSimulator.Core.GameBoardMatches;
+import MPQSimulator.Core.GameBoardMatchesImpl;
 import MPQSimulator.Core.GameBoardMoveResults;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.TileColor;
@@ -156,7 +156,7 @@ public class GameBoardTest {
   @Test 
   public void testTestFile() throws IOException {
     GameBoardImpl board = createBoardFromFile("test/MPQSimulatorTests/res/test.txt");
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatchesImpl matches = new GameBoardMatchesImpl(board);
     Set<Tile> destroyedTileSet = matches.getAllMatchedTiles();
     printDestroyedTiles(destroyedTileSet, board.getDimensions());
   }

@@ -9,6 +9,7 @@ import com.google.inject.Provider;
 
 import MPQSimulator.Abilities.Ability;
 import MPQSimulator.Abilities.AbilityComponent;
+import MPQSimulator.Core.GameBoardMatches.GameBoardMatchesFactory;
 
 
 public class GameEngineImpl implements GameEngine{
@@ -21,17 +22,20 @@ public class GameEngineImpl implements GameEngine{
   public static final int NUM_BOARD_COLS = 8;
   public static final int NUM_TILES_ON_BOARD = NUM_BOARD_COLS * NUM_BOARD_ROWS;
   private final Provider<GameEngineMoveResults> engineMoveResultsProvider;
+  private final GameBoardMatchesFactory gameBoardMatchesFactory;
   
   @Inject
-  public GameEngineImpl(GameBoardImpl b, Provider<GameEngineMoveResults> engineMoveResultsProvider) {
-    this(b, true, engineMoveResultsProvider);
+  public GameEngineImpl(GameBoardImpl b, Provider<GameEngineMoveResults> engineMoveResultsProvider,
+      GameBoardMatchesFactory gameBoardMatchesFactory) {
+    this(b, true, engineMoveResultsProvider, gameBoardMatchesFactory);
   }
   
   // Used for debugging, relies on the initial board not being stabilized.
   public GameEngineImpl(GameBoardImpl b, boolean stabilizeBoard, 
-      Provider<GameEngineMoveResults> engineMoveResultsProvider) {
+      Provider<GameEngineMoveResults> engineMoveResultsProvider, GameBoardMatchesFactory gameBoardMatchesFactory) {
 	  this.board = b;
 	  this.engineMoveResultsProvider = engineMoveResultsProvider;
+	  this.gameBoardMatchesFactory = gameBoardMatchesFactory;
 	  if (stabilizeBoard) {
 	    stabilizeBoard();
 	  }
@@ -59,7 +63,7 @@ public class GameEngineImpl implements GameEngine{
   // Finds and destroys all tiles involved in match 3s+ on the current board.
   public GameEngineMoveResults resolveCurrentBoard() {
     GameEngineMoveResults engineResults = engineMoveResultsProvider.get();
-    GameBoardMatches matches = new GameBoardMatches(board);
+    GameBoardMatches matches = gameBoardMatchesFactory.create(board);
     
     Set<Tile> tilesToDestroy = matches.getAllMatchedTiles();
     
