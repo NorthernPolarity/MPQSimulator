@@ -10,6 +10,7 @@ import MPQSimulator.Core.Tile.TileColor;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.name.Named;
 
 /*
@@ -20,6 +21,7 @@ import com.google.inject.name.Named;
 public class GameBoardImpl implements GameBoard {
     private final int tilesPerRow;
     private final int tilesPerCol;
+    private final Provider<GameBoardMoveResults> boardMoveResultsProvider;
 
     private Tile[][] gameBoard; //Represents the current state of the board
  
@@ -82,14 +84,17 @@ public class GameBoardImpl implements GameBoard {
     @Inject
     public GameBoardImpl(
         @Named(GameEngineImpl.NUM_BOARD_ROWS_STRING) int tilesPerRow, 
-        @Named(GameEngineImpl.NUM_BOARD_COLS_STRING) int tilesPerCol) {
+        @Named(GameEngineImpl.NUM_BOARD_COLS_STRING) int tilesPerCol,
+        Provider<GameBoardMoveResults> boardMoveResultsProvider) {
       this.tilesPerRow = tilesPerRow;
       this.tilesPerCol = tilesPerCol;
+      this.boardMoveResultsProvider = boardMoveResultsProvider;
       gameBoard = new Tile[tilesPerRow][tilesPerCol];
       resetGameBoard();
     }
     
-    public GameBoardImpl(int tilesPerRow, int tilesPerCol, Tile[][] initialBoard) {
+    public GameBoardImpl(int tilesPerRow, int tilesPerCol, Tile[][] initialBoard,
+        Provider<GameBoardMoveResults> boardMoveResultsProvider) {
       Preconditions.checkArgument(initialBoard.length == tilesPerRow);
       for (Tile[] col : initialBoard) {
         Preconditions.checkArgument(col.length == tilesPerCol);
@@ -106,6 +111,7 @@ public class GameBoardImpl implements GameBoard {
       
       this.tilesPerRow = tilesPerRow;
       this.tilesPerCol = tilesPerCol;
+      this.boardMoveResultsProvider = boardMoveResultsProvider;
       
       gameBoard = new Tile[tilesPerRow][tilesPerCol];
       // Copy the tiles over.
@@ -269,7 +275,7 @@ public class GameBoardImpl implements GameBoard {
      * and each set contains the cols of the tiles in that row to be destroyed.
      */ 
     public void destroyTiles(Set<Tile> tiles) {
-      GameBoardMoveResults results = new GameBoardMoveResults(tilesPerRow, tilesPerCol);
+      GameBoardMoveResults results = boardMoveResultsProvider.get();
       results.addTiles(tiles);
       this.destroyTiles(results);
     }

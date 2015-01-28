@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import MPQSimulator.Core.GameBoardImpl;
 import MPQSimulator.Core.GameBoardMatchesImpl;
-import MPQSimulator.Core.GameBoardMoveResults;
+import MPQSimulator.Core.GameBoardMoveResultsImpl;
 import MPQSimulator.Core.Tile;
 import MPQSimulator.Core.Tile.TileColor;
 import MPQSimulator.Core.Tile.FixedSequenceRandomImpl;
@@ -223,6 +223,6 @@ public class GameBoardTest {
         initialBoard[i][j] = new Tile(i, j, tileColor);
       }
     }
-    return new GameBoardImpl(rows.size(), rows.size(), initialBoard);
+    return new GameBoardImpl(rows.size(), rows.size(), initialBoard, new TestUtilities.GameBoardMoveResultsProvider());
   }
 }

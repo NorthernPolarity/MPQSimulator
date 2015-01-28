@@ -11,7 +11,7 @@ import MPQSimulator.Abilities.AbilityComponent;
 import MPQSimulator.Abilities.SwapTileAbilityComponent;
 import MPQSimulator.Abilities.DestroySpecificTilesAbilityComponent;
 import MPQSimulator.Core.GameBoardImpl;
-import MPQSimulator.Core.GameBoardMoveResults;
+import MPQSimulator.Core.GameBoardMoveResultsImpl;
 import MPQSimulator.Core.GameEngineImpl;
 import MPQSimulator.Core.GameEngineMoveResults;
 import MPQSimulator.Core.GameEngineMoveResultsImpl;

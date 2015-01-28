@@ -282,14 +282,14 @@ public class GameBoardMatchesImpl implements GameBoardMatches {
 	}
 
 	// Find all matches on the current board.
-	public GameBoardMoveResults findMatchesOnBoard() {
+	public GameBoardMoveResultsImpl findMatchesOnBoard() {
 
 		Set<SingleMatch> moveResults = this.findVerticalMatches();
 		moveResults.addAll(this.findHorizontalMatches());
 
 		//Remove any matches from the board, update the board accordingly.
-		GameBoardMoveResults currentMoveResults = 
-		    new GameBoardMoveResults(board.getTilesPerRow(), board.getTilesPerCol());
+		GameBoardMoveResultsImpl currentMoveResults = 
+		    new GameBoardMoveResultsImpl(board.getTilesPerRow(), board.getTilesPerCol());
 		for( SingleMatch r : moveResults ) {
 			currentMoveResults.addTiles(r.matchTiles);
 		}

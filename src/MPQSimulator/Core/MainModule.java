@@ -18,6 +18,7 @@ public class MainModule extends AbstractModule {
     bind(GameBoard.class).to(GameBoardImpl.class);
     bind(GameEngine.class).to(GameEngineImpl.class);
     bind(GameEngineMoveResults.class).to(GameEngineMoveResultsImpl.class);
+    bind(GameBoardMoveResults.class).to(GameBoardMoveResultsImpl.class);
     
     install(new FactoryModuleBuilder()
     .implement(Simulation.class, SimulationImpl.class)

@@ -2,12 +2,17 @@ package MPQSimulator.Graphics;
 import java.awt.Color;
 import java.util.Map;
 
+import MPQSimulator.Core.GameBoard;
 import MPQSimulator.Core.GameBoardImpl;
+import MPQSimulator.Core.MainModule;
 import MPQSimulator.Core.Tile;
+import MPQSimulator.Core.Simulation.SimulationFactory;
 import MPQSimulator.Core.Tile.TileColor;
 import MPQSimulator.ThirdParty.StdDraw;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 public class MPQSimulatorGraphics {
     public static final double X_SCALING = 1;
     public static final double Y_SCALING = 1;
@@ -27,7 +32,7 @@ public class MPQSimulatorGraphics {
       StdDraw.setYscale(0, MPQSimulatorGraphics.Y_SCALING);
     }
  
-    private static void drawGameBoard(GameBoardImpl board) {
+    private static void drawGameBoard(GameBoard board) {
         Tile[][] tiles = board.getBoardState();
         for (int x = 0; x < tiles.length; x++) {
           Tile[] col = tiles[x]; 
@@ -50,7 +55,8 @@ public class MPQSimulatorGraphics {
     
     
     public static void main(String[] args) {
-      GameBoardImpl board = new GameBoardImpl(8, 8);
+      Injector injector = Guice.createInjector(new MainModule());
+      GameBoard board = injector.getInstance(GameBoard.class);
       drawGameBoard(board);
       
       while (true) {
